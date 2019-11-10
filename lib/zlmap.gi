@@ -123,15 +123,13 @@ InstallMethod(SptSetKernelModule,
     #A := phi!.A;
     M := phi!.domain;
     N := phi!.codomain;
-    A := M!.generators * phi!.B * N!.projection;
-    R2 := StructuralCopy(phi!.codomain!.relations);
-    # check that R2 is canonical.
-    if DimensionsMat(R2)[1] <> DimensionsMat(R2)[2]
-      or (not IsDiagonalMat(R2)) then
+    if not SptSetFpZModuleIsCanonical(N) then
       #Display("target module not in canonical form");
       #return fail;
       SptSetFpZModuleCanonicalForm(N);
     fi;
+    A := M!.generators * phi!.B * N!.projection;
+    R2 := StructuralCopy(phi!.codomain!.relations);
 
     # remove null rows in R2.
     diagR2 := DiagonalOfMat(R2);
@@ -215,7 +213,8 @@ InstallMethod(SptSetHomologyModule,
   function(phi, psi)
     local N, psi2, A;
     N := SptSetCokernelModule(phi);
-    A := psi!.domain!.generators * psi!.B * N!.projection;
+    #A := psi!.domain!.generators * psi!.B * N!.projection;
+    A := N!.generators * psi!.B * psi!.codomain!.projection;
     psi2 := SptSetZLMapByImages(N, psi!.codomain, A);
     return SptSetKernelModule(psi2);
   end);

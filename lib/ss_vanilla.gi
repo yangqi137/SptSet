@@ -40,6 +40,9 @@ InstallMethod(SptSetSpecSeqBuildComponent,
   [IsSptSetSpecSeqVanillaRep, IsInt, IsInt, IsInt],
   function(ss, r, p, q)
     local phi, psi;
+    #if r=3 and p=1 and q=2 then
+    #  Error("haha");
+    #fi;
     if p < 0 or q < 0 then
       return SptSetZeroModule();
     fi;
