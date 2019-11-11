@@ -120,9 +120,9 @@ InstallMethod(SptSetSpecSeqBuildDerivative,
       fA[i] := opr * N!.projection;
     od;
 
-    if fA = [] then
-      fA := EmptyMatrix(0);
-    fi;
+    #if fA = [] then
+    #  fA := EmptyMatrix(0);
+    #fi;
     return SptSetZLMapByImages(M, N, fA);
 
   end);

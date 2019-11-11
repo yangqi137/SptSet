@@ -57,15 +57,12 @@ InstallMethod(SptSetZLMapInverseMat,
       tA, snf, tU, tV, tD, tE, Ainv, m, n, i;
     M := psi!.domain;
     N := psi!.codomain;
+    if not SptSetFpZModuleIsCanonical(N) then
+      SptSetFpZModuleCanonicalForm(N);
+    fi;
     A := M!.generators * psi!.B * N!.projection;
     R2 := StructuralCopy(psi!.codomain!.relations);
-    # check that R2 is canonical.
-    if DimensionsMat(R2)[1] <> DimensionsMat(R2)[2] then
-      return fail;
-    fi;
-    if not IsDiagonalMat(R2) then
-      return fail;
-    fi;
+
     # remove null rows in R2.
     diagR2 := DiagonalOfMat(R2);
     idsR2 := PositionsProperty(diagR2, x -> x<>0);
@@ -124,9 +121,10 @@ InstallMethod(SptSetKernelModule,
     M := phi!.domain;
     N := phi!.codomain;
     if not SptSetFpZModuleIsCanonical(N) then
-      #Display("target module not in canonical form");
-      #return fail;
       SptSetFpZModuleCanonicalForm(N);
+    fi;
+    if SptSetFpZModuleIsZero(N) then
+      return SptSetCopyFpZModule(M);
     fi;
     A := M!.generators * phi!.B * N!.projection;
     R2 := StructuralCopy(phi!.codomain!.relations);

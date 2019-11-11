@@ -75,10 +75,12 @@ InstallMethod(SptSetMapToBarWord,
     local w, idpos;
     idpos := Position(brMap!.hapResolution!.elts, Identity(brMap!.group));
     if idpos = fail then
+      Display("Adding new element");
       Add(brMap!.hapResolution!.elts, Identity(brMap!.group));
       idpos := Length(brMap!.hapResolution!.elts);
     fi;
-    w := [ [1, idpos, i] ];
+    #w := [ [1, idpos, i] ];
+    w := [ [1, i, idpos] ];
     return brMap!.hapEquiv!.psi(deg, w);
   end);
 
