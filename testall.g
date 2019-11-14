@@ -1,0 +1,2 @@
+LoadPackage("SptSet");
+TestDirectory("tst");
