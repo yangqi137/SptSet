@@ -1,7 +1,8 @@
 DeclareRepresentation(
   "IsSptSetCochainComplexRep",
   IsCategoryOfSptSetCochainComplex and IsComponentObjectRep,
-  ["modulesCache", "derivsCache", "hapResolution", "coeff"]
+  ["modulesCache", "derivsCache", "hapResolution", "coeff",
+   "barResMap", "cohomologyCache"]
 );
 
 BindGlobal(
@@ -21,6 +22,7 @@ InstallMethod(SptSetCochainComplex,
     cocc := rec();
     cocc.modulesCache := [];
     cocc.derivsCache := [];
+    cocc.cohomologyCache := [];
     cocc.hapResolution := R;
     cocc.coeff := M;
     return Objectify(TheTypeSptSetCochainComplex, cocc);
@@ -32,15 +34,18 @@ InstallMethod(SptSetCohomology,
   [IsSptSetCochainComplexRep, IsInt],
   function(cc, k)
     local dkm1, dk, h;
-    dk := SptSetCochainComplexDerivative(cc, k);
-    if k = 0 then
-      h := SptSetKernelModule(dk);
-    else
-      dkm1 := SptSetCochainComplexDerivative(cc, k-1);
-      h := SptSetHomologyModule(dkm1, dk);
+    if not IsBound(cc!.cohomologyCache[k+1]) then
+      dk := SptSetCochainComplexDerivative(cc, k);
+      if k = 0 then
+        h := SptSetKernelModule(dk);
+      else
+        dkm1 := SptSetCochainComplexDerivative(cc, k-1);
+        h := SptSetHomologyModule(dkm1, dk);
+      fi;
+      SptSetFpZModuleCanonicalForm(h);
+      cc!.cohomologyCache[k+1] := h;
     fi;
-    SptSetFpZModuleCanonicalForm(h);
-    return h;
+    return cc!.cohomologyCache[k+1];
   end);
 
 InstallMethod(SptSetCochainComplexModule,
@@ -68,3 +73,21 @@ InstallMethod(SptSetCochainComplexDerivative,
     fi;
     return cc!.derivsCache[k+1];
   end);
+
+InstallMethod(SptSetShowCohomologyClass,
+"print the cohomology class",
+[IsSptSetCochainComplexRep, IsInt, IsPosInt],
+function(cc, k, i)
+  local h, v, brm, n, j, bword;
+  h := SptSetCohomology(cc, k);
+  v := h!.generators[i];
+  if not IsBound(cc!.barResMap) then
+    cc!.barResMap := SptSetBarResolutionMap(cc!.hapResolution);
+  fi;
+  brm := cc!.barResMap;
+  n := Length(v);
+  for j in [1..n] do
+    bword := SptSetMapToBarWord(brm, k, j);
+    PrintFormatted("{} = {}", bword, v[j]);
+  od;
+end);

@@ -10,3 +10,8 @@ DeclareOperation("SptSetCochainComplexModule",
   [IsCategoryOfSptSetCochainComplex, IsInt]);
 DeclareOperation("SptSetCochainComplexDerivative",
   [IsCategoryOfSptSetCochainComplex, IsInt]);
+
+DeclareOperation("SptSetShowCohomologyClass",
+  [IsCategoryOfSptSetCochainComplex, IsInt, IsPosInt]);
+DeclareOperation("SptSetInhomogeneousCocycle",
+  [IsCategoryOfSptSetCochainComplex, IsInt, IsPosInt]);
