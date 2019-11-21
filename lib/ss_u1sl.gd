@@ -1,3 +1,3 @@
 DeclareOperation("U1SLSpecSeq",
-  [IsHapResolution, IsGeneralMapping, IsFunction]);
+  [IsHapResolution, IsGeneralMapping, IsGeneralMapping, IsFunction]);
 DeclareGlobalFunction("U1SLLayersVerbose");
