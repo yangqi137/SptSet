@@ -1,3 +1,7 @@
+BindGlobal(
+  "TheFamilyOfSptSetBarResMaps",
+  NewFamily("TheFamilyOfSptSetBarResMaps")
+);
 
 InstallMethod(SptSetMapToBarCocycle,
 "map to an inhomogeneous cocycle",

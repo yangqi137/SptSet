@@ -5,11 +5,6 @@ DeclareRepresentation(
 );
 
 BindGlobal(
-  "TheFamilyOfSptSetBarResMaps",
-  NewFamily("TheFamilyOfSptSetBarResMaps")
-);
-
-BindGlobal(
   "TheTypeSptSetBarResMapHap",
   NewType(TheFamilyOfSptSetBarResMaps, IsSptSetBarResMapHapRep)
 );
