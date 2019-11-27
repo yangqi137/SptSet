@@ -1,8 +1,12 @@
 DeclareCategory("IsCategoryOfSptSetBarResMap", IsObject);
 
+#DeclareFilter("IsUsingMyBarResolutionMap");
+#DeclareFilter("IsUsingHapBarResolutionMap");
 DeclareOperation("SptSetBarResolutionMap",
   [IsHapResolution]
 );
+DeclareConstructor("SptSetConstructBarResMap",
+[IsCategoryOfSptSetBarResMap, IsHapResolution]);
 
 DeclareOperation("SptSetMapToBarWord",
   [IsCategoryOfSptSetBarResMap, IsInt, IsPosInt]

@@ -42,7 +42,7 @@ HapResolutionHomotopy@ := function(R, deg, k, g, word)
 end;
 
 BarResolutionBoundary@ := function(gid, glist)
-  local n, dglist, gl2, glext;
+  local n, dglist, gl2, glext, i;
   n := Length(glist);
   dglist := [];
   if n > 0 then
