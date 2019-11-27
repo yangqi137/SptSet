@@ -7,6 +7,21 @@ DeclareRepresentation(
 BindGlobal("TheTypeSptSetBarResMapMine",
 NewType(TheFamilyOfSptSetBarResMaps, IsSptSetBarResMapMineRep));
 
+InstallMethod(SptSetConstructBarResMap,
+"construct a bar res map of my implimentation",
+[IsSptSetBarResMapMineRep, IsHapResolution],
+function(filter, R)
+  local G, toBarCache, deg;
+  G := GroupOfResolution(R);
+  toBarCache := [];
+  for deg in [0..Length(R)] do
+    toBarCache[deg+1] := [];
+  od;
+  toBarCache[1][1] := [ [ 1, Identity(G)] ];
+  return Objectify(TheTypeSptSetBarResMapMine,
+  rec(hapResolution := R, group := G, toBarCache := toBarCache));
+end);
+
 # some local functions
 
 BarResolutionHomotopy@ := function(gid, k, g, word)
@@ -112,6 +127,9 @@ function(brMap, deg, glist)
   if gid in glist then
     return [];
   fi;
+  if deg = 0 then
+    return [ [1, 1, Position(elts, gid)] ];
+  fi;
 
   ans := [];
 
@@ -119,8 +137,8 @@ function(brMap, deg, glist)
   for xdg in dg do
     glxdg := xdg{[3..(deg+1)]};
     fglxdg := StructuralCopy(SptSetMapFromBarWord(brMap, deg-1, glxdg));
-    hfglxdg := HapResolutionHomotopy@(R, deg-1, glxdg[1], glxdg[2], fglxdg);
-    Add(ans, hfglxdg);
+    hfglxdg := HapResolutionHomotopy@(R, deg-1, xdg[1], xdg[2], fglxdg);
+    Append(ans, hfglxdg);
   od;
   return ans;
 end);
