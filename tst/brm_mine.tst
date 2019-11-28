@@ -7,6 +7,8 @@ gap> a;
 [ [ 30, 1, 2, 5 ], [ 20, 1, 4, 4 ] ]
 gap> BarResolutionBoundary@SptSet(1, [2,3,4]);
 [ [ 1, 2, 3, 4 ], [ -1, 1, 6, 4 ], [ 1, 1, 2, 12 ], [ -1, 1, 2, 3 ] ]
+gap> BarWordSimplify@SptSet([ [1, 2, 3], [2, 1, 4], [-3, 2, 3] ]);
+[ [ 2, 1, 4 ], [ -2, 2, 3 ] ]
 gap> G := CyclicGroup(3);;
 gap> R := ResolutionFiniteGroup(G, 6);;
 gap> SetNameObject(Identity(G), "id");;

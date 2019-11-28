@@ -30,6 +30,21 @@ InstallMethod(FermionEZSPTSpecSeq,
         return {g1, g2} -> 0;
       end);
 
+    SptSetInstallRawDerivative(ss, 2, 1, 3,
+    function(n1)
+      return {g1, g2, g3} -> (s(g1) * n1(g2) * n1(g3));
+    end);
+    SptSetInstallRawDerivative(ss, 2, 2, 2,
+    function(n2)
+      return
+      function(g1, g2, g3, g4)
+        local n2n2, n2c1n2;
+        n2n2 := n2(g1, g2) * n2(g3, g4);
+        n2c1n2 := ??;
+        return n2n2 + s(g1) * n2c1n2;
+      end;
+    end);
+
     SptSetInstallRawDerivative(ss, 3, 1, 2,
       function(n1, dn2, n2)
         return function(g1, g2, g3, g4)

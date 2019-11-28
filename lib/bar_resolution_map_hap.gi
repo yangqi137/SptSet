@@ -46,3 +46,14 @@ InstallMethod(SptSetMapToBarWord,
     w := [ [1, i, idpos] ];
     return brMap!.hapEquiv!.psi(deg, w);
   end);
+
+InstallMethod(SptSetMapEquivBarWord,
+"compute the homotopy equivalence of a bar-resolution word",
+[IsSptSetBarResMapHapRep, IsList],
+function(brMap, glist)
+  local deg, w;
+  deg := Length(glist);
+  w := [1, Identity(brMap!.group)];
+  Append(w, glist);
+  return brMap!.hapEquiv!.equiv(deg, [w]);
+end);

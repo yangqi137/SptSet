@@ -88,6 +88,29 @@ BarResolutionBoundary@ := function(gid, glist)
   return dglist;
 end;
 
+BarWordSimplify@ := function(word)
+  local n, x, x0, word2;
+  word2 := [];
+  if word = [] then
+    return word2;
+  fi;
+  n := Length(word[1]);
+  SortBy(word, x -> x{[2..n]});
+  x0 := fail;
+  for x in word do
+    if x0 = fail then
+      x0 := x;
+    elif x0{[2..n]} <> x{[2..n]} then
+      Add(word2, x0);
+      x0 := x;
+    else
+      x0[1] := x0[1] + x[1];
+    fi;
+  od;
+  Add(word2, x0);
+  return word2;
+end;
+
 InstallMethod(SptSetMapToBarWord,
 "map to a word in bar resolution",
 [IsSptSetBarResMapMineRep, IsInt, IsPosInt],
@@ -141,4 +164,38 @@ function(brMap, deg, glist)
     Append(ans, hfglxdg);
   od;
   return ans;
+end);
+
+InstallMethod(SptSetMapEquivBarWord,
+"compute the homotopy equivalence of a bar-resolution word",
+[IsSptSetBarResMapMineRep, IsList],
+function(brMap, glist)
+  local gid, deg, dgl, hdgl, fgl, x, fx, xfx, w;
+  gid := Identity(brMap!.group);
+  deg := Length(glist);
+
+  w := [];
+
+  # TODO: the boundary condition.
+
+  dgl := BarResolutionBoundary@(gid, glist);
+  # computes -h(d(gl)) and adds it to w
+  for x in dgl do:
+    fx := StructuralCopy(SptSetMapEquivBarWord(brMap, x{[3..(deg+1)]}));
+    for xfx in fx do:
+      xfx[1] := -x[1] * xfx[1];
+      xfx[2] := x[2] * xfx[2];
+      Add(w, xfx);
+    od;
+  od;
+
+  gl2 := SptSetMapFromBarWord(brMap, deg, glist);
+  w := [1, gid];
+  Append(w, glist);
+  for x in gl2 do
+    fx := StructuralCopy(SptSetMapToBarWord(brMap, deg, x));
+    fx[1] := -fx[1];
+    Append(w, fx);
+  od;
+  w := BarWordSimplify@(w);
 end);

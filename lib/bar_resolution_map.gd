@@ -14,6 +14,9 @@ DeclareOperation("SptSetMapToBarWord",
 DeclareOperation("SptSetMapFromBarWord",
   [IsCategoryOfSptSetBarResMap, IsInt, IsList]
 );
+DeclareOperation("SptSetMapEquivBarWord",
+  [IsCategoryOfSptSetBarResMap, IsList]
+);
 DeclareOperation("SptSetMapToBarCocycle",
   [IsCategoryOfSptSetBarResMap, IsInt, IsObject, IsRowVector]
 );

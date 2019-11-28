@@ -77,9 +77,10 @@ function(brMap, deg, gAction, alpha_, beta)
   beta_ := SptSetMapToBarCocycle(brMap, deg-1, gAction, beta);
   h_alpha_ := function(glist...)
     local w, hw, whw, val;
-    w := [1, Identity(brMap!.group)];
-    Append(w, glist);
-    hw := StructuralCopy(brMap!.hapEquiv!.equiv(deg-1, [w]));
+    #w := [1, Identity(brMap!.group)];
+    #Append(w, glist);
+    #hw := StructuralCopy(brMap!.hapEquiv!.equiv(deg-1, [w]));
+    hw := StructuralCopy(SptSetMapEquivBarWord(brMap, glist));
     val := 0;
     for whw in hw do
       val := val + whw[1] * (whw[2]^gAction)[1][1]
