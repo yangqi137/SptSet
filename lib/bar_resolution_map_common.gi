@@ -90,7 +90,7 @@ function(brMap, deg, gAction, alpha_, beta)
   end;
 
   return function(glist...)
-    return CallFuncList(beta_, glist) + CallFuncList(h_alpha_, glist);
+    return CallFuncList(beta_, glist) - CallFuncList(h_alpha_, glist);
   end;
 end);
 InstallMethod(SptSetSolveCocycleEq,
