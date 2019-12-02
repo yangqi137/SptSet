@@ -9,16 +9,17 @@ BindGlobal(
   NewType(TheFamilyOfSptSetBarResMaps, IsSptSetBarResMapHapRep)
 );
 
-InstallMethod(SptSetBarResolutionMap,
-  "create a map to/from the bar resolution",
-  [IsHapResolution],
-  function(R)
-    local G;
-    G := GroupOfResolution(R);
-    return Objectify(TheTypeSptSetBarResMapHap,
-      rec(hapResolution := R, group := G,
-        hapEquiv := BarResolutionEquivalence(R)));
-  end);
+InstallMethod(SptSetConstructBarResMap,
+"construct a bar res map of HAP implimentation",
+[IsSptSetBarResMapHapRep, IsHapResolution],
+function(filter, R)
+  local G;
+  #Display("Creating HAP BRM");
+  G := GroupOfResolution(R);
+  return Objectify(TheTypeSptSetBarResMapHap,
+    rec(hapResolution := R, group := G,
+      hapEquiv := BarResolutionEquivalence(R)));
+end);
 
 InstallMethod(SptSetMapFromBarWord,
   "map from a word in bar resolution",
