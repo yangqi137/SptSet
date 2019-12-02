@@ -40,7 +40,8 @@ InstallMethod(FermionEZSPTSpecSeq,
       function(g1, g2, g3, g4)
         local n2n2, n2c1n2;
         n2n2 := n2(g1, g2) * n2(g3, g4);
-        n2c1n2 := ??;
+        #n2c1n2 := ??;
+        n2c1n2 := 0;
         return n2n2 + s(g1) * n2c1n2;
       end;
     end);

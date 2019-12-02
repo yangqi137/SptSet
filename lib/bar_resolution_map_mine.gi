@@ -25,12 +25,18 @@ end);
 # some local functions
 
 BarResolutionHomotopy@ := function(gid, k, g, word)
-  local x;
+  local hword, x, hx;
+  hword := [];
   for x in word do
-    x[1] := x[1] * k;
-    Add(x, g * x[2], 3);
-    x[2] := gid;
+    hx := StructuralCopy(x);
+    hx[1] := k * hx[1];
+    Add(hx, g * hx[2], 3);
+    hx[2] := gid;
+    if hx[3] <> gid then
+      Add(hword, hx);
+    fi;
   od;
+  return hword;
 end;
 
 HapResolutionHomotopy@ := function(R, deg, k, g, word)
@@ -101,13 +107,17 @@ BarWordSimplify@ := function(word)
     if x0 = fail then
       x0 := x;
     elif x0{[2..n]} <> x{[2..n]} then
-      Add(word2, x0);
+      if x0[1] <> 0 then
+        Add(word2, x0);
+      fi;
       x0 := x;
     else
       x0[1] := x0[1] + x[1];
     fi;
   od;
-  Add(word2, x0);
+  if x0[1] <> 0 then
+    Add(word2, x0);
+  fi;
   return word2;
 end;
 
@@ -128,8 +138,7 @@ function(brMap, deg, i)
       xg := elts[x[2]];
       if xg <> gid then
         fxb := StructuralCopy(SptSetMapToBarWord(brMap, deg-1, xb));
-        BarResolutionHomotopy@(gid, xs, xg, fxb);
-        Append(fei, fxb);
+        Append(fei, BarResolutionHomotopy@(gid, xs, xg, fxb));
       fi;
     od;
     brMap!.toBarCache[deg+1][i] := fei;
@@ -170,32 +179,50 @@ InstallMethod(SptSetMapEquivBarWord,
 "compute the homotopy equivalence of a bar-resolution word",
 [IsSptSetBarResMapMineRep, IsList],
 function(brMap, glist)
-  local gid, deg, dgl, hdgl, fgl, x, fx, xfx, w;
+  local gid, deg, elts, dgl, hdgl, fgl, x, fx, xfx, w;
   gid := Identity(brMap!.group);
   deg := Length(glist);
+  elts := brMap!.hapResolution!.elts;
 
   w := [];
 
-  # TODO: the boundary condition.
+  # boundary condition.
+  if deg = 0 then
+    return w;
+  fi;
+
+  if gid in glist then
+    return [];
+  fi;
 
   dgl := BarResolutionBoundary@(gid, glist);
   # computes -h(d(gl)) and adds it to w
-  for x in dgl do:
+  for x in dgl do
     fx := StructuralCopy(SptSetMapEquivBarWord(brMap, x{[3..(deg+1)]}));
-    for xfx in fx do:
+    for xfx in fx do
       xfx[1] := -x[1] * xfx[1];
       xfx[2] := x[2] * xfx[2];
       Add(w, xfx);
     od;
   od;
 
-  gl2 := SptSetMapFromBarWord(brMap, deg, glist);
-  w := [1, gid];
-  Append(w, glist);
-  for x in gl2 do
-    fx := StructuralCopy(SptSetMapToBarWord(brMap, deg, x));
-    fx[1] := -fx[1];
-    Append(w, fx);
+  # computes f(g(gl))
+  fgl := SptSetMapFromBarWord(brMap, deg, glist);
+  for x in fgl do
+    # format of x : [prefactor, basis, g]
+    fx := StructuralCopy(SptSetMapToBarWord(brMap, deg, x[2]));
+    for xfx in fx do
+      xfx[1] := xfx[1] * x[1];
+      xfx[2] := elts[x[3]] * xfx[2];
+      Add(w, xfx);
+    od;
   od;
+
+  #compute -gl
+  x := [-1, gid];
+  Append(x, glist);
+  Add(w, x);
+
   w := BarWordSimplify@(w);
+  return BarResolutionHomotopy@(gid, 1, gid, w);
 end);
