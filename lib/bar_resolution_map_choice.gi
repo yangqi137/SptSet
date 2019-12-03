@@ -5,6 +5,8 @@ function(R)
   local imp;
   if ValueOption("BarResMapChoice") = "HAP" then
     imp := IsSptSetBarResMapHapRep;
+  elif ValueOption("BarResMapChoice") = "debug" then
+    imp := IsSptSetBarResMapDebugRep;
   else
     imp := IsSptSetBarResMapMineRep;
   fi;

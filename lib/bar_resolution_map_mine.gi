@@ -94,7 +94,8 @@ BarResolutionBoundary@ := function(gid, glist)
   return dglist;
 end;
 
-BarWordSimplify@ := function(word)
+InstallGlobalFunction(WordSimplify@,
+function(word)
   local n, x, x0, word2;
   word2 := [];
   if word = [] then
@@ -119,7 +120,7 @@ BarWordSimplify@ := function(word)
     Add(word2, x0);
   fi;
   return word2;
-end;
+end);
 
 InstallMethod(SptSetMapToBarWord,
 "map to a word in bar resolution",
@@ -223,6 +224,6 @@ function(brMap, glist)
   Append(x, glist);
   Add(w, x);
 
-  w := BarWordSimplify@(w);
+  w := WordSimplify@(w);
   return BarResolutionHomotopy@(gid, 1, gid, w);
 end);

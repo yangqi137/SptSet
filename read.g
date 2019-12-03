@@ -8,6 +8,7 @@ ReadPackage("SptSet", "lib/ss_vanilla.gi");
 ReadPackage("SptSet", "lib/bar_resolution_map_common.gi");
 ReadPackage("SptSet", "lib/bar_resolution_map_hap.gi");
 ReadPackage("SptSet", "lib/bar_resolution_map_mine.gi");
+ReadPackage("SptSet", "lib/bar_resolution_map_debug.gi");
 ReadPackage("SptSet", "lib/bar_resolution_map_choice.gi");
 ReadPackage("SptSet", "lib/fermion_ez.gi");
 ReadPackage("SptSet", "lib/bockstein.gi");

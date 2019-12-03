@@ -27,3 +27,5 @@ DeclareOperation("SptSetSolveCocycleEq",
   [IsCategoryOfSptSetBarResMap, IsInt, IsObject,
     IsFunction, IsRowVector]
 );
+
+DeclareGlobalFunction("WordSimplify@");

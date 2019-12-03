@@ -11,7 +11,7 @@ InstallMethod(FermionEZSPTSpecSeq,
     spectrum[4] := SptSetCoefficientZn(0, auMap);
     ss := SptSetSpecSeqVanilla(R, spectrum);
 
-    s := g -> (1+(g^auMap)[1][1])/2;
+    s := g -> (1-(g^auMap)[1][1])/2;
 
     SptSetInstallRawDerivative(ss, 2, 2, 1,
       function(n2)
