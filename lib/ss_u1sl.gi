@@ -11,7 +11,7 @@ function(R, rho, auMap, nu)
   ss := SptSetSpecSeqVanilla(R, spectrum);
   
   #s := g -> (1+(g^auMap)[1][1])/2;
-  r := g -> (1 + (g^rho))[1][1])/2;
+  r := g -> (1 - (g^rho))[1][1])/2;
 
   SptSetInstallRawDerivative(ss, 2, 3, 1,
   function(n3)
