@@ -3,31 +3,25 @@ gap> G := CyclicGroup(4);;
 gap> R := ResolutionFiniteGroup(G, 6);;
 gap> utAct := SptSetTrivialGroupAction(G);;
 gap> ss := FermionEZSPTSpecSeq(R, utAct);;
-gap> FermionSPTLayersVerbose(ss, 2);;
-Majorana:
+gap> layers := FermionSPTLayers(ss, 2);;
+gap> Length(layers);
+3
+gap> layers[1];
 <ZL-Module with torsions [ 2 ]>
+gap> layers[2];
 <ZL-Module with torsions [ 2 ]>
-<ZL-Module with torsions [ 2 ]>
-Complex fermion:
-<ZL-Module with torsions [ 2 ]>
-<ZL-Module with torsions [ 2 ]>
-Bosonic:
-<ZL-Module with torsions [ 4 ]>
-<ZL-Module with torsions [ 4 ]>
+gap> layers[3];
 <ZL-Module with torsions [ 4 ]>
 gap> z2tAct := GroupHomomorphismByImagesNC(G, GL(1, Integers),
 >   GeneratorsOfGroup(G), [ [[-1]], [[1]] ]);;
 gap> ss := FermionEZSPTSpecSeq(R, z2tAct);;
-gap> FermionSPTLayersVerbose(ss, 2);;
-Majorana:
+gap> layers := FermionSPTLayers(ss, 2);;
+gap> Length(layers);
+3
+gap> layers[1];
 <ZL-Module with torsions [ 2 ]>
-<ZL-Module with torsions [ 2 ]>
-<ZL-Module with torsions [ 2 ]>
-Complex fermion:
-<ZL-Module with torsions [ 2 ]>
+gap> layers[2];
 <ZL-Module []>
-Bosonic:
+gap> layers[3];
 <ZL-Module []>
-<ZL-Module []>
-<ZL-Module []>
-gap> STOP_TEST( "z4_ez.tst" );
+gap> STOP_TEST( "z4_ez_layers.tst" );

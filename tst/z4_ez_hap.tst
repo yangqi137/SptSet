@@ -3,7 +3,7 @@ gap> G := CyclicGroup(4);;
 gap> R := ResolutionFiniteGroup(G, 6);;
 gap> utAct := SptSetTrivialGroupAction(G);;
 gap> ss := FermionEZSPTSpecSeq(R, utAct : BarResMapChoice := "HAP");;
-gap> FermionSPTLayersVerbose(ss);;
+gap> FermionSPTLayersVerbose(ss, 2);;
 Majorana:
 <ZL-Module with torsions [ 2 ]>
 <ZL-Module with torsions [ 2 ]>
@@ -13,10 +13,12 @@ Complex fermion:
 <ZL-Module with torsions [ 2 ]>
 Bosonic:
 <ZL-Module with torsions [ 4 ]>
+<ZL-Module with torsions [ 4 ]>
+<ZL-Module with torsions [ 4 ]>
 gap> z2tAct := GroupHomomorphismByImagesNC(G, GL(1, Integers),
 >   GeneratorsOfGroup(G), [ [[-1]], [[1]] ]);;
 gap> ss := FermionEZSPTSpecSeq(R, z2tAct);;
-gap> FermionSPTLayersVerbose(ss);;
+gap> FermionSPTLayersVerbose(ss, 2);;
 Majorana:
 <ZL-Module with torsions [ 2 ]>
 <ZL-Module with torsions [ 2 ]>
@@ -25,5 +27,7 @@ Complex fermion:
 <ZL-Module with torsions [ 2 ]>
 <ZL-Module []>
 Bosonic:
+<ZL-Module []>
+<ZL-Module []>
 <ZL-Module []>
 gap> STOP_TEST( "z4_ez.tst" );
