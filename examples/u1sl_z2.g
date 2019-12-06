@@ -14,9 +14,9 @@ nu := function(g1, g2)
   fi;
 end;;
 SS := U1SLSpecSeq(R, rho, au, nu);;
-E231 := SptSetSpecSeqComponent(SS, 2, 3, 1);
-SptSetFpZModuleCanonicalForm(E231);
-Display(E231);
+#E231 := SptSetSpecSeqComponent(SS, 2, 3, 1);
+#SptSetFpZModuleCanonicalForm(E231);
+#Display(E231);
 E331 := SptSetSpecSeqComponent(SS, 3, 3, 1);
 SptSetFpZModuleCanonicalForm(E331);
 Display(E331);
