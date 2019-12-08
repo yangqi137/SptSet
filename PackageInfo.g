@@ -1,7 +1,7 @@
 SetPackageInfo( rec(
   PackageName := "SptSet",
   Subtitle := "Example/Template of a GAP Package",
-  Version := "0.11",
+  Version := "0.1.1",
   Date := "09/11/2019",
   ##  Optional: if the package manual uses GAPDoc, you may duplicate the
   ##  version and the release date as shown below to read them while building
