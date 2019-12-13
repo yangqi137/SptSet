@@ -15,5 +15,13 @@ function(c1, c2)
 end);
 
 InstallGlobalFunction(SptSetPurifySpecSeqClass,
-function(a)
+function(c)
+  local F, SS, brMap, deg, p;
+  F := FamilyObj(c);
+  SS := F!.specSeq;
+  brMap := SS!.brMap;
+  deg := F!.deg;
+  p := PositionBound(c!.layers);
+  cp := c!.layers[p];
+  cpv := SptSetMapFromBarCocycle(brMap, p, SS!.spectrum[q+1], cp);
 end);
