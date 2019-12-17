@@ -1,5 +1,5 @@
 DeclareOperation("SptSetSpecSeqVanilla",
   [IsHapResolution, IsList]);
 
-DeclareOperation("SptSetInstallBoundary",
+DeclareOperation("SptSetInstallCoboundary",
   [IsCategoryOfSptSetSpecSeq, IsInt, IsInt, IsInt, IsFunction]);

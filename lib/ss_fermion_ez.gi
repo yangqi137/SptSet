@@ -13,21 +13,21 @@ InstallMethod(FermionEZSPTSpecSeq,
 
     s := g -> (1-(g^auMap)[1][1])/2;
 
-    SptSetInstallBoundary(ss, 2, 1, 1,
+    SptSetInstallCoboundary(ss, 2, 1, 1,
     function(n1, dn1)
       return {g1, g2, g3} -> 0;
     end);
 
-    SptSetInstallBoundary(ss, 2, 0, 2,
+    SptSetInstallCoboundary(ss, 2, 0, 2,
     function(n0, dn0)
       return {g1, g2} -> 0;
     end);
-    SptSetInstallBoundary(ss, 3, 0, 2,
+    SptSetInstallCoboundary(ss, 3, 0, 2,
     function(n0, dn0)
       return {g1, g2, g3} -> 0;
     end);
 
-    SptSetInstallBoundary(ss, 2, 2, 1,
+    SptSetInstallCoboundary(ss, 2, 2, 1,
     function(n2, dn2)
       return function(g1, g2, g3, g4)
         local val;
@@ -42,33 +42,33 @@ InstallMethod(FermionEZSPTSpecSeq,
       end;
     end);
 
-    SptSetInstallBoundary(ss, 2, 1, 2,
+    SptSetInstallCoboundary(ss, 2, 1, 2,
     function(n1, dn1)
       return {g1, g2, g3} -> (s(g1) * n1(g2) * n1(g3));
     end);
-    SptSetInstallBoundary(ss, 3, 1, 2,
+    SptSetInstallCoboundary(ss, 3, 1, 2,
     function(n1, dn1)
       return {g1, g2, g3, g4} -> 0;
     end);
 
-    SptSetInstallBoundary(ss, 2, 0, 3,
+    SptSetInstallCoboundary(ss, 2, 0, 3,
     function(n0, dn0)
       return {g1, g2} -> 0;
     end);
-    SptSetInstallBoundary(ss, 3, 0, 3,
+    SptSetInstallCoboundary(ss, 3, 0, 3,
     function(n0, dn0)
       return {g1, g2, g3} -> 0;
     end);
-    SptSetInstallBoundary(ss, 4, 0, 3,
+    SptSetInstallCoboundary(ss, 4, 0, 3,
     function(n0, dn0)
       return {g1, g2, g3, g4} -> 0;
     end);
 
-    SptSetInstallBoundary(ss, 2, 1, 3,
+    SptSetInstallCoboundary(ss, 2, 1, 3,
     function(n1, dn1)
       return {g1, g2, g3} -> (s(g1) * n1(g2) * n1(g3));
     end);
-    SptSetInstallBoundary(ss, 2, 2, 2,
+    SptSetInstallCoboundary(ss, 2, 2, 2,
     function(n2, dn2)
       return
       function(g1, g2, g3, g4)

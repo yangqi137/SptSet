@@ -24,7 +24,7 @@ InstallMethod(SptSetSpecSeqVanilla,
       bdry := []));
   end);
 
-InstallMethod(SptSetInstallBoundary,
+InstallMethod(SptSetInstallCoboundary,
   "Install raw derivative of a spectral sequence",
   [IsSptSetSpecSeqVanillaRep, IsInt, IsInt, IsInt, IsFunction],
   function(ss, r, p, q, f)
