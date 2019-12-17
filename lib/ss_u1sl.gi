@@ -13,7 +13,7 @@ function(R, rho, auMap, nu)
   #s := g -> (1+(g^auMap)[1][1])/2;
   #r := g -> (1 - (g^rho)[1][1])/2;
 
-  SptSetInstallRawDerivative(ss, 2, 3, 1,
+  SptSetInstallBoundary(ss, 2, 3, 1,
   function(n3)
     return {g1, g2, g3, g4, g5} ->
     nu(g1, g2) * ((g1*g2)^rho)[1][1] * n3(g3, g4, g5);

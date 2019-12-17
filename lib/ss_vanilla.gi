@@ -1,13 +1,15 @@
 DeclareRepresentation(
   "IsSptSetSpecSeqVanillaRep",
   IsSptSetSpecSeqRep,
-  ["resolution", "brMap", "spectrum", "rawDerivPages"]
+  ["resolution", "brMap", "spectrum", "bdry"]
 );
 
 BindGlobal(
   "TheTypeSptSetVanillaSpecSeq",
   NewType(TheFamilyOfSptSetSpecSeqs, IsSptSetSpecSeqVanillaRep)
 );
+
+#ZeroCocycle@ := {arg...} -> 0;
 
 InstallMethod(SptSetSpecSeqVanilla,
   "Construct a spectral sequence with a spectrum",
@@ -19,20 +21,20 @@ InstallMethod(SptSetSpecSeqVanilla,
       resolution := resolution,
       brMap := SptSetBarResolutionMap(resolution),
       spectrum := spectrum,
-      rawDerivPages := []));
+      bdry := []));
   end);
 
-InstallMethod(SptSetInstallRawDerivative,
+InstallMethod(SptSetInstallBoundary,
   "Install raw derivative of a spectral sequence",
   [IsSptSetSpecSeqVanillaRep, IsInt, IsInt, IsInt, IsFunction],
   function(ss, r, p, q, f)
-    if not IsBound(ss!.rawDerivPages[r+1]) then
-      ss!.rawDerivPages[r+1] := [];
+    if not IsBound(ss!.bdry[r+1]) then
+      ss!.bdry[r+1] := [];
     fi;
-    if not IsBound(ss!.rawDerivPages[r+1][p+1]) then
-      ss!.rawDerivPages[r+1][p+1] := [];
+    if not IsBound(ss!.bdry[r+1][p+1]) then
+      ss!.bdry[r+1][p+1] := [];
     fi;
-    ss!.rawDerivPages[r+1][p+1][q+1] := f;
+    ss!.bdry[r+1][p+1][q+1] := f;
   end);
 
 InstallMethod(SptSetSpecSeqBuildComponent,
@@ -99,9 +101,10 @@ InstallMethod(SptSetSpecSeqBuildDerivative,
       np_ := SptSetMapToBarCocycle(ss!.brMap, p, ss!.spectrum[q+1],
         M!.generators[i]);
       if r = 2 then
-        opr_ := ss!.rawDerivPages[r+1][p+1][q+1](np_);
+        #opr_ := ss!.bdry[r+1][p+1][q+1](np_);
+        opr_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
       elif r = 3 then
-        dnp1_ := ss!.rawDerivPages[r-1+1][p+1][q+1](np_);
+        dnp1_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
         dnp1 := SptSetMapFromBarCocycle(ss!.brMap,
           p+r-1, ss!.spectrum[q-(r-1)+1 +1], dnp1_);
         np1 := SptSetZLMapInverse(
@@ -109,7 +112,8 @@ InstallMethod(SptSetSpecSeqBuildDerivative,
           dnp1);
         np1_ := SptSetSolveCocycleEq(ss!.brMap,
           p+r-1, ss!.spectrum[q-(r-1)+1 +1], dnp1_, np1);
-        opr_ := ss!.rawDerivPages[r+1][p+1][q+1](np_, dnp1_, np1_);
+        #opr_ := ss!.bdry[r+1][p+1][q+1](np_, dnp1_, np1_);
+        opr_ := ss!.bdry[2+1][p+1+1][q-1+1](np1_, dnp1_);
       else
         Display(["d", r, "not implimented"]);
         return fail;

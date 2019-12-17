@@ -13,38 +13,63 @@ InstallMethod(FermionEZSPTSpecSeq,
 
     s := g -> (1-(g^auMap)[1][1])/2;
 
-    SptSetInstallRawDerivative(ss, 2, 1, 1,
-    function(n1)
-      return {g1, g2, g3} -> 0;
-    end);
-    SptSetInstallRawDerivative(ss, 3, 0, 2,
-    function(n0, dn1, n1)
+    SptSetInstallBoundary(ss, 2, 1, 1,
+    function(n1, dn1)
       return {g1, g2, g3} -> 0;
     end);
 
-    SptSetInstallRawDerivative(ss, 2, 2, 1,
-      function(n2)
-        return {g1, g2, g3, g4} -> (1/2 * n2(g1, g2) * n2(g3, g4));
-      end);
-    SptSetInstallRawDerivative(ss, 2, 1, 2,
-      function(n1)
-        return {g1, g2, g3} -> (s(g1) * n1(g2) * n1(g3));
-      end);
-    SptSetInstallRawDerivative(ss, 2, 0, 3,
-      function(n0)
-        return {g1, g2} -> 0;
-      end);
-    SptSetInstallRawDerivative(ss, 2, 0, 2,
-      function(n0)
-        return {g1, g2} -> 0;
-      end);
+    SptSetInstallBoundary(ss, 2, 0, 2,
+    function(n0, dn0)
+      return {g1, g2} -> 0;
+    end);
+    SptSetInstallBoundary(ss, 3, 0, 2,
+    function(n0, dn0)
+      return {g1, g2, g3} -> 0;
+    end);
 
-    SptSetInstallRawDerivative(ss, 2, 1, 3,
-    function(n1)
+    SptSetInstallBoundary(ss, 2, 2, 1,
+    function(n2, dn2)
+      return function(g1, g2, g3, g4)
+        local val;
+        val := 1/2 * (n2(g1, g2) * n2(g3, g4) mod 2);
+        if dn2 <> ZeroCocycle@ then
+          val := val + 1/2 * ((n2(g1*g2*g3, g4) * dn2(g1, g2, g3)
+            + n2(g1, g2*g3*g4) * dn2(g2, g3, g4)) mod 2);
+          val := val + 1/2 * (dn2(g1, g2, g3*g4) * dn2(g1*g2, g3, g4) mod 2);
+          val := val - 1/4 * (dn2(g1, g2, g3) * (1 - dn2(g1, g2, g3*g4)) mod 2);
+        fi;
+        return val;
+      end;
+    end);
+
+    SptSetInstallBoundary(ss, 2, 1, 2,
+    function(n1, dn1)
       return {g1, g2, g3} -> (s(g1) * n1(g2) * n1(g3));
     end);
-    SptSetInstallRawDerivative(ss, 2, 2, 2,
-    function(n2)
+    SptSetInstallBoundary(ss, 3, 1, 2,
+    function(n1, dn1)
+      return {g1, g2, g3, g4} -> 0;
+    end);
+
+    SptSetInstallBoundary(ss, 2, 0, 3,
+    function(n0, dn0)
+      return {g1, g2} -> 0;
+    end);
+    SptSetInstallBoundary(ss, 3, 0, 3,
+    function(n0, dn0)
+      return {g1, g2, g3} -> 0;
+    end);
+    SptSetInstallBoundary(ss, 4, 0, 3,
+    function(n0, dn0)
+      return {g1, g2, g3, g4} -> 0;
+    end);
+
+    SptSetInstallBoundary(ss, 2, 1, 3,
+    function(n1, dn1)
+      return {g1, g2, g3} -> (s(g1) * n1(g2) * n1(g3));
+    end);
+    SptSetInstallBoundary(ss, 2, 2, 2,
+    function(n2, dn2)
       return
       function(g1, g2, g3, g4)
         local n2n2, n2c1n2;
@@ -57,19 +82,6 @@ InstallMethod(FermionEZSPTSpecSeq,
         return n2n2 + s(g1) * n2c1n2;
       end;
     end);
-
-    SptSetInstallRawDerivative(ss, 3, 1, 2,
-      function(n1, dn2, n2)
-        return function(g1, g2, g3, g4)
-          local val1, val2, val3, val4;
-          val1 := 1/2 * (n2(g1, g2) * n2(g3, g4) mod 2);
-          val2 := 1/2 * ((n2(g1*g2*g3, g4) * dn2(g1, g2, g3)
-            + n2(g1, g2*g3*g4) * dn2(g2, g3, g4)) mod 2);
-          val3 := 1/2 * (dn2(g1, g2, g3*g4) * dn2(g1*g2, g3, g4) mod 2);
-          val4 := -1/4 * (dn2(g1, g2, g3) * (1 - dn2(g1, g2, g3*g4)) mod 2);
-          return val1 + val2 + val3 + val4;
-        end;
-      end);
 
     return ss;
   end);

@@ -1,0 +1,2 @@
+DeclareGlobalFunction("ZeroCocycle@");
+DeclareGlobalFunction("InhomoCoboundary@");
