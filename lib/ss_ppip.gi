@@ -1,7 +1,7 @@
-InstallMethod(FermionEZSPTSpecSeq,
+InstallMethod(PpipSPTSpecSeq,
   "build fermion-ez-spt spectral sequence",
-  [IsHapResolution, IsGeneralMapping],
-  function(R, auMap)
+  [IsHapResolution, IsGeneralMapping, IsFunction],
+  function(R, auMap, w2)
     local brMap, spectrum, ss, s;
     brMap := SptSetBarResolutionMap(R);
     spectrum := [];
@@ -79,7 +79,6 @@ InstallMethod(FermionEZSPTSpecSeq,
         #f c1 g (0123) = B[f(023),g(012)]−B[f(013),g(123)]
         #n2 c1 n2(g1, g2, g3) = n2(g1*g2, g3)n2(g1, g2) - n2(g1, g2*g3)n2(g2, g3);
         n2c1n2 := n2(g2*g3, g4) * n2(g2, g3) - n2(g2, g3*g4) * n2(g3, g4);
-        # TODO: need to add dn2
         return n2n2 + s(g1) * n2c1n2;
       end;
     end);
