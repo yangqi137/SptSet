@@ -1,13 +1,13 @@
 DeclareRepresentation(
-"IsSptSetSpecSeqClassRep",
-IsCategoryOfSPtSetSpecSeqClass and IsComponentObjectRep,
+"IsSptSetSpecSeqCochainRep",
+IsCategoryOfSptSetSpecSeqCochain and IsComponentObjectRep,
 ["layers"]
 );
 
 InstallMethod(\+,
 "add two classes",
 IsIdenticalObj,
-[IsSptSetSpecSeqClassRep, IsSptSetSpecSeqClassRep],
+[IsSptSetSpecSeqCochainRep, IsSptSetSpecSeqCochainRep],
 function(c1, c2)
   local F, SS;
   F := FamilyObj(c1);
