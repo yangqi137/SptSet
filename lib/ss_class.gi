@@ -14,6 +14,19 @@ function(c1, c2)
   SS := F!.specSeq;
 end);
 
+InstallGlobalFunction(SptSetSpecSeqCoboundarySL,
+function(SS, deg, p, a)
+  local dalayers, da, rmax, r, q;
+  q := deg - p;
+  dalayers := [];
+  da := InhomoCoboundary@(a);
+  dalayers[p+1] := da;
+  rmax := ??;
+  for r in [2..rmax] do
+    dalayers[p + r] := SS!.bdry[r+1][p+1][q+1](a, da);
+  od;
+end);
+
 InstallGlobalFunction(SptSetPurifySpecSeqClass,
 function(c)
   local F, SS, brMap, deg, p, q, Epqinf, r, Erpq, n, n_,
@@ -48,13 +61,13 @@ function(c)
             n_ := SptSetMapToBarCocycle(brMap, p-1, SS!.spectrum[q+1], n);
             c!.layers[p] := SubstractInhomoCochain@(c!.layers[p], InhomoCoboundary(n_));
           fi;
-          
+
           for pp in [(p+1)..deg] do
             rpp := pp - p + 1; # ??
             n_pp_ := SS!.rawDerivative[r][p-1][q+1](n_, ...??);
             c!.layers[pp] := SubstractInhomoCochain@(c!.layers[pp], n_pp_);
           od;
-          
+
           break;
         fi;
         r := r + 1;

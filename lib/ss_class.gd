@@ -3,4 +3,5 @@ IsAdditiveElementWithInverse);
 
 DeclareGlobalFunction("SptSetSpecSeqClasses");
 DeclareGlobalFunction("SptSetSpecSeqCoboundary");
+DeclareGlobalFunction("SptSetSpecSeqCoboundarySL");
 DeclareGlobalFunction("SptSetPurifySpecSeqClass");
