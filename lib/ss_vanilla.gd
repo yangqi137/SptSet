@@ -3,3 +3,4 @@ DeclareOperation("SptSetSpecSeqVanilla",
 
 DeclareOperation("SptSetInstallCoboundary",
   [IsCategoryOfSptSetSpecSeq, IsInt, IsInt, IsInt, IsFunction]);
+DeclareGlobalFunction("SptSetSpecSeqCochainType");

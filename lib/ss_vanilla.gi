@@ -1,7 +1,7 @@
 DeclareRepresentation(
   "IsSptSetSpecSeqVanillaRep",
   IsSptSetSpecSeqRep,
-  ["resolution", "brMap", "spectrum", "bdry"]
+  ["resolution", "brMap", "spectrum", "bdry", "addTwister", "cochainTypes"]
 );
 
 BindGlobal(
@@ -21,7 +21,9 @@ InstallMethod(SptSetSpecSeqVanilla,
       resolution := resolution,
       brMap := SptSetBarResolutionMap(resolution),
       spectrum := spectrum,
-      bdry := []));
+      bdry := [],
+      addTwister := [],
+      cochainTypes := []));
   end);
 
 InstallMethod(SptSetInstallCoboundary,
@@ -130,3 +132,15 @@ InstallMethod(SptSetSpecSeqBuildDerivative,
     return SptSetZLMapByImages(M, N, fA);
 
   end);
+
+InstallGlobalFunction(SptSetSpecSeqCochainType,
+function(ss, deg)
+  local f;
+  if not IsBound(ss!.cochainTypes[deg+1]) then
+    f := NewFamily("SptSetSSCochainFamily");
+    f!.specSeq := ss;
+    f!.degree := deg;
+    ss!.cochainTypes[deg+1] := NewType(f, IsSptSetSpecSeqCochainRep);
+  fi;
+  return ss!.cochainTypes[deg+1];
+end);

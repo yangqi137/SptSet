@@ -4,14 +4,31 @@ IsCategoryOfSptSetSpecSeqCochain and IsComponentObjectRep,
 ["layers"]
 );
 
+InstallGlobalFunction(SptSetSpecSeqCochain,
+function(ss, deg, layers)
+  local t;
+  t := SptSetSpecSeqCochainType(ss, deg);
+  return Objectify(t, rec(layers := layers));
+end);
+
 InstallMethod(SptSetStack,
 "stack two cochains",
 IsIdenticalObj,
 [IsSptSetSpecSeqCochainRep, IsSptSetSpecSeqCochainRep],
 function(c1, c2)
-  local F, SS;
+  local F, SS, deg, p, layers, q;
   F := FamilyObj(c1);
   SS := F!.specSeq;
+  deg := F!.degree;
+  layers := []
+  for p in [1..deg] do
+    q := deg - p;
+    layers[p] := AddInhomoCochain@(c1!.layers[p], c2!.layers[p]);
+    layers[p] := AddInhomoCochain@(layers[p],
+    SS!.addTwister[p+1][q+1](c1!.layers, c2!.layers));
+  od;
+
+  return SptSetSpecSeqCochain(SS, deg, layers);
 end);
 
 InstallGlobalFunction(SptSetSpecSeqCoboundarySL,
@@ -34,7 +51,7 @@ function(c)
   F := FamilyObj(c);
   SS := F!.specSeq;
   brMap := F!.brMap;
-  deg := F!.deg;
+  deg := F!.degree;
 
   while true do
     p := PositionBound(c!.layers);
