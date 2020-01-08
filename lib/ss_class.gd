@@ -1,7 +1,5 @@
-DeclareCategory("IsCategoryOfSptSetSpecSeqCochain",
+DeclareCategory("IsCategoryOfSptSetSpecSeqClass",
 IsAdditiveElementWithInverse);
 
 DeclareGlobalFunction("SptSetSpecSeqClasses");
-DeclareGlobalFunction("SptSetSpecSeqCoboundary");
-DeclareGlobalFunction("SptSetSpecSeqCoboundarySL");
 DeclareGlobalFunction("SptSetPurifySpecSeqClass");
