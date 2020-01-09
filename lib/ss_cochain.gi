@@ -11,6 +11,16 @@ function(ss, deg, layers)
   return Objectify(t, rec(layers := layers));
 end);
 
+InstallGlobalFunction(SptSetSpecSeqCochainZero,
+function(ss, deg)
+  local layers, p;
+  layers := [];
+  for p in [0..deg] do
+    layers[p+1] := ZeroCocycle@;
+  od;
+  return SptSetSpecSeqCochain(ss, deg, layers);
+end);
+
 InstallMethod(SptSetStack,
 "stack two cochains",
 IsIdenticalObj,
@@ -21,10 +31,10 @@ function(c1, c2)
   SS := F!.specSeq;
   deg := F!.degree;
   layers := []
-  for p in [1..deg] do
+  for p in [0..deg] do
     q := deg - p;
-    layers[p] := AddInhomoCochain@(c1!.layers[p], c2!.layers[p]);
-    layers[p] := AddInhomoCochain@(layers[p],
+    layers[p+1] := AddInhomoCochain@(c1!.layers[p+1], c2!.layers[p+1]);
+    layers[p+1] := AddInhomoCochain@(layers[p+1],
     SS!.addTwister[p+1][q+1](c1!.layers, c2!.layers));
   od;
 
@@ -37,65 +47,32 @@ function(SS, deg, p, a)
   q := deg - p;
   dalayers := [];
   da := InhomoCoboundary@(a);
-  for pp in [1..p] do
-    dalayers[pp] := ZeroCocycle@;
+  for pp in [0..p] do
+    dalayers[pp+1] := ZeroCocycle@;
   od;
-  dalayers[p+1] := da;
+  dalayers[(p+1)+1] := da;
   rmax := q + 1;
   for r in [2..rmax] do
-    dalayers[p + r] := SS!.bdry[r+1][p+1][q+1](a, da);
+    dalayers[p + r +1] := SS!.bdry[r+1][p+1][q+1](a, da);
   od;
   return SptSetSpecSeqCochain(SS, deg+1, dalayers);
 end);
 
-InstallGlobalFunction(SptSetPurifySpecSeqClass,
+InstallGlobalFunction(SptSetSpecSeqCoboundary,
 function(c)
-  local F, SS, brMap, deg, p, q, Epqinf, r, Erpq, n, n_,
-  pp, rpp, npp;
+  local F, SS, deg, p, dcp, dc;
   F := FamilyObj(c);
   SS := F!.specSeq;
-  brMap := F!.brMap;
   deg := F!.degree;
 
-  while true do
-    p := PositionBound(c!.layers);
-    if p = fail then
-      break;
-    fi;
-    q := deg - p;
-    cp := c!.layers[p];
-    cpv := SptSetMapFromBarCocycle(brMap, p, SS!.spectrum[q+1], cp);
-    Epqinf := SptSetSpecSeqComponentInf(SS, p, q);
-    if SptSetFpZModuleIsZeroElm(Epqinf, cpv) then
-      # it is a trivial element. try to eliminate it.
-      # find the first page on which cpv is trivial:
-      r := 2;
-      while true do
-        Erpq := SptSetSpecSeqComponent(SS, r, p, q);
-        if SptSetFpZModuleIsZeroElm(Erpq, cpv) then
-          # trivialize
-          n := ??;
-          if r = 2 then
-            n_ := SptSetSolveCocycleEq(brMap, p, SS!.spectrum[q+1], cp, n);
-            Unbind(c!.layers, p);
-          else
-            n_ := SptSetMapToBarCocycle(brMap, p-1, SS!.spectrum[q+1], n);
-            c!.layers[p] := SubstractInhomoCochain@(c!.layers[p], InhomoCoboundary(n_));
-          fi;
+  dc := SptSetSpecSeqCochainZero(SS, deg);
 
-          for pp in [(p+1)..deg] do
-            rpp := pp - p + 1; # ??
-            n_pp_ := SS!.rawDerivative[r][p-1][q+1](n_, ...??);
-            c!.layers[pp] := SubstractInhomoCochain@(c!.layers[pp], n_pp_);
-          od;
-
-          break;
-        fi;
-        r := r + 1;
-      od;
-    else
-      # it is nontrivial at layer p. we are done.
-      break;
+  for p in [0..deg] do
+    if c!.layers[p+1] <> ZeroCocycle@ then
+      dcp := SptSetSpecSeqCoboundarySL(SS, deg, p, c!.layers[p+1]);
+      dc := SptSetStack(dc, dcp);
     fi;
   od;
+
+  return dc;
 end);
