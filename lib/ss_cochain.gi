@@ -43,10 +43,11 @@ end);
 
 InstallGlobalFunction(SptSetSpecSeqCoboundarySL,
 function(SS, deg, p, a)
-  local dalayers, da, rmax, r, pp, q;
+  local gid, dalayers, da, rmax, r, pp, q;
+  gid := Identity(GroupOfResolution(SS!.resolution));
   q := deg - p;
   dalayers := [];
-  da := InhomoCoboundary@(a);
+  da := InhomoCoboundary@(gid, a);
   for pp in [0..p] do
     dalayers[pp+1] := ZeroCocycle@;
   od;

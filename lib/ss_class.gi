@@ -36,6 +36,7 @@ function(cl) # recursive version
   deg := cl!.degree;
   coc := cl!.cochain;
   layers := coc!.layers;
+  brMap := SS!.brMap;
 
   for p in [0..deg] do
     if layers[p+1] = ZeroCocycle@ then
@@ -61,10 +62,11 @@ function(cl) # recursive version
     # cp_ must be a trivial coboundary.
     n := ZLMapInverse(SptSetSpecSeqDerivative(SS, 1, p-1, q), cp);
     n_ := SptSetSolveCocycleEq(brMap, p, SS!.spectrum[q+1], cp_, n);
-    n_ := NegativeCochain@(n_);
+    n_ := NegativeInhomoCochain@(n_);
 
     dnc := SptSetSpecSeqCoboundarySL(SS, deg-1, p-1, n_);
     coc := SptSetStack(coc, dnc);
+    coc!.layers[p+1] := ZeroCocycle@;
     layers := coc!.layers;
   od;
 
