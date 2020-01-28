@@ -72,3 +72,34 @@ function(cl) # recursive version
 
   return SptSetSpecSeqClassFromCochainNC(coc);
 end);
+
+InstallGlobalFunction(SptSetSpecSeqClassFromLevelCocycle,
+function(SS, deg, p, a)
+  local brMap, layers, dlayers, cochain, pp, dlpp2_, dlpp2, lpp1, lpp1_;
+  brMap := SS!.brMap;
+  layers := [];
+  for pp in [0..(p-1)] do
+    layers[pp+1] := ZeroCocycle@;
+  od;
+  layers[p+1] := SptSetMapToBarCocycle(brMap, p, SS!.spectrum[deg-p+1], a);
+  for pp in [p..(deg-1)] do
+    if pp = p  then
+      dlayers := SptSetSpecSeqCoboundarySL(SS, deg, p, layers[p+1]);
+    else
+      dlayers := SptSetStack(dlayers,
+      SptSetSpecSeqCoboundarySL(SS, deg, pp, layers[pp+1]));
+    fi;
+    dlpp2_ := dlayers!.layers[pp+2 +1];
+    dlpp2 := SptSetMapFromBarCocycle(brMap, pp+2,
+    SS!.spectrum[deg-(pp+1)+1], dlpp2_);
+    lpp1 := SptSetZLMapInverse(SptSetSpecSeqDerivative(SS, 1, pp+1, deg-(pp+1)), dlpp2);
+    #lpp1_ := SptSetMapToBarCocycle(bMap, pp+1,
+    #SS!.spectrum[deg-(pp+1)+1], lpp1);
+    lpp1_ := SptSetSolveCocycleEq(ss!.brMap, pp+2,
+    SS!.spectrum[deg-(pp+1)+1], dlpp2_, lpp1);
+    layers[pp+1 +1] := lpp1_;
+  od;
+
+  cochain := SptSetSpecSeqCochain(SS, deg, layers);
+  return SptSetSpecSeqClassFromCochainNC(cochain);
+end);

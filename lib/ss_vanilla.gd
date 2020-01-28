@@ -3,4 +3,6 @@ DeclareOperation("SptSetSpecSeqVanilla",
 
 DeclareOperation("SptSetInstallCoboundary",
   [IsCategoryOfSptSetSpecSeq, IsInt, IsInt, IsInt, IsFunction]);
+DeclareOperation("SptSetInstallAddTwister",
+  [IsCategoryOfSptSetSpecSeq, IsInt, IsInt, IsFunction]);
 DeclareGlobalFunction("SptSetSpecSeqCochainType");

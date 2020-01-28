@@ -31,5 +31,10 @@ end);
 
 InstallGlobalFunction(AddInhomoCochain@,
 function(a, b)
+  if a = ZeroCocycle@ then
+    return b;
+  elif b = ZeroCocycle@ then
+    return a;
+  fi;
   return {glist...} -> (CallFuncList(a, glist) + CallFuncList(b, glist));
 end);

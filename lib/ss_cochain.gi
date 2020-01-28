@@ -30,7 +30,7 @@ function(c1, c2)
   F := FamilyObj(c1);
   SS := F!.specSeq;
   deg := F!.degree;
-  layers := []
+  layers := [];
   for p in [0..deg] do
     q := deg - p;
     layers[p+1] := AddInhomoCochain@(c1!.layers[p+1], c2!.layers[p+1]);
