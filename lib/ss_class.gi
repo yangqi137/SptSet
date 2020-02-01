@@ -29,14 +29,16 @@ end);
 
 InstallGlobalFunction(SptSetPurifySpecSeqClass,
 function(cl) # recursive version
-  local F, SS, deg, layers, brMap, p, q, cp, Epqinf, r, Erpq,
+  local F, SS, deg, layers, brMap, bdry, p, q, cp, Epqinf, r, Erpq,
   n, n_, dnc, coc;
   F := FamilyObj(cl);
-  SS := cl!.specSeq;
-  deg := cl!.degree;
+  SS := F!.specSeq;
+  deg := F!.degree;
   coc := cl!.cochain;
   layers := coc!.layers;
   brMap := SS!.brMap;
+
+  bdry := SptSetSpecSeqCochainZero(SS, deg-1);
 
   for p in [0..deg] do
     if layers[p+1] = ZeroCocycle@ then
@@ -63,6 +65,7 @@ function(cl) # recursive version
     n := ZLMapInverse(SptSetSpecSeqDerivative(SS, 1, p-1, q), cp);
     n_ := SptSetSolveCocycleEq(brMap, p, SS!.spectrum[q+1], cp_, n);
     n_ := NegativeInhomoCochain@(n_);
+    bdry!.layers[p-1] := n_;
 
     dnc := SptSetSpecSeqCoboundarySL(SS, deg-1, p-1, n_);
     coc := SptSetStack(coc, dnc);
@@ -70,7 +73,10 @@ function(cl) # recursive version
     layers := coc!.layers;
   od;
 
-  return SptSetSpecSeqClassFromCochainNC(coc);
+  cl!.cochain := coc;
+  
+  #return SptSetSpecSeqClassFromCochainNC(coc);
+  return bdry;
 end);
 
 InstallGlobalFunction(SptSetSpecSeqClassFromLevelCocycle,

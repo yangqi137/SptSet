@@ -39,6 +39,16 @@ InstallMethod(SptSetInstallCoboundary,
     ss!.bdry[r+1][p+1][q+1] := f;
   end);
 
+InstallMethod(SptSetInstallAddTwister,
+  "Install add twister of a spectral sequence",
+  [IsSptSetSpecSeqVanillaRep, IsInt, IsInt, IsFunction],
+  function(ss, p, q, A)
+      if not IsBound(ss!.addTwister[p+1]) then
+          ss!.addTwister[p+1] := [];
+      fi;
+      ss!.addTwister[p+1][q+1] := f;
+  end);
+
 InstallMethod(SptSetSpecSeqBuildComponent,
   "build E^pq_r",
   [IsSptSetSpecSeqVanillaRep, IsInt, IsInt, IsInt],
