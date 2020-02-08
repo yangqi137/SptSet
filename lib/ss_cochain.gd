@@ -3,6 +3,7 @@ IsObject);
 
 DeclareGlobalFunction("SptSetSpecSeqCochain");
 DeclareGlobalFunction("SptSetSpecSeqCochainZero");
+DeclareOperation("SptSetStack",
+[IsCategoryOfSptSetSpecSeqCochain, IsCategoryOfSptSetSpecSeqCochain]);
 DeclareGlobalFunction("SptSetSpecSeqCoboundary");
 DeclareGlobalFunction("SptSetSpecSeqCoboundarySL");
-DeclareGlobalFunction("SptSetPurifySpecSeqCochain");

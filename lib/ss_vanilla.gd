@@ -6,3 +6,4 @@ DeclareOperation("SptSetInstallCoboundary",
 DeclareOperation("SptSetInstallAddTwister",
   [IsCategoryOfSptSetSpecSeq, IsInt, IsInt, IsFunction]);
 DeclareGlobalFunction("SptSetSpecSeqCochainType");
+DeclareGlobalFunction("SptSetSpecSeqClassType");

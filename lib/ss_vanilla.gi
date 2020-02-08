@@ -1,7 +1,8 @@
 DeclareRepresentation(
   "IsSptSetSpecSeqVanillaRep",
   IsSptSetSpecSeqRep,
-  ["resolution", "brMap", "spectrum", "bdry", "addTwister", "cochainTypes"]
+  ["resolution", "brMap", "spectrum", "bdry", "addTwister",
+   "cochainTypes", "classTypes"]
 );
 
 BindGlobal(
@@ -23,7 +24,8 @@ InstallMethod(SptSetSpecSeqVanilla,
       spectrum := spectrum,
       bdry := [],
       addTwister := [],
-      cochainTypes := []));
+      cochainTypes := [],
+      classTypes := []));
   end);
 
 InstallMethod(SptSetInstallCoboundary,
@@ -46,7 +48,7 @@ InstallMethod(SptSetInstallAddTwister,
       if not IsBound(ss!.addTwister[p+1]) then
           ss!.addTwister[p+1] := [];
       fi;
-      ss!.addTwister[p+1][q+1] := f;
+      ss!.addTwister[p+1][q+1] := A;
   end);
 
 InstallMethod(SptSetSpecSeqBuildComponent,
@@ -153,4 +155,16 @@ function(ss, deg)
     ss!.cochainTypes[deg+1] := NewType(f, IsSptSetSpecSeqCochainRep);
   fi;
   return ss!.cochainTypes[deg+1];
+end);
+
+InstallGlobalFunction(SptSetSpecSeqClassType,
+function(ss, deg)
+  local f;
+  if not IsBound(ss!.classTypes[deg+1]) then
+    f := NewFamily("SptSetSSClassFamily");
+    f!.specSeq := ss;
+    f!.degree := deg;
+    ss!.classTypes[deg+1] := NewType(f, IsSptSetSpecSeqClassRep);
+  fi;
+  return ss!.classTypes[deg+1];
 end);

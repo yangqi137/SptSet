@@ -89,14 +89,14 @@ InstallMethod(FermionEZSPTSpecSeq,
       function(l1, l2)
           return ZeroCocycle@;
       end);
-    
+
     SptSetInstallAddTwister
         (ss, 2, 1,
          function(l1, l2)
              local n11, n12;
              n11 := l1!.layers[1];
              n12 := l2!.layers[1];
-             return CupN@(0, 1, 1, n11, n12);
+             return Cup0@(1, 1, n11, n12);
          end);
     SptSetInstallAddTwister
         (ss, 3, 0,
@@ -106,8 +106,9 @@ InstallMethod(FermionEZSPTSpecSeq,
              n12 := l2!.layers[1];
              n21 := l1!.layers[2];
              n22 := l2!.layers[2];
-             
-             return 
+
+             return ZeroCocycle@;
+          end);
     return ss;
   end);
 

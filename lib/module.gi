@@ -151,3 +151,21 @@ InstallMethod(String,
       return "<ZL-Module>";
     fi;
   end);
+
+InstallGlobalFunction(SptSetFpZModuleIsZeroElm,
+function(M, v)
+  local P, R, n, vp, i;
+  if not SptSetFpZModuleIsCanonical(M) then
+    SptSetFpZModuleCanonicalForm(M);
+  fi;
+  P := M!.projection;
+  R := M!.relations;
+  vp := v * P;
+  n := Length(vp);
+  for i in [1..n] do
+    if (R[i][i] <> 0) and (vp[i] mod R[i][i] <> 0) then
+      return false;
+    fi;
+  od;
+  return true;
+end);
