@@ -46,8 +46,8 @@ function(cl) # recursive version
     fi;
     q := deg - p;
     cp_ := layers[p+1];
-    cp := SptSetMapFromBarCocycle(brMap, p, SS!.spectrum[q+1], cp);
-    Epqinf := SptSetSpecSeqComponentInf(SS, p, q);
+    cp := SptSetMapFromBarCocycle(brMap, p, SS!.spectrum[q+1], cp_);
+    Epqinf := SptSetSpecSeqComponent2Inf(SS, p, q);
     if not SptSetFpZModuleIsZeroElm(Epqinf, cp) then
       return; # The leading element is nontrivial. Purification complete.
     fi;
@@ -56,13 +56,13 @@ function(cl) # recursive version
     SptSetSpecSeqComponent(SS, p+1, p, q), cp),
     "Assertion: p+1 should be the highest page with trivialization");
     for r in [p,(p-1)..2] do
-      Erpq := SptSetSpecSeqComponent(SS, r, p, q);
+      Erpq := SptSetSpecSeqComponent2(SS, r, p, q);
       if not SptSetFpZModuleIsZeroElm(Erpq, cp) then
         Error("purification at r>2 is not implimented.");
       fi;
     od;
     # cp_ must be a trivial coboundary.
-    n := SptSetZLMapInverse(SptSetSpecSeqDerivative(SS, 1, p-1, q), cp);
+    n := SptSetZLMapInverse(SptSetSpecSeqDerivative2(SS, 1, p-1, q), cp);
     n_ := SptSetSolveCocycleEq(brMap, p, SS!.spectrum[q+1], cp_, n);
     n_ := NegativeInhomoCochain@(n_);
     bdry!.layers[p-1] := n_;
@@ -81,8 +81,11 @@ end);
 
 InstallGlobalFunction(SptSetSpecSeqClassFromLevelCocycle,
 function(SS, deg, p, a)
-  local da, cl_da, b;
-  da := SptSetSpecSeqCoboundarySL(SS, deg, p, a);
+  local brMap, q, a_, da, cl_da, b;
+  brMap := SS!.brMap;
+  q := deg - p;
+  a_ := SptSetMapToBarCocycle(brMap, p, SS!.spectrum[q+1], a);
+  da := SptSetSpecSeqCoboundarySL(SS, deg, p, a_);
   da!.layers[p+1] := ZeroCocycle@; # da must be a cocycle.
   cl_da := SptSetSpecSeqClassFromCochainNC(da);
   b := SptSetPurifySpecSeqClass(cl_da);

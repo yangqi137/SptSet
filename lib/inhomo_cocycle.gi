@@ -47,7 +47,7 @@ function(coeff, a)
     for x in dglist do
       xs := x[1];
       xg := x[2];
-      xgl := x{[3..n]};
+      xgl := x{[3..(n+1)]};
       result := result + xs * (xg^gAction)[1][1] * CallFuncList(a, xgl);
     od;
 
