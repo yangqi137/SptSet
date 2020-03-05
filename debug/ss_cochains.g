@@ -1,5 +1,5 @@
 LoadPackage("SptSet");
-G := CyclicGroup(4);
+G := CyclicGroup(2);
 x := GeneratorsOfGroup(G)[1];
 gid := Identity(G);
 R := ResolutionFiniteGroup(G, 7);
@@ -10,6 +10,7 @@ v1 := layers[1]!.generators[1];
 cl1 := SptSetSpecSeqClassFromLevelCocycle(ss, 3, 1, v1);
 SptSetPurifySpecSeqClass(cl1);
 cl2 := cl1 + cl1;
+#layer3 := cl2!.cochain!.layers[3];
 #SptSetPurifySpecSeqClass(cl2 : PurifyDebug := true);
 SptSetPurifySpecSeqClass(cl2);
 Display(LeadingLayer(cl2));
