@@ -29,3 +29,4 @@ DeclareOperation("SptSetSolveCocycleEq",
 );
 
 DeclareGlobalFunction("WordSimplify@");
+DeclareGlobalFunction("SolveU1CocycleEq@");

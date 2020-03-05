@@ -100,3 +100,54 @@ InstallMethod(SptSetSolveCocycleEq,
 function(brMap, deg, coeff, alpha_, beta)
   return SptSetSolveCocycleEq(brMap, deg, coeff!.gAction, alpha_, beta);
 end);
+
+InstallGlobalFunction(SolveU1CocycleEq@,
+function(hapResolution, deg, f, a)
+  local bdry, G, elts, nd, ndm1, cobdryMat, j, dej, wdej, sw, iw, gw,
+        snf, U, V, D, i, a2, b;
+  bdry := BoundaryMap(hapResolution);
+  G := GroupOfResolution(hapResolution);
+  elts := hapResolution!.elts;
+  nd := Dimension(hapResolution)(deg);
+  ndm1 := Dimension(hapResolution)(deg - 1);
+  cobdryMat := NullMat(ndm1, nd);
+  for j in [1..nd] do
+    dej := bdry(deg, j);
+    for wdej in dej do
+      sw := SignInt(wdej[1]);
+      iw := AbsInt(wdej[1]);
+      gw := elts[wdej[2]];
+      cobdryMat[iw][j] := cobdryMat[iw][j] + sw * ((gw^f)[1][1]);
+    od;
+  od;
+
+  snf := SmithNormalFormIntegerMatTransforms(cobdryMat);
+  U := snf.rowtrans;
+  D := snf.normal;
+  V := snf.coltrans;
+  a2 := a * V;
+  b := [];
+  for i in [1..ndm1] do
+    if IsBound(D[i][i]) and D[i][i] <> 0 then
+      b[i] := a2[i] / D[i][i];
+    else
+      Assert(0, a2[i] = 0, "a is not a coboundary");
+      b[i] := 0;
+    fi;
+  od;
+  b := b * U;
+  return b;
+end);
+
+InstallMethod(SptSetSolveCocycleEq,
+"solve an inhomogeneous cocycle equation: spectial U(1) edition",
+[IsCategoryOfSptSetBarResMap, IsInt, IsSptSetCoeffU1Rep,
+  IsFunction, IsRowVector],
+function(brMap, deg, coeff, alpha_, beta)
+  local res, alpha, alpha2, beta2;
+  res := brMap!.hapResolution;
+  alpha := SptSetMapFromBarCocycle(brMap, deg, coeff!.gAction, alpha_);
+  alpha2 := alpha - beta;
+  beta2 := SolveU1CocycleEq@(res, deg, coeff!.gAction, alpha2);
+  return SptSetSolveCocycleEq(brMap, deg, coeff!.gAction, alpha_, beta2);
+end);

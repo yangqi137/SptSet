@@ -34,8 +34,10 @@ function(c1, c2)
   for p in [0..deg] do
     q := deg - p;
     layers[p+1] := AddInhomoCochain@(c1!.layers[p+1], c2!.layers[p+1]);
-    layers[p+1] := AddInhomoCochain@(layers[p+1],
-    SS!.addTwister[p+1][q+1](c1!.layers, c2!.layers));
+    if p > 0 then # the p=0 layer cannot be twisted
+      layers[p+1] := AddInhomoCochain@(layers[p+1],
+      SS!.addTwister[p+1][q+1](c1!.layers, c2!.layers));
+    fi;
   od;
 
   return SptSetSpecSeqCochain(SS, deg, layers);
