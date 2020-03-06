@@ -62,6 +62,11 @@ function(a)
   return {glist...} -> (-CallFuncList(a, glist));
 end);
 
+InstallGlobalFunction(ScaleInhomoCochain@,
+function(k, a)
+  return {glist...} -> (k * CallFuncList(a, glist));
+end);
+
 InstallGlobalFunction(AddInhomoCochain@,
 function(a, b)
   if a = ZeroCocycle@ then
