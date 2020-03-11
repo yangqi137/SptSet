@@ -131,7 +131,10 @@ function(hapResolution, deg, f, a)
     if IsBound(D[i][i]) and D[i][i] <> 0 then
       b[i] := a2[i] / D[i][i];
     else
-      Assert(0, a2[i] = 0, "a is not a coboundary");
+      #Assert(0, a2[i] = 0, "a is not a coboundary");
+      if a2[i] <> 0 then
+        Error("a is not a coboundary");
+      fi;
       b[i] := 0;
     fi;
   od;
