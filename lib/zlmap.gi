@@ -152,7 +152,8 @@ InstallMethod(SptSetKernelModule,
     diag := DiagonalOfMat(TransposedMat(D));
     idsD := Positions(diag, 0);
     if idsD = [] then # We got an empty kernel...
-      return SptSetFpZModuleEPR([[1]], [[1]], [[1]]);
+      #return SptSetFpZModuleEPR([[1]], [[1]], [[1]]);
+      return SptSetZeroModule();
     fi;
     Pj := IdentityMat(r+s){idsD};
     #Pj := NullMat(r3, r + s);

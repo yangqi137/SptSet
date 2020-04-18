@@ -17,3 +17,4 @@ ReadPackage("SptSet", "lib/ss_class.gi");
 ReadPackage("SptSet", "lib/ss_vanilla.gi");
 ReadPackage("SptSet", "lib/ss_fermion_ez.gi");
 ReadPackage("SptSet", "lib/ss_u1sl.gi");
+ReadPackage("SptSet", "lib/ss_ti.gi");

@@ -13,3 +13,4 @@ ReadPackage("SptSet", "lib/ss_cochain.gd");
 ReadPackage("SptSet", "lib/ss_class.gd");
 ReadPackage("SptSet", "lib/ss_fermion_ez.gd");
 ReadPackage("SptSet", "lib/ss_u1sl.gd");
+ReadPackage("SptSet", "lib/ss_ti.gd");
