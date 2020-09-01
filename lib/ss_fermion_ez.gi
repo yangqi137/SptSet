@@ -92,14 +92,19 @@ InstallMethod(FermionEZSPTSpecSeq,
 
     SptSetInstallAddTwister
         (ss, 2, 1,
-         function(l1, l2)
-             local n11, n12;
-             n11 := l1[1+1];
-             n12 := l2[1+1];
-             if n11 = ZeroCocycle@ or n12 = ZeroCocycle@ then
-               return ZeroCocycle@;
-             fi;
-             return Cup0@(1, 1, spectrum[1+1], n11, n12);
+          function(l1, l2)
+            local n11, n12, coeff, c1, c2;
+            n11 := l1[1+1];
+            n12 := l2[1+1];
+            coeff := spectrum[1+1];
+            if n11 = ZeroCocycle@ or n12 = ZeroCocycle@ then
+              return ZeroCocycle@;
+            fi;
+            c1 := Cup0@(1, 1, coeff, n11, n12);
+            c2 := Cup0@(1, 1, coeff, s,
+              Cup1@(1, 1, coeff, n11, n12));
+            #c2 := ZeroCocycle@;
+            return AddInhomoCochain@(c1, c2);
          end);
     SptSetInstallAddTwister
         (ss, 3, 0,

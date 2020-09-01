@@ -155,6 +155,9 @@ InstallMethod(String,
 InstallGlobalFunction(SptSetFpZModuleIsZeroElm,
 function(M, v)
   local P, R, n, vp, i;
+  if SptSetFpZModuleIsZero(M) then
+    return true;
+  fi;
   if not SptSetFpZModuleIsCanonical(M) then
     SptSetFpZModuleCanonicalForm(M);
   fi;
