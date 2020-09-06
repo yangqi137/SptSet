@@ -1,7 +1,7 @@
 DeclareRepresentation(
   "IsSptSetInhomoCochainRep",
   IsCategoryOfSptSetInhomoCochain and IsComponentObjectRep,
-  ["rank", "group", "coeff", "f"]
+  ["rank", "coeff", "f"]
 );
 
 BindGlobal(
@@ -19,17 +19,19 @@ function (p, coeff, f)
   local crec;
   crec := rec(rank := p, coeff := coeff, f := f);
   return Objectify(TheTypeSptSetInhomoCochains, crec);
-);
+end);
 
 InstallMethod(SptSetCup,
   "Computes the cup product of two inhomogeneous cochains",
   [IsSptSetInhomoCochainRep, IsSptSetInhomoCochainRep],
   function(a, b)
-    local p, q, coeff, gAction, f, gid;
+    local p, q, ca, cb, cab, gAction, f, gid;
     p := a!.rank;
     q := b!.rank;
-    coeff := a!.coeff;
-    gAction := coeff!.gAction;
+    ca := a!.coeff;
+    cb := b!.coeff;
+    cab := SptSetCoefficientTensorProduct(ca, cb);
+    gAction := cb.gAction;
     gid := Identity(PreImage(gAction));
     f := function(glist...)
       local gp, gq, gpp;

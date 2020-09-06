@@ -36,3 +36,16 @@ InstallGlobalFunction(SptSetCoefficientU1,
     return Objectify(TheTypeSptSetCoeffU1,
       rec(gAction := gAction));
   end);
+
+InstallMethod(SptSetCoefficientTensorProduct,
+"Computes the tensor product of two Zn coefficients",
+[IsSptSetCoeffZnRep, IsSptSetCoeffZnRep],
+function(c1, c2)
+  local torsion, G, gl, sl, gact;
+  torsion := Gcd(c1!.torsion, c2!.torsion);
+  G := PreImage(c1!.gAction);
+  gl := GeneratorsOfGroup(G);
+  sl := List(gl, x -> ((x ^ c1!.gAction) * (x ^ c2!.gAction)));
+  gact := GroupHomomorphismByImagesNC(G, GL(1, Integers), gl, sl);
+  return SptSetCoefficientZn(torsion, gact);
+end);
