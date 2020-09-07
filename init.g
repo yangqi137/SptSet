@@ -10,5 +10,7 @@ ReadPackage("SptSet", "lib/bar_resolution_map.gd");
 ReadPackage("SptSet", "lib/fermion_ez.gd");
 ReadPackage("SptSet", "lib/bockstein.gd");
 ReadPackage("SptSet", "lib/ss_fermion_ez.gd");
+ReadPackage("SptSet", "lib/ss_fermion.gd");
 ReadPackage("SptSet", "lib/ss_u1sl.gd");
 ReadPackage("SptSet", "lib/ss_ti.gd");
+ReadPackage("SptSet", "lib/spin12.gd");

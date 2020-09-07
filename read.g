@@ -14,5 +14,7 @@ ReadPackage("SptSet", "lib/bar_resolution_map_choice.gi");
 ReadPackage("SptSet", "lib/fermion_ez.gi");
 ReadPackage("SptSet", "lib/bockstein.gi");
 ReadPackage("SptSet", "lib/ss_fermion_ez.gi");
+ReadPackage("SptSet", "lib/ss_fermion.gi");
 ReadPackage("SptSet", "lib/ss_u1sl.gi");
 ReadPackage("SptSet", "lib/ss_ti.gi");
+ReadPackage("SptSet", "lib/spin12.gi");
