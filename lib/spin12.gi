@@ -13,6 +13,7 @@ InstallGlobalFunction(PtGrp2DProjRep@, function(m)
   local s, t;
   s := SignFloat(Float(DeterminantMat(m)));
   t := Atan2(Float(m[1][2]), Float(m[1][1]));
+  if t<0. then t := t + Atan(1.) * 8; fi;
   return [s, t/2];
 end);
 
@@ -42,7 +43,8 @@ InstallGlobalFunction(Spin12Factor2D@, function(om)
     diff := Rat((pg[2] - pg12[2]) / pi);
     #Display(diff);
     Assert(0, IsInt(diff), "ASSERTION FAIL: projective reps do not agree2");
-    return 1/2*(diff mod 2);
+    #return 1/2*(diff mod 2);
+    return diff mod 2;
   end;
 
   return w;
