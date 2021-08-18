@@ -97,14 +97,23 @@ InstallMethod(FermionEZSPTSpecSeq,
 
     SptSetInstallCoboundary(ss, 2, 3, 1, function(n3, dn3)
       return function(g1, g2, g3, g4, g5)
-        local n3c1n3, o5;
+        local o5, n3c1n3, n3c2dn3;
         # o5 = n3 u1 n3.
+        # we are again ignoring the G-actions because Z2 can only have a trivial G-action.
         n3c1n3 := n3(g1*g2*g3, g4, g5) * n3(g1, g2, g3);
         n3c1n3 := n3c1n3 + n3(g1, g2*g3*g4, g5) * n3(g2, g3, g4);
         n3c1n3 := n3c1n3 + n3(g1, g2, g3*g4*g5) * n3(g3, g4, g5);
-        o5 := n3c1n3;
+        o5 := 1/2 * n3c1n3;
         if dn3 <> ZeroCocycle@ then
-          o5 := o5 + 0;
+          n3c2dn3 := ??;
+          o5 := o5 + 1/2 * n3c2dn3;
+          # 1/2dn3(02345)dn3(01235)
+          o5 := o5 + 1/2 * dn3(g1*g2, g3, g4, g5) * dn3(g1, g2, g3, g4*g5);
+          # 1/4dn3(01245)dn3(01234)
+          o5 := o5 + 1/4 * (dn3(g1, g2, g3*g4, g5) * dn3(g1, g2, g3, g4) mod 2);
+          # -1/4[dn3(12345)+dn3(02345)+dn3ð01345)]dn3(01235)
+          o5 := o5 - 1/4 * ((dn3(g2, g3, g4, g5) + dn3(g1*g2, g3, g4, g5)
+            + dn3(g1, g2*g3, g4, g5)) * dn3(g1, g2, g3, g4*g5) mod 2);
         fi;
         return o5;
       end;
