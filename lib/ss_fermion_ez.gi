@@ -97,10 +97,14 @@ InstallMethod(FermionEZSPTSpecSeq,
 
     SptSetInstallCoboundary(ss, 2, 3, 1, function(n3, dn3)
       return function(g1, g2, g3, g4, g5)
-        local o5;
-        o5 := ??;
+        local n3c1n3, o5;
+        # o5 = n3 u1 n3.
+        n3c1n3 := n3(g1*g2*g3, g4, g5) * n3(g1, g2, g3);
+        n3c1n3 := n3c1n3 + n3(g1, g2*g3*g4, g5) * n3(g2, g3, g4);
+        n3c1n3 := n3c1n3 + n3(g1, g2, g3*g4*g5) * n3(g3, g4, g5);
+        o5 := n3c1n3;
         if dn3 <> ZeroCocycle@ then
-          o5 += ??;
+          o5 := o5 + 0;
         fi;
         return o5;
       end;
