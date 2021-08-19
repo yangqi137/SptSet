@@ -105,7 +105,8 @@ InstallMethod(FermionEZSPTSpecSeq,
         n3c1n3 := n3c1n3 + n3(g1, g2, g3*g4*g5) * n3(g3, g4, g5);
         o5 := 1/2 * n3c1n3;
         if dn3 <> ZeroCocycle@ then
-          n3c2dn3 := ??;
+          n3c2dn3 := n3(g1, g2, g3) * dn3(g1, g2*g3, g4, g5) - n3(g1*g2, g3, g4) * dn3(g1, g2, g3*g4, g5) + n3(g1*g2*g3, g4, g5) * dn3(g1, g2, g3, g4*g5)
+            + n3(g1, g2, g3) * dn3(g2, g3, g4, g5) + n3(g1, g2*g3, g4) * dn3(g2, g3, g4, g5);
           o5 := o5 + 1/2 * n3c2dn3;
           # 1/2dn3(02345)dn3(01235)
           o5 := o5 + 1/2 * dn3(g1*g2, g3, g4, g5) * dn3(g1, g2, g3, g4*g5);
