@@ -123,6 +123,42 @@ InstallMethod(FermionEZSPTSpecSeq,
     return ss;
   end);
 
+InstallGlobalFunction(FermionEZSPTLayersVerbose,
+function(ss, dim)
+  local layerNames, p, q, rmax, r, Erpq;
+  layerNames := ["Bosonic:", "Complex fermion:", "Majorana:", "p+ip:"];
+  for p in [1..(dim+1)] do
+    q := dim + 1 - p;
+    if q >= 0 and q <= 2 then
+      Display(layerNames[q+1]);
+      rmax := Maximum(q+2, p+1);
+      rmax := Minimum(rmax, 4);
+      for r in [2..rmax] do
+        Erpq := SptSetSpecSeqComponent(ss, r, p, q);
+        SptSetFpZModuleCanonicalForm(Erpq);
+        Display(Erpq);
+      od;
+    fi;
+  od;
+end);
+
+InstallGlobalFunction(FermionEZSPTLayers,
+function(ss, dim)
+  local layers, p, q, rmax, E;
+  layers := [];
+  for p in [1..(dim+1)] do
+    q := dim + 1 - p;
+    if q >= 0 and q <= 3 then
+      rmax := Maximum(q+2, p+1);
+      E := SptSetSpecSeqComponent(ss, rmax, p, q);
+      SptSetFpZModuleCanonicalForm(E);
+      Add(layers, E);
+    fi;
+  od;
+  return layers;
+end);
+
+
 InstallGlobalFunction(FermionSPTLayersVerbose,
 function(ss, dim)
   local layerNames, p, q, rmax, r, Erpq;
