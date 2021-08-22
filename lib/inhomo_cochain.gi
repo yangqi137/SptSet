@@ -39,6 +39,17 @@ function(p, coeff)
   return Objectify(TheTypeSptSetZeroInhomoCochains, crec);
 end);
 
+InstallMethod(\+, "add two cochains", IsIdenticalObj,
+[IsSptSetSpecSeqClassRep, IsSptSetSpecSeqClassRep],
+function(c1, c2)
+  local crec, f;
+  f := function(glist...)
+    return c1!.f(glist) + c2!.f(glist);
+  end;
+  crec := rec(rank := c1!.rank, coeff := c1!.coeff, f := f);
+  return Objectify(TheTypeSptSetInhomoCochains, crec);
+end);
+
 InstallMethod(SptSetCup,
   "Computes the cup product of two inhomogeneous cochains",
   [IsSptSetInhomoCochainRep, IsSptSetInhomoCochainRep],

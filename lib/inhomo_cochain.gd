@@ -1,4 +1,4 @@
-DeclareCategory("IsCategoryOfSptSetInhomoCochain", IsObject);
+DeclareCategory("IsCategoryOfSptSetInhomoCochain", IsAdditiveElementWithInverse);
 
 DeclareGlobalFunction("SptSetInhomoCochain");
 DeclareGlobalFunction("SptSetZeroInhomoCochain");
