@@ -40,14 +40,26 @@ function(p, coeff)
 end);
 
 InstallMethod(\+, "add two cochains", IsIdenticalObj,
-[IsSptSetSpecSeqClassRep, IsSptSetSpecSeqClassRep],
+[IsSptSetInhomoCochainRep, IsSptSetInhomoCochainRep],
 function(c1, c2)
-  local crec, f;
-  f := function(glist...)
-    return c1!.f(glist) + c2!.f(glist);
+  local crec, f12;
+  f12 := function(glist...)
+    return CallFuncList(c1!.f, glist) + CallFuncList(c2!.f, glist);
   end;
-  crec := rec(rank := c1!.rank, coeff := c1!.coeff, f := f);
+  crec := rec(rank := c1!.rank, coeff := c1!.coeff, f := f12);
   return Objectify(TheTypeSptSetInhomoCochains, crec);
+end);
+
+InstallMethod(\+, "add zero to another cochain", IsIdenticalObj,
+[IsSptSetZeroInhomoCochainRep, IsCategoryOfSptSetInhomoCochain],
+function(c1, c2)
+  return c2;
+end);
+
+InstallMethod(\+, "add a cochain to zero", IsIdenticalObj,
+[IsSptSetInhomoCochainRep, IsSptSetZeroInhomoCochainRep],
+function(c1, c2)
+  return c1;
 end);
 
 InstallMethod(SptSetCup,
