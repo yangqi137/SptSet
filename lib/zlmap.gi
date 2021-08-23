@@ -212,6 +212,11 @@ InstallMethod(SptSetHomologyModule,
   function(phi, psi)
     local N, psi2, A;
     N := SptSetCokernelModule(phi);
+    if SptSetFpZModuleIsZero(N) then
+      # Quick fix: if N is empty, the answer is clearly an empty module.
+      # however, the following code may fail because A would be an empty matrix which does not have meaningful dimensions.
+      return SptSetZeroModule();
+    fi;
     #A := psi!.domain!.generators * psi!.B * N!.projection;
     A := N!.generators * psi!.B * psi!.codomain!.projection;
     psi2 := SptSetZLMapByImages(N, psi!.codomain, A);
