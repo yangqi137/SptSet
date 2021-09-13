@@ -17,7 +17,7 @@ BindGlobal(
 
 BindGlobal(
   "TheTypeSptSetInhomoCochains",
-  NewType(TheFamilyOfSptSetInhomoCochains, IsSptSetInhomoCochains)
+  NewType(TheFamilyOfSptSetInhomoCochains, IsSptSetInhomoCochainRep)
 );
 
 BindGlobal(
@@ -84,12 +84,12 @@ InstallMethod(SptSetCup,
       return CallFuncList(fa, gp) *
                ((gpp^gAction)[1][1] * CallFuncList(fb, gq));
     end;
-    return SptSetInhomoCochain(p+q, coeff, f);
+    return SptSetInhomoCochain(p+q, cab, f);
   end);
 
 InstallMethod(SptSetCup,
 "Computes the cup product when the first input is zero",
-[IsSptSetZeroInhomoCochainRep, IsSptSetInhomoCochains],
+[IsSptSetZeroInhomoCochainRep, IsSptSetInhomoCochainRep],
 function(a, b)
   local p, q, ca, cb, cab;
   p := a!.rank;
@@ -102,7 +102,7 @@ end);
 
 InstallMethod(SptSetCup,
 "Computes the cup product when the second input is zero",
-[IsSptSetInhomoCochains, IsSptSetZeroInhomoCochainRep],
+[IsSptSetInhomoCochainRep, IsSptSetZeroInhomoCochainRep],
 function(a, b)
   local p, q, ca, cb, cab;
   p := a!.rank;

@@ -3,6 +3,7 @@ ReadPackage("SptSet", "lib/zlmap.gd");
 ReadPackage("SptSet", "lib/coefficient.gd");
 ReadPackage("SptSet", "lib/cochain.gd");
 ReadPackage("SptSet", "lib/inhomo_cocycle.gd");
+ReadPackage("SptSet", "lib/inhomo_cochain.gd");
 ReadPackage("SptSet", "lib/group_cohomology.gd");
 ReadPackage("SptSet", "lib/spectral_sequence.gd");
 ReadPackage("SptSet", "lib/ss_vanilla.gd");
