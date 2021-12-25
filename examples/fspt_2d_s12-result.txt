@@ -1,0 +1,192 @@
+2
+Majorana:
+<ZL-Module with torsions [ 2, 2, 2 ]>
+<ZL-Module []>
+<ZL-Module []>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2, 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 2, 2, 2, 2 ]>
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+3
+Majorana:
+<ZL-Module with torsions [ 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2, 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+4
+Majorana:
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+Complex fermion:
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+Bosonic:
+<ZL-Module []>
+<ZL-Module []>
+<ZL-Module []>
+5
+Majorana:
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+6
+Majorana:
+<ZL-Module with torsions [ 2, 2, 2, 2 ]>
+<ZL-Module []>
+<ZL-Module []>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2, 2, 2, 2, 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2, 2, 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 2, 2, 2, 2, 2, 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2, 2, 2 ]>
+7
+Majorana:
+<ZL-Module with torsions [ 2, 2, 2 ]>
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2, 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 2, 2, 2 ]>
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+8
+Majorana:
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+9
+Majorana:
+<ZL-Module with torsions [ 2, 2, 2 ]>
+<ZL-Module []>
+<ZL-Module []>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2, 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2, 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 2, 2, 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+10
+Majorana:
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module []>
+<ZL-Module []>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 2, 4, 4 ]>
+<ZL-Module with torsions [ 2, 4 ]>
+<ZL-Module with torsions [ 2, 4 ]>
+11
+Majorana:
+<ZL-Module with torsions [ 2, 2, 2 ]>
+<ZL-Module []>
+<ZL-Module []>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2, 2, 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2, 2, 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 2, 2, 2, 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2, 2 ]>
+12
+Majorana:
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module []>
+<ZL-Module []>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 2, 2, 4 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+13
+Majorana:
+<ZL-Module []>
+<ZL-Module []>
+<ZL-Module []>
+Complex fermion:
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 3, 3, 3 ]>
+<ZL-Module with torsions [ 3, 3, 3 ]>
+<ZL-Module with torsions [ 3, 3, 3 ]>
+14
+Majorana:
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+15
+Majorana:
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module with torsions [ 2 ]>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 6 ]>
+<ZL-Module with torsions [ 6 ]>
+<ZL-Module with torsions [ 6 ]>
+16
+Majorana:
+<ZL-Module with torsions [ 2 ]>
+<ZL-Module []>
+<ZL-Module []>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 6, 6 ]>
+<ZL-Module with torsions [ 3, 6 ]>
+<ZL-Module with torsions [ 3, 6 ]>
+17
+Majorana:
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module []>
+<ZL-Module []>
+Complex fermion:
+<ZL-Module with torsions [ 2, 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+Bosonic:
+<ZL-Module with torsions [ 2, 2, 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
+<ZL-Module with torsions [ 2, 2 ]>
