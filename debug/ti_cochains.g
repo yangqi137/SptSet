@@ -2,7 +2,8 @@ LoadPackage("SptSet");
 
 omega0 := {g1, g2} -> 0;
 
-it := 7;
+#it := 7;
+it := 2;
 SG := SpaceGroupBBNWZ(2, it);
 fSG := IsomorphismPcpGroup(SG);
 SG1 := Image(fSG);
