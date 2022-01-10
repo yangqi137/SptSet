@@ -172,3 +172,25 @@ function(M, v)
   od;
   return true;
 end);
+
+InstallGlobalFunction(SptSetFpZModuleCanonicalElm,
+function(M, v)
+    local P, R, N, vp, i;
+  if SptSetFpZModuleIsZero(M) then
+    return [];
+  fi;
+  if not SptSetFpZModuleIsCanonical(M) then
+    SptSetFpZModuleCanonicalForm(M);
+  fi;
+  P := M!.projection;
+  R := M!.relations;
+  vp := v * P;
+  n := Length(vp);
+  for i in [1..n] do
+    if (R[i][i] <> 0) then
+        vp[i] := vp[i] mod R[i][i];
+    fi;
+  od;
+  return vp;
+end);
+    

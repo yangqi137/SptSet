@@ -14,3 +14,4 @@ DeclareGlobalFunction("SptSetZeroModule");
 DeclareGlobalFunction("SptSetFpZModuleIsZero");
 DeclareGlobalFunction("SptSetFpZModuleIsCanonical");
 DeclareGlobalFunction("SptSetFpZModuleIsZeroElm");
+DeclareGlobalFunction("SptSetFpZModuleCanonicalElm");
