@@ -104,10 +104,31 @@ end);
 InstallGlobalFunction(SolveU1CocycleEq@,
 function(hapResolution, deg, f, a)
   local bdry, G, elts, nd, ndm1, cobdryMat, j, dej, wdej, sw, iw, gw,
-        snf, U, V, D, i, a2, b;
+        snf, U, V, D, i, a2, b, cobdryMat1;
   bdry := BoundaryMap(hapResolution);
   G := GroupOfResolution(hapResolution);
   elts := hapResolution!.elts;
+  nd := Dimension(hapResolution)(deg+1);
+  ndm1 := Dimension(hapResolution)(deg);
+  cobdryMat1 := NullMat(ndm1, nd);
+  for j in [1..nd] do
+    dej := bdry(deg+1, j);
+    for wdej in dej do
+      sw := SignInt(wdej[1]);
+      iw := AbsInt(wdej[1]);
+      gw := elts[wdej[2]];
+      cobdryMat1[iw][j] := cobdryMat1[iw][j] + sw * ((gw^f)[1][1]);
+    od;
+  od;
+  snf := SmithNormalFormIntegerMatTransforms(cobdryMat1);
+  U := snf.rowtrans;
+  D := snf.normal;
+  V := snf.coltrans;
+  Display(D);
+  Display(a * cobdryMat1);
+  
+  
+
   nd := Dimension(hapResolution)(deg);
   ndm1 := Dimension(hapResolution)(deg - 1);
   cobdryMat := NullMat(ndm1, nd);
@@ -120,6 +141,8 @@ function(hapResolution, deg, f, a)
       cobdryMat[iw][j] := cobdryMat[iw][j] + sw * ((gw^f)[1][1]);
     od;
   od;
+  Display(cobdryMat1 * cobdryMat);
+  
 
   snf := SmithNormalFormIntegerMatTransforms(cobdryMat);
   U := snf.rowtrans;
@@ -127,11 +150,18 @@ function(hapResolution, deg, f, a)
   V := snf.coltrans;
   a2 := a * V;
   b := [];
+  Display(a);
+  Display(a2);
+  
+  Display(D);
+
   for i in [1..ndm1] do
     if IsBound(D[i][i]) and D[i][i] <> 0 then
       b[i] := a2[i] / D[i][i];
     else
-      Assert(0, a2[i] = 0, "a is not a coboundary");
+        Assert(0, a2[i] = 0, "a is not a coboundary");
+        
+        
       #if a2[i] <> 0 then
         #Error("a is not a coboundary");
       #fi;
@@ -150,7 +180,9 @@ function(brMap, deg, coeff, alpha_, beta)
   local res, alpha, alpha2, beta2;
   res := brMap!.hapResolution;
   alpha := SptSetMapFromBarCocycle(brMap, deg, coeff!.gAction, alpha_);
+  Display([alpha, beta]);
   alpha2 := alpha - beta;
+  Display(alpha2);
   beta2 := SolveU1CocycleEq@(res, deg, coeff!.gAction, alpha2);
   return SptSetSolveCocycleEq(brMap, deg, coeff!.gAction, alpha_, beta2);
 end);
