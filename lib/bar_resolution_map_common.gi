@@ -126,8 +126,8 @@ function(hapResolution, deg, f, a)
   V := snf.coltrans;
   Display(D);
   Display(a * cobdryMat1);
-  
-  
+
+
 
   nd := Dimension(hapResolution)(deg);
   ndm1 := Dimension(hapResolution)(deg - 1);
@@ -141,8 +141,8 @@ function(hapResolution, deg, f, a)
       cobdryMat[iw][j] := cobdryMat[iw][j] + sw * ((gw^f)[1][1]);
     od;
   od;
-  Display(cobdryMat1 * cobdryMat);
-  
+  Display(cobdryMat * cobdryMat1);
+
 
   snf := SmithNormalFormIntegerMatTransforms(cobdryMat);
   U := snf.rowtrans;
@@ -152,7 +152,7 @@ function(hapResolution, deg, f, a)
   b := [];
   Display(a);
   Display(a2);
-  
+
   Display(D);
 
   for i in [1..ndm1] do
@@ -160,8 +160,8 @@ function(hapResolution, deg, f, a)
       b[i] := a2[i] / D[i][i];
     else
         Assert(0, a2[i] = 0, "a is not a coboundary");
-        
-        
+
+
       #if a2[i] <> 0 then
         #Error("a is not a coboundary");
       #fi;

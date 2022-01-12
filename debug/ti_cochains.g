@@ -30,7 +30,7 @@ SptSetFpZModuleCanonicalForm(E30inf);
 for i in [1..n] do
     if layers[2]!.relations[i, i] = 2 then
         Display(i);
-        
+
         v1 := layers[2]!.generators[i];
         cl1 := SptSetSpecSeqClassFromLevelCocycle(SS, 3, 2, v1);
         SptSetPurifySpecSeqClass(cl1);
