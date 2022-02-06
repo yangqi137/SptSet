@@ -62,7 +62,7 @@ function(cl) # recursive version
     #"Assertion: p+1 should be the highest page with trivialization");
     for r in [p,(p-1)..2] do
         Display(["p,q,r=", p,q,r]);
-        
+
       Erpq := SptSetSpecSeqComponent2(SS, r, p, q);
       if not SptSetFpZModuleIsZeroElm(Erpq, cp) then
         Error("purification at r>2 is not implimented.");
@@ -80,12 +80,12 @@ function(cl) # recursive version
     layers := coc!.layers;
     #if ValueOption("PurifyDebug") = true then
     #  Display(coc!.layers[3] = ZeroCocycle@);
-    #fi; 
+    #fi;
   od;
 
 #  if ValueOption("PurifyDebug") = true then
 #    Display(coc!.layers[3] = ZeroCocycle@);
-#  fi; 
+#  fi;
   cl!.cochain := coc;
   SetLeadingLayer(cl, p+1);
   #Display(["Purification completed at layer", p+1]);
