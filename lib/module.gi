@@ -175,7 +175,7 @@ end);
 
 InstallGlobalFunction(SptSetFpZModuleCanonicalElm,
 function(M, v)
-    local P, R, N, vp, i;
+    local P, R, N, vp, i, n;
   if SptSetFpZModuleIsZero(M) then
     return [];
   fi;
