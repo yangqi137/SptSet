@@ -2,7 +2,7 @@ LoadPackage("SptSet");
 
 #omega0 := {g1, g2} -> 0;
 
-for it in [2..17] do
+for it in [14] do
   Display(it);
   SG := SpaceGroupBBNWZ(2, it);
   fSG := IsomorphismPcpGroup(SG);
@@ -43,6 +43,7 @@ for it in [2..17] do
           for j in [3..tor] do
               cl2 := cl2 + cl1;
           od;
+          Display("We are here!");
           SptSetPurifySpecSeqClass(cl2);
           a_ := cl2!.cochain!.layers[4];
           a := SptSetMapFromBarCocycle(SS!.brMap, 3, SS!.spectrum[0+1], a_);
