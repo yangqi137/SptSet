@@ -48,6 +48,7 @@ function(cl) # recursive version
     q := deg - p;
     cp_ := layers[p+1];
     cp := SptSetMapFromBarCocycle(brMap, p, SS!.spectrum[q+1], cp_);
+    Assert(-1, ForAll(cp, IsInt), "ASSERTION FAILURE: top layer is not a cocycle");
     Epqinf := SptSetSpecSeqComponent2Inf(SS, p, q);
     if not SptSetFpZModuleIsZeroElm(Epqinf, cp) then
       SetLeadingLayer(cl, p);
