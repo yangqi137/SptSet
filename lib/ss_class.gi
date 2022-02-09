@@ -70,10 +70,11 @@ function(cl) # recursive version
     # cp_ must be a trivial coboundary.
     n := SptSetZLMapInverse(SptSetSpecSeqDerivative2(SS, 1, p-1, q), cp);
     n_ := SptSetSolveCocycleEq(brMap, p, SS!.spectrum[q+1], cp_, n);
-    n_ := NegativeInhomoCochain@(n_);
-    bdry!.layers[p-1 +1] := n_;
+    # n_ := NegativeInhomoCochain@(n_);
+    # bdry!.layers[p-1 +1] := n_;
+    bdry!.layers[p-1 +1] := NegativeInhomoCochain@(n_);
 
-    dnc := SptSetSpecSeqCoboundarySL(SS, deg-1, p-1, n_);
+    dnc := SptSetSpecSeqCoboundarySL(SS, deg-1, p-1, NegativeInhomoCochain@(n_));
     coc := SptSetStack(coc, dnc);
     coc!.layers[p+1] := ZeroCocycle@;
     layers := coc!.layers;

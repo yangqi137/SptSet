@@ -56,7 +56,7 @@ function(SS, deg, p, a)
   dalayers[(p+1)+1] := da;
   rmax := q + 1;
   for r in [2..rmax] do
-    dalayers[p + r +1] := SS!.bdry[r+1][p+1][q+1](a, da);
+    dalayers[p + r +1] := NegativeInhomoCochain@(SS!.bdry[r+1][p+1][q+1](a, da));
   od;
   return SptSetSpecSeqCochain(SS, deg+1, dalayers);
 end);
