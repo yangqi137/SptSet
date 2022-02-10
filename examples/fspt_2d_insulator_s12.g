@@ -27,7 +27,7 @@ for it in [2..17] do
 
   n := SptSetNumberOfGenerators(layers[2]);
 
-  E30inf := SptSetSpecSeqComponent2Inf(SS, 3, 0);
+  E30inf := SptSetSpecSeqComponentInf(SS, 3, 0);
   SptSetFpZModuleCanonicalForm(E30inf);
 
   for i in [1..n] do
