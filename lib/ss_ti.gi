@@ -19,7 +19,12 @@ function(R, auMap, u1cMap, omega_)
 
   SptSetInstallCoboundary(ss, 2, 1, 1,
   function(n1, dn1)
-    return {g1, g2, g3} -> omega_(g1, g2) * n1(g3);
+    if dn1 = ZeroCocycle@ then
+      return {g1, g2, g3} -> omega_(g1, g2) * n1(g3);
+    else
+      return {g1, g2, g3} -> omega_(g1, g2) * n1(g3)
+        + 1/2 * dn1(g1, g2) * n1(g3);
+    fi;
   end);
 
   SptSetInstallCoboundary(ss, 2, 2, 1,
