@@ -53,11 +53,17 @@ end);
 InstallGlobalFunction(Spin@, function(R)
   local Jx, Jy, Jz, c, s, lambdas, pos, es, axis, n, J, nn, Rp, Rm;
   local c2, s2, sx, sy, sz, sR;
+
   Jx := [[0, 0, 0], [0, 0, 1], [0, -1, 0]];
   Jy := [[0, 0, -1], [0, 0, 0], [1, 0, 0]];
   Jz := [[0, 1, 0], [-1, 0, 0], [0, 0, 0]];
-  c := (TraceMat(R) - 1) / 2;
-  s := Sqrt(1 - c*c);
+
+  sx := [[0, 1], [1, 0]];
+  sy := [[0, -E(4)], [E(4), 0]];
+  sz := [[1, 0], [0, -1]];
+
+  c := (TraceMat(R) - 1) / 2; # c = cos(theta)
+  s := Sqrt(1 - c*c); # s = sin(theta)
   if c = 1 then
     return IdentityMat(2);
   else
@@ -78,11 +84,8 @@ InstallGlobalFunction(Spin@, function(R)
     else
       Assert(R = Rp, "ASSERTION FAILURE: R is neither Rp nor Rm");
     fi;
-    c2 := ??;
-    s2 := ??;
-    sx := [[0, 1], [1, 0]];
-    sy := [[0, -E(4)], [E(4), 0]];
-    sz := [[1, 0], [0, -1]];
+    c2 := Sqrt((1+c)/2); # c2 = cos(theta/2)
+    s2 := Sqrt((1-c)/2); # s2 = sin(theta/2)
     sR := c2 * IdentityMat(2) + s2 * (n[1]*sx + n[2]*sy + n[3]*sz);
     return sR;
   fi;
