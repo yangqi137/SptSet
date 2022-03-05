@@ -39,10 +39,10 @@ InstallGlobalFunction(Spin12Factor2D@, function(om)
     pg12 := PtGrp2DProjRep@(om2 * g12 * om);
     pg := AddPtGrp2DProjRep@(pg1, pg2);
     #Error(1);
-    Assert(0, pg12[1] = pg[1], "ASSERTION FAIL: projective reps do not agree1");
+    Assert(1, pg12[1] = pg[1], "ASSERTION FAIL: projective reps do not agree1");
     diff := Rat((pg[2] - pg12[2]) / pi);
     #Display(diff);
-    Assert(0, IsInt(diff), "ASSERTION FAIL: projective reps do not agree2");
+    Assert(1, IsInt(diff), "ASSERTION FAIL: projective reps do not agree2");
     #return 1/2*(diff mod 2);
     return diff mod 2;
   end;
@@ -51,8 +51,8 @@ InstallGlobalFunction(Spin12Factor2D@, function(om)
 end);
 
 InstallGlobalFunction(Spin@, function(R)
-  local Jx, Jy, Jz, c, s, lambdas, pos, es, axis, n, J, nn, Rp, Rm;
-  local c2, s2, sx, sy, sz, sR;
+  local Jx, Jy, Jz, c, s, lambdas, pos, es, axis, n, J, nn, Rp, Rm,
+  c2, s2, sx, sy, sz, sR;
 
   Jx := [[0, 0, 0], [0, 0, 1], [0, -1, 0]];
   Jy := [[0, 0, -1], [0, 0, 0], [1, 0, 0]];
@@ -61,6 +61,10 @@ InstallGlobalFunction(Spin@, function(R)
   sx := [[0, 1], [1, 0]];
   sy := [[0, -E(4)], [E(4), 0]];
   sz := [[1, 0], [0, -1]];
+
+  if DeterminantMat(R) < 0 then
+    R := -R;
+  fi;
 
   c := (TraceMat(R) - 1) / 2; # c = cos(theta)
   s := Sqrt(1 - c*c); # s = sin(theta)
@@ -82,28 +86,63 @@ InstallGlobalFunction(Spin@, function(R)
     if R = Rm then
       s := -s;
     else
-      Assert(R = Rp, "ASSERTION FAILURE: R is neither Rp nor Rm");
+      Assert(1, R = Rp, "ASSERTION FAILURE: R is neither Rp nor Rm");
     fi;
     c2 := Sqrt((1+c)/2); # c2 = cos(theta/2)
-    s2 := Sqrt((1-c)/2); # s2 = sin(theta/2)
-    sR := c2 * IdentityMat(2) + s2 * (n[1]*sx + n[2]*sy + n[3]*sz);
+    if c = -1 then
+      s2 := 1; # theta = pi, take theta/2 = pi/2, sin(theta/2)=1.
+    else
+      s2 := s / (1+c) * c2; # s2 = sin(theta/2)
+    fi;
+    #Display(["c2, s2", c2, s2]);
+    sR := c2 * IdentityMat(2) + E(4) * s2 * (n[1]*sx + n[2]*sy + n[3]*sz);
     return sR;
   fi;
+end);
+
+InstallGlobalFunction(FindOrthogonalMatrix@, function(pg)
+  local basis_choices, gens, inv_basis, g, g2, basis_ok;
+
+  basis_choices := [
+    [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+    [[0,-1,0], [Sqrt(3)/2, 1/2, 0], [0,0,1]]
+  ];
+  gens := GeneratorsOfGroup(pg);
+  for basis in basis_choices do
+    inv_basis := Inverse(basis);
+    basis_ok := true;
+    for g in gens do
+      g2 := inv_basis * g * basis;
+      if TransposedMat(g2) <> g2^-1 then
+        basis_ok := false;
+        break;
+      fi;
+    od;
+    if basis_ok then
+      #Display(["basis: ", basis]);
+      return basis;
+    fi;
+  od;
+  Error("Failed to find a basis");
+  return fail;
 end);
 
 InstallGlobalFunction(Spin12FactorForPointGroup, function(pg)
   local om, om2;
   om := FindOrthogonalMatrix@(pg);
+  om2 := Inverse(om);
   w := function(g1, g2)
     local s1, s2, s12, s1s2;
+    #Display([g1, g2]);
     s1 := Spin@(om2 * g1 * om);
     s2 := Spin@(om2 * g2 * om);
     s12 := Spin@(om2 * g1 * g2 * om);
     s1s2 := s1 * s2;
+    #Display([s1, s2, s12, s1s2]);
     if s12 = s1s2 then
       return 0;
     else
-      Assert(s12 = -s1s2, "ASSERTION FAIL: s1*s2 <> +/- s12");
+      Assert(1, s12 = -s1s2, "ASSERTION FAIL: s1*s2 <> +/- s12");
       return 1;
     fi;
   end;
