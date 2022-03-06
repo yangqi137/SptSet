@@ -13,3 +13,5 @@ DeclareOperation("SptSetFpZModuleCanonicalForm", [IsCategoryOfSptSetFpZModule]);
 DeclareGlobalFunction("SptSetZeroModule");
 DeclareGlobalFunction("SptSetFpZModuleIsZero");
 DeclareGlobalFunction("SptSetFpZModuleIsCanonical");
+DeclareGlobalFunction("SptSetFpZModuleIsZeroElm");
+DeclareGlobalFunction("SptSetFpZModuleCanonicalElm");

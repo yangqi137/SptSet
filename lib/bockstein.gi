@@ -10,7 +10,7 @@ InstallGlobalFunction(SptSetBockstein,
       dei := bdry(deg+1, i);
       for x in dei do
         vx := SignInt(x[1]) * (elts[x[2]]^gAction)[1][1] * v[AbsInt(x[1])];
-        vx := vx - Int(vx);
+        #vx := vx - Int(vx);
         v2[i] := v2[i] + vx;
       od;
     od;

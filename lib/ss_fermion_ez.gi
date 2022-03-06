@@ -95,6 +95,61 @@ InstallMethod(FermionEZSPTSpecSeq,
       end;
     end);
 
+
+    SptSetInstallAddTwister(ss,
+      1, 2,
+      function(l1, l2)
+          return ZeroCocycle@;
+      end);
+
+    SptSetInstallAddTwister
+        (ss, 2, 1,
+          function(l1, l2)
+            local n11, n12, coeff, c1, c2;
+            n11 := l1[1+1];
+            n12 := l2[1+1];
+            coeff := spectrum[1+1];
+            if n11 = ZeroCocycle@ or n12 = ZeroCocycle@ then
+              return ZeroCocycle@;
+            fi;
+            c1 := Cup0@(1, 1, coeff, n11, n12);
+            c2 := Cup0@(1, 1, coeff, s,
+              Cup1@(1, 1, coeff, n11, n12));
+            #c2 := ZeroCocycle@;
+            return AddInhomoCochain@(c1, c2);
+         end);
+    SptSetInstallAddTwister
+        (ss, 3, 0,
+        function(l1, l2)
+          local coeff, n11, n12, n21, n22, r1, r11, r12, r2;
+          n11 := l1[1+1];
+          n12 := l2[1+1];
+          n21 := l1[2+1];
+          n22 := l2[2+1];
+          coeff := spectrum[0+1];
+
+          if n11 = ZeroCocycle@ or n12 = ZeroCocycle@ then
+            r1 := ZeroCocycle@;
+          else
+            r11 := Cup0@(1, 1, coeff, n11, n12);
+            r11 := Cup1@(2, 2, coeff, r11, AddInhomoCochain@(n21, n22));
+            r12 := Cup0@(1, 1, coeff, n11, Cup1@(1, 1, coeff, n11, n12));
+            r12 := Cup0@(2, 1, coeff, r12, n12);
+            r1 := AddInhomoCochain@(r11, r12);
+          fi;
+          if n21 = ZeroCocycle@ or n22 = ZeroCocycle@ then
+            r2 := ZeroCocycle@;
+          else
+            r2 := Cup1@(2, 2, coeff, n21, n22);
+          fi;
+          return ScaleInhomoCochain@(1/2, AddInhomoCochain@(r1, r2));
+        end);
+    # place holders for twisters in (3+1)D
+    SptSetInstallAddTwister(ss, 1, 3, {l1, l2} -> ZeroCocycle@);
+    SptSetInstallAddTwister(ss, 2, 2, {l1, l2} -> ZeroCocycle@);
+    SptSetInstallAddTwister(ss, 3, 1, {l1, l2} -> ZeroCocycle@);
+    SptSetInstallAddTwister(ss, 4, 0, {l1, l2} -> ZeroCocycle@);
+
     SptSetInstallCoboundary(ss, 2, 3, 1, function(n3, dn3)
       return function(g1, g2, g3, g4, g5)
         local o5, n3c1n3, n3c2dn3;
@@ -119,6 +174,7 @@ InstallMethod(FermionEZSPTSpecSeq,
         return o5;
       end;
     end);
+
 
     return ss;
   end);

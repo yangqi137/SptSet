@@ -62,38 +62,6 @@ HapResolutionHomotopy@ := function(R, deg, k, g, word)
   return hword;
 end;
 
-BarResolutionBoundary@ := function(gid, glist)
-  local n, dglist, gl2, glext, i;
-  n := Length(glist);
-  dglist := [];
-  if n > 0 then
-    gl2 := StructuralCopy(glist);
-    Add(gl2, 1, 1);
-    Add(dglist, gl2);
-
-    glext := StructuralCopy(glist);
-    Add(glext, 1, 1);
-    Add(glext, gid, 2);
-
-    for i in [1..(n-1)] do
-      gl2 := StructuralCopy(glext);
-      gl2[i+2] := gl2[i+2] * Remove(gl2, i+3);
-      if i mod 2 = 1 then
-        gl2[1] := -1;
-      fi;
-      Add(dglist, gl2);
-    od;
-
-    gl2 := StructuralCopy(glext);
-    if n mod 2 = 1 then
-      gl2[1] := -1;
-    fi;
-    Remove(gl2, n+2);
-    Add(dglist, gl2);
-  fi;
-  return dglist;
-end;
-
 InstallGlobalFunction(WordSimplify@,
 function(word)
   local n, x, x0, word2;

@@ -19,13 +19,42 @@ function(R, auMap, u1cMap, omega_)
 
   SptSetInstallCoboundary(ss, 2, 1, 1,
   function(n1, dn1)
-    return {g1, g2, g3} -> omega_(g1, g2) * n1(g3);
+    if dn1 = ZeroCocycle@ then
+      return {g1, g2, g3} -> omega_(g1, g2) * n1(g3);
+    else
+      return {g1, g2, g3} -> omega_(g1, g2) * n1(g3)
+        + 1/2 * dn1(g1, g2) * n1(g3);
+    fi;
   end);
 
   SptSetInstallCoboundary(ss, 2, 2, 1,
   function(n2, dn2)
     return {g1, g2, g3, g4}
     -> omega_(g1, g2) * n2(g3, g4) + 1/2 * n2(g1, g2) * n2(g3, g4);
+  end);
+
+  SptSetInstallAddTwister(ss, 1, 2, {l1, l2} -> ZeroCocycle@);
+  SptSetInstallAddTwister(ss, 2, 1, {l1, l2} -> ZeroCocycle@);
+
+  # place holders for twisters in (3+1)D
+  SptSetInstallAddTwister(ss, 1, 3, {l1, l2} -> ZeroCocycle@);
+  SptSetInstallAddTwister(ss, 2, 2, {l1, l2} -> ZeroCocycle@);
+  SptSetInstallAddTwister(ss, 3, 1, {l1, l2} -> ZeroCocycle@);
+  SptSetInstallAddTwister(ss, 4, 0, {l1, l2} -> ZeroCocycle@);
+
+  SptSetInstallAddTwister(ss, 3, 0,
+  function(l1, l2)
+    local coeff, n21, n22, n2c1n2;
+    n21 := l1[2+1];
+    n22 := l2[2+1];
+    coeff := spectrum[0+1];
+
+    if n21 = ZeroCocycle@ or n22 = ZeroCocycle@ then
+      return ZeroCocycle@;
+    else
+      n2c1n2 :=  Cup1@(2, 2, coeff, n21, n22);
+      return ScaleInhomoCochain@(1/2, n2c1n2);
+    fi;
   end);
 
   return ss;
