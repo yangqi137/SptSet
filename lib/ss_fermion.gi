@@ -62,5 +62,17 @@ function(R, auMap, w)
     return {g1, g2} -> 0; # This is wrong, but let us just leave it here for now.
   end);
 
+  SptSetInstallCoboundary(ss, 2, 0, 3,
+  function(n0, dn0)
+    return {g1, g2} -> (n0() * w(g1, g2));
+  end);
+  SptSetInstallCoboundary(ss, 3, 0, 3,
+  function(n0, dn0)
+    local n02, w1w;
+    n02 := Int(n0/2);
+    w1w := 0;
+    return {g1, g2, g3} -> (n02 * w1w(g1, g2, g3));
+  end);
+
   return ss;
 end);
