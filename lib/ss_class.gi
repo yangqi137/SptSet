@@ -49,12 +49,14 @@ function(cl) # recursive version
     cp_ := layers[p+1];
     cp := SptSetMapFromBarCocycle(brMap, p, SS!.spectrum[q+1], cp_);
     Assert(-1, ForAll(cp, IsInt), "ASSERTION FAILURE: top layer is not a cocycle");
+    #Display(["Top layer element: ", cp]);
     Epqinf := SptSetSpecSeqComponent2Inf(SS, p, q);
     if not SptSetFpZModuleIsZeroElm(Epqinf, cp) then
-      SetLeadingLayer(cl, p);
-      SetLeadingLayerElement(cl, cp);
+      ##SetLeadingLayer(cl, p);
+      ##SetLeadingLayerElement(cl, cp);
       #Display(["Purification ended at layer", p]);
-      return; # The leading element is nontrivial. Purification complete.
+      break;
+      #return [cl, 0]; # The leading element is nontrivial. Purification complete.
       # TODO: return the coboundary in this path? this behavior now serves as an assertion check for the caller SptSetSpecSeqClassFromLevelCocycle, but this should be changed later.
     fi;
 
@@ -87,9 +89,10 @@ function(cl) # recursive version
 #    Display(coc!.layers[3] = ZeroCocycle@);
 #  fi;
   cl!.cochain := coc;
-  SetLeadingLayer(cl, p+1);
+  SetLeadingLayer(cl, p);
+  #Display(["Debugging: ", cl!.cochain!.layers[3](g, g)]);
   #Display(["Purification completed at layer", p+1]);
-  #return SptSetSpecSeqClassFromCochainNC(coc);
+  #return [cl, bdry];
   return bdry;
 end);
 

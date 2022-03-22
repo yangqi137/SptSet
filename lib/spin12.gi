@@ -101,7 +101,7 @@ InstallGlobalFunction(Spin@, function(R)
 end);
 
 InstallGlobalFunction(FindOrthogonalMatrix@, function(pg)
-  local basis_choices, gens, inv_basis, g, g2, basis_ok;
+  local basis, basis_choices, gens, inv_basis, g, g2, basis_ok;
 
   basis_choices := [
     [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
@@ -128,7 +128,7 @@ InstallGlobalFunction(FindOrthogonalMatrix@, function(pg)
 end);
 
 InstallGlobalFunction(Spin12FactorForPointGroup, function(pg)
-  local om, om2;
+  local om, om2, w;
   om := FindOrthogonalMatrix@(pg);
   om2 := Inverse(om);
   w := function(g1, g2)

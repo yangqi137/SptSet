@@ -15,13 +15,13 @@ Layers:
   <ZL-Module with torsions [ 2, 2, 2, 2 ]> ]
 [ "Complex generator #", 1 ]
 [ "tor", 2 ]
-[ 0, 0, 0, 0 ]
+[ 1, 0, 0, 0 ]
 [ "Complex generator #", 2 ]
 [ "tor", 2 ]
-[ 0, 0, 0, 0 ]
+[ 0, 1, 0, 0 ]
 [ "Complex generator #", 3 ]
 [ "tor", 2 ]
-[ 0, 0, 0, 0 ]
+[ 0, 0, 1, 0 ]
 3
 Empty:
 <ZL-Module []>
@@ -39,7 +39,7 @@ Layers:
   <ZL-Module with torsions [ 2, 2 ]> ]
 [ "Complex generator #", 1 ]
 [ "tor", 2 ]
-[ 0, 0 ]
+[ 1, 0 ]
 4
 Empty:
 <ZL-Module []>
@@ -86,13 +86,13 @@ Layers:
   <ZL-Module with torsions [ 2, 2, 2, 2, 2, 2, 2 ]> ]
 [ "Complex generator #", 1 ]
 [ "tor", 2 ]
-[ 0, 0, 0, 0, 0, 0, 0 ]
+[ 0, 1, 0, 0, 0, 0, 1 ]
 [ "Complex generator #", 2 ]
 [ "tor", 2 ]
-[ 0, 0, 0, 0, 0, 0, 0 ]
+[ 0, 0, 1, 0, 0, 0, 1 ]
 [ "Complex generator #", 3 ]
 [ "tor", 2 ]
-[ 0, 0, 0, 0, 0, 0, 0 ]
+[ 0, 0, 1, 0, 0, 0, 0 ]
 7
 Empty:
 <ZL-Module []>
@@ -110,10 +110,10 @@ Layers:
   <ZL-Module with torsions [ 2, 2, 2 ]> ]
 [ "Complex generator #", 1 ]
 [ "tor", 2 ]
-[ 0, 0, 0 ]
+[ 0, 1, 1 ]
 [ "Complex generator #", 2 ]
 [ "tor", 2 ]
-[ 0, 0, 0 ]
+[ 0, 1, 0 ]
 8
 Empty:
 <ZL-Module []>
@@ -131,7 +131,7 @@ Layers:
   <ZL-Module with torsions [ 2, 2 ]> ]
 [ "Complex generator #", 1 ]
 [ "tor", 2 ]
-[ 0, 0 ]
+[ 1, 1 ]
 9
 Empty:
 <ZL-Module []>
@@ -149,10 +149,10 @@ Layers:
   <ZL-Module with torsions [ 2, 2, 2, 2 ]> ]
 [ "Complex generator #", 1 ]
 [ "tor", 2 ]
-[ 0, 0, 0, 0 ]
+[ 1, 0, 0, 1 ]
 [ "Complex generator #", 2 ]
 [ "tor", 2 ]
-[ 0, 0, 0, 0 ]
+[ 1, 0, 0, 0 ]
 10
 Empty:
 <ZL-Module []>
@@ -170,10 +170,10 @@ Layers:
   <ZL-Module with torsions [ 2, 4, 4 ]> ]
 [ "Complex generator #", 1 ]
 [ "tor", 2 ]
-[ 0, 0, 2 ]
+[ 1, 0, 2 ]
 [ "Complex generator #", 2 ]
 [ "tor", 4 ]
-[ 0, 0, 0 ]
+[ 0, 2, 0 ]
 11
 Empty:
 <ZL-Module []>
@@ -191,10 +191,10 @@ Layers:
   <ZL-Module with torsions [ 2, 2, 2, 2, 2 ]> ]
 [ "Complex generator #", 1 ]
 [ "tor", 2 ]
-[ 0, 0, 0, 0, 0 ]
+[ 0, 1, 0, 1, 0 ]
 [ "Complex generator #", 2 ]
 [ "tor", 4 ]
-[ 0, 0, 0, 0, 0 ]
+[ 0, 1, 0, 1, 1 ]
 12
 Empty:
 <ZL-Module []>
@@ -212,7 +212,7 @@ Layers:
   <ZL-Module with torsions [ 2, 4 ]> ]
 [ "Complex generator #", 1 ]
 [ "tor", 4 ]
-[ 0, 0 ]
+[ 0, 2 ]
 13
 Empty:
 <ZL-Module []>
@@ -254,7 +254,7 @@ Layers:
 [ 0 ]
 [ "Complex generator #", 2 ]
 [ "tor", 3 ]
-[ 0 ]
+[ 1 ]
 15
 Empty:
 <ZL-Module []>
@@ -290,7 +290,7 @@ Layers:
   <ZL-Module with torsions [ 6, 6 ]> ]
 [ "Complex generator #", 1 ]
 [ "tor", 6 ]
-[ 0, 0 ]
+[ 0, 3 ]
 17
 Empty:
 <ZL-Module []>
@@ -308,4 +308,4 @@ Layers:
   <ZL-Module with torsions [ 2, 2, 2 ]> ]
 [ "Complex generator #", 1 ]
 [ "tor", 6 ]
-[ 0, 0, 0 ]
+[ 0, 0, 1 ]
