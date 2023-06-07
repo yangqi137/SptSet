@@ -35,6 +35,16 @@ function(brMap, deg, coeff, alpha)
   return SptSetMapToBarCocycle(brMap, deg, coeff!.gAction, alpha);
 end);
 
+InstallMethod(SptSetMapToInhomo,
+              "map to an inhomogeneous cocycle",
+              [IsCategoryOfSptSetBarResMap, IsInt, IsSptSetCoeffZnRep, IsRowVector],
+              function(brMap, deg, coeff, alpha)
+                  local f;
+                  f := SptSetMapToBarCocycle(brMap, deg, coeff!.gAction, alpha);
+                  return SptSetInhomoCochain(deg, coeff, f);
+              end);
+
+
 InstallMethod(SptSetMapFromBarCocycle,
 "map from an inhomogeneous cocycle",
 [IsCategoryOfSptSetBarResMap, IsInt, IsGeneralMapping, IsFunction],
@@ -68,6 +78,25 @@ function(brMap, deg, coeff, alpha_)
     deg, coeff!.gAction, alpha);
 end);
 
+InstallMethod(SptSetMapFromInhomo,
+              "map from an inhomogeneous cocycle",
+              [IsCategoryOfSptSetBarResMap, IsSptSetInhomoCochainRep],
+              function(brMap, c)
+                  return SptSetMapFromBarCocycle(brMap, c!.rank, c!.coeff, c!.f);
+              end);
+InstallMethod(SptSetMapFromInhomo,
+              "map from a zero cocycle",
+              [IsCategoryOfSptSetBarResMap, IsSptSetZeroInhomoCochainRep],
+              function(brMap, c)
+                  local n, val, i;
+                  n := Dimension(brMap!.hapResolution)(deg);
+                  val := [];
+                  for i in [1..n] do
+                      val[i] := 0;
+                  od;
+                  return val;
+              end);
+
 InstallMethod(SptSetSolveCocycleEq,
 "solve an inhomogeneous cocycle equation using maps to/from the bar resolution",
 [IsCategoryOfSptSetBarResMap, IsInt, IsGeneralMapping,
@@ -100,3 +129,20 @@ InstallMethod(SptSetSolveCocycleEq,
 function(brMap, deg, coeff, alpha_, beta)
   return SptSetSolveCocycleEq(brMap, deg, coeff!.gAction, alpha_, beta);
 end);
+
+InstallMethod(SptSetSolveCocycleEq,
+              "solve an inhomogeneous cocycle equation using maps to/from the bar resolution, with inhomo cochain interfaces",
+              [IsCategoryOfSptSetBarResMap, IsSptSetInhomoCochainRep, IsRowVector],
+              function(barMap, alpha_, beta)
+                  local beta_f;
+                  beta_f = SptSetSolveCocycleEq(brMap, alpha_!.rank, alpha_!.coeff, alpha_!.f, beta);
+                  return SptSetInhomoCochain(alpha_!.rank-1, alpha_!.coeff, beta_f);
+              end);
+
+InstallMethod(SptSetSolveCocycleEq,
+              "solve the trivial cocycle eq. w/ zero input and zero output.",
+              [IsCategoryOfSptSetBarResMap, IsSptSetZeroInhomoCochainRep, IsRowVector],
+              function(barMap, alpha_, beta)
+                  return SptSetZeroInhomoCochain(alpha_!.rank-1, alpha_!.coeff);
+              end);
+

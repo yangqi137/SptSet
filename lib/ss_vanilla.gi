@@ -98,29 +98,25 @@ InstallMethod(SptSetSpecSeqBuildDerivative,
     fA := [];
 
     for i in [1..m] do
-      np_ := SptSetMapToBarCocycle(ss!.brMap, p, ss!.spectrum[q+1],
+      np_ := SptSetMapToInhomo(ss!.brMap, p, ss!.spectrum[q+1],
         M!.generators[i]);
       if r = 2 then
         #opr_ := ss!.bdry[r+1][p+1][q+1](np_);
-        opr_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
+          opr_ := ss!.bdry[2+1][p+1][q+1](np_, SptSetZeroInhomoCochain(p+1, ss!.spectrum[q+1]));
       elif r = 3 then
-        dnp1_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
-        dnp1 := SptSetMapFromBarCocycle(ss!.brMap,
-          p+r-1, ss!.spectrum[q-(r-1)+1 +1], dnp1_);
-        np1 := SptSetZLMapInverse(
-          SptSetSpecSeqDerivative(ss, 1, p+1, q-1),
-          dnp1);
-        np1_ := SptSetSolveCocycleEq(ss!.brMap,
-          p+r-1, ss!.spectrum[q-(r-1)+1 +1], dnp1_, np1);
+          dnp1_ := ss!.bdry[2+1][p+1][q+1](np_, SptSetZeroInhomoCochain(p+1, ss!.spectrum[q+1]));
+          dnp1 := SptSetMapFromInhomo(ss!.brMap, dnp1_);
+          
+          np1 := SptSetZLMapInverse(SptSetSpecSeqDerivative(ss, 1, p+1, q-1), dnp1);
+          np1_ := SptSetSolveCocycleEq(ss!.brMap, dnp1_, np1);
         #opr_ := ss!.bdry[r+1][p+1][q+1](np_, dnp1_, np1_);
-        opr_ := ss!.bdry[2+1][p+1+1][q-1+1](np1_, dnp1_);
+          opr_ := ss!.bdry[2+1][p+1+1][q-1+1](np1_, dnp1_);
       else
         Display(["d", r, "not implimented"]);
         return fail;
       fi;
 
-      opr := SptSetMapFromBarCocycle(ss!.brMap,
-        p+r, ss!.spectrum[q-r+1 +1], opr_);
+      opr := SptSetMapFromInhomo(ss!.brMap, opr_);
       fA[i] := opr * N!.projection;
     od;
 

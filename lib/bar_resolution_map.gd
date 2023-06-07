@@ -22,10 +22,19 @@ DeclareOperation("SptSetMapToBarCocycle",
 );
 DeclareOperation("SptSetMapFromBarCocycle",
   [IsCategoryOfSptSetBarResMap, IsInt, IsObject, IsFunction]
-);
+                );
+DeclareOperation("SptSetMapToInhomo",
+                 [IsCategoryOfSptSetBarResMap, IsInt, IsObject, IsRowVector]);
+DeclareOperation("SptSetMapFromInhomo",
+                 [IsCategoryOfSptSetBarResMap, IsCategoryOfSptSetInhomoCochain]);
+
 DeclareOperation("SptSetSolveCocycleEq",
   [IsCategoryOfSptSetBarResMap, IsInt, IsObject,
     IsFunction, IsRowVector]
+);
+
+DeclareOperation("SptSetSolveCocycleEq",
+  [IsCategoryOfSptSetBarResMap, IsCategoryOfSptSetInhomoCochain, IsRowVector]
 );
 
 DeclareGlobalFunction("WordSimplify@");

@@ -29,6 +29,13 @@ InstallMethod(FermionEZSPTSpecSeq,
 
     SptSetInstallCoboundary(ss, 2, 2, 1,
     function(n2, dn2)
+        local rtn;
+        rtn := (1/2) * SptSetCup(n2, n2);
+        if IsSptSetInhomoCochainRep(dn2) then
+            rtn := rtn - 1/4 * SptSetInhomoCochain(???);
+        fi;
+        
+                                
       return function(g1, g2, g3, g4)
         local val;
         val := 1/2 * (n2(g1, g2) * n2(g3, g4) mod 2);
