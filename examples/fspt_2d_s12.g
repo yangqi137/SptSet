@@ -20,3 +20,4 @@ for it in [2..17] do
   SS := FermionSPTSpecSeq(R, f, ww);
   FermionSPTLayersVerbose(SS, 2);
 od;
+Display(Runtimes());
