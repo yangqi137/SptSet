@@ -115,3 +115,31 @@ function(p, q, coeff, a, b)
   end;
   return f;
 end);
+
+InstallGlobalFunction(Cup2@,
+function(p, q, coeff, a, b)
+  local gAction, f, gid;
+  gAction := coeff!.gAction;
+  gid := Identity(PreImage(gAction));
+  return function(glist...)
+    local gl1, gl2, gl3, gl4, gl1p, gl2p, gl3p, i, j, s, result;
+    result := 0;
+    for i in [0..(p-1)] do
+      for j in [(i+1)..p] do
+        gl1 := glist{[1..i]};
+        gl2 := glist{[(i+1)..j]};
+        gl3 := glist{[(j+1)..(j-i+p)]};
+        gl4 := glist{[(j-i+p+1)..(p+q-2)]};
+
+        gl1p := Product(gl1, gid);
+        gl2p := Product(gl2, gid);
+        gl3p := Product(gl3, gid);
+
+        s:= (-1)^((p-i)*(j-i+1));
+        result := result + s * CallFuncList(a, Concatenation(gl1, [gl2p], gl3))
+          * ((gl1p^gAction)[1][1] * CallFuncList(b, Concatenation(gl2, [gl3p], gl4)));
+      od;
+    od;
+    return result;
+  end;
+end);

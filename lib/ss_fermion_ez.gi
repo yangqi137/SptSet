@@ -147,12 +147,18 @@ InstallMethod(FermionEZSPTSpecSeq,
     SptSetInstallAddTwister
     (ss, 3, 0, 
     function(l1, l2)
-      local coeff, n11, n12, n21, n22, c3;
+      local coeff, n11, n12, n21, n22, c3, dn21, dn22, m2, N2;
       n11 := l1[1+1];
       n12 := l2[1+1];
       n21 := l1[2+1];
       n22 := l2[2+1];
       coeff := spectrum[0+1];
+
+      dn21 := {g1, g2, g3} -> (s(g1) * n11(g2) * n11(g3));
+      dn22 := {g1, g2, g3} -> (s(g1) * n12(g2) * n12(g3));
+      m2 := {g1, g2} -> (n11(g1) * n12(g2) + s(g1) * n11(g2) * n12(g2));
+      N2 := {g1, g2} -> (n21(g1, g2) + n22(g1, g2) + m2(g1, g2));
+
     end);
     # place holders for twisters in (3+1)D
     SptSetInstallAddTwister(ss, 1, 3, {l1, l2} -> ZeroCocycle@);
