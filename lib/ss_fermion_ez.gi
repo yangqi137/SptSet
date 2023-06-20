@@ -147,7 +147,7 @@ InstallMethod(FermionEZSPTSpecSeq,
     SptSetInstallAddTwister
     (ss, 3, 0, 
     function(l1, l2)
-      local coeff, n11, n12, n21, n22, c3, dn21, dn22, m2, N2;
+      local coeff, n11, n12, n21, n22, c3, dn21, dn22, m2, N2, c3;
       n11 := l1[1+1];
       n12 := l2[1+1];
       n21 := l1[2+1];
@@ -158,6 +158,9 @@ InstallMethod(FermionEZSPTSpecSeq,
       dn22 := {g1, g2, g3} -> (s(g1) * n12(g2) * n12(g3));
       m2 := {g1, g2} -> (n11(g1) * n12(g2) + s(g1) * n11(g2) * n12(g2));
       N2 := {g1, g2} -> (n21(g1, g2) + n22(g1, g2) + m2(g1, g2));
+
+      c3 := AddInhomoCochain@(Cup1@(n22, n21, coeff, 2, 2), Cup2@(dn21, n22, coeff, 3, 2));
+      c3 := AddInhomoCochain@(c3, Cup1@(m2, N2, coeff, 2, 2));
 
     end);
     # place holders for twisters in (3+1)D
