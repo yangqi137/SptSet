@@ -30,3 +30,19 @@ function(nParams, fileName)
 end);
 
 InstallValue(AddTwister2DTable@, LoadExtDataFile@(9, "AddTwister2D.dat"));
+
+InstallGlobalFunction(ExtData@,
+function(datavar, params...)
+    local idx, p;
+    idx := 0;
+    for p in params do
+        idx := 2 * idx + (p mod 2);
+    od;
+    if idx = 0 then return 0; fi;
+    return datavar[idx];
+    #if IsBound(datavar[idx]) then
+    #    return datavar[idx];
+    #else
+    #    return 0;
+    #fi;
+end);

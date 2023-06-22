@@ -125,11 +125,11 @@ function(p, q, coeff, a, b)
     local gl1, gl2, gl3, gl4, gl1p, gl2p, gl3p, i, j, s, result;
     result := 0;
     for i in [0..(p-1)] do
-      for j in [(i+1)..p] do
+      for j in [(i+1)..(q-1)] do
         gl1 := glist{[1..i]};
         gl2 := glist{[(i+1)..j]};
-        gl3 := glist{[(j+1)..(j-i+p)]};
-        gl4 := glist{[(j-i+p+1)..(p+q-2)]};
+        gl3 := glist{[(j+1)..(j-i+p-1)]};
+        gl4 := glist{[(j-i+p)..(p+q-2)]};
 
         gl1p := Product(gl1, gid);
         gl2p := Product(gl2, gid);
