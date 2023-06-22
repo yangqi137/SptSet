@@ -147,7 +147,7 @@ InstallMethod(FermionEZSPTSpecSeq,
     SptSetInstallAddTwister
     (ss, 3, 0, 
     function(l1, l2)
-      local coeff, n11, n12, n21, n22, c3, dn21, dn22, m2, N2, c3;
+      local coeff, n11, n12, n21, n22, c3, dn21, dn22, m2, N2;
       n11 := l1[1+1];
       n12 := l2[1+1];
       n21 := l1[2+1];

@@ -6,3 +6,4 @@ DeclareGlobalFunction("AddInhomoCochain@");
 DeclareGlobalFunction("ScaleInhomoCochain@");
 DeclareGlobalFunction("Cup0@");
 DeclareGlobalFunction("Cup1@");
+DeclareGlobalFunction("Cup2@");

@@ -17,3 +17,4 @@ ReadPackage("SptSet", "lib/ss_u1sl.gd");
 ReadPackage("SptSet", "lib/ss_ti.gd");
 ReadPackage("SptSet", "lib/ss_afermion.gd");
 ReadPackage("SptSet", "lib/spin12.gd");
+ReadPackage("SptSet", "lib/ext_data.gd");
