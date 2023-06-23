@@ -66,4 +66,36 @@ cl2 := cl1 + cl1;
 #layer3 := cl2!.cochain!.layers[3];
 #SptSetPurifySpecSeqClass(cl2 : PurifyDebug := true);
 SptSetPurifySpecSeqClass(cl2);
+Display("Leading layer x2: ");
 Display(LeadingLayer(cl2));
+
+E21inf := SptSetSpecSeqComponentInf(SS, 2, 1);
+SptSetFpZModuleCanonicalForm(E21inf);
+
+a_ := cl2!.cochain!.layers[3];
+a := SptSetMapFromBarCocycle(SS!.brMap, 2, SS!.spectrum[1+1], a_);        
+Display(SptSetFpZModuleCanonicalElm(E21inf, a));
+
+cl4 := cl2 + cl2;
+SptSetPurifySpecSeqClass(cl4);
+Display("Leading layer x4:");
+Display(LeadingLayer(cl4));
+
+E30inf := SptSetSpecSeqComponentInf(SS, 3, 0);
+SptSetFpZModuleCanonicalForm(E30inf);
+
+a_ := cl4!.cochain!.layers[4];
+a := SptSetMapFromBarCocycle(SS!.brMap, 3, SS!.spectrum[0+1], a_);        
+Display(SptSetFpZModuleCanonicalElm(E30inf, a));
+
+Display("Stacking two copies of the second-layer generator:");
+v2 := layers[2]!.generators[1];
+cl2 := SptSetSpecSeqClassFromLevelCocycle(SS, 3, 2, v2);
+cl22 := cl2 + cl2;
+SptSetPurifySpecSeqClass(cl22);
+Display("Leading layer x2: ");
+Display(LeadingLayer(cl22));
+
+a_ := cl22!.cochain!.layers[4];
+a := SptSetMapFromBarCocycle(SS!.brMap, 3, SS!.spectrum[0+1], a_);        
+Display(SptSetFpZModuleCanonicalElm(E30inf, a));
