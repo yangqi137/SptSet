@@ -159,7 +159,8 @@ InstallMethod(FermionEZSPTSpecSeq,
       m2 := {g1, g2} -> (n11(g1) * n12(g2) + s(g1) * n11(g2) * n12(g2));
       N2 := {g1, g2} -> (n21(g1, g2) + n22(g1, g2) + m2(g1, g2));
 
-      c3 := AddInhomoCochain@(Cup1@(2, 2, coeff, n22, n21), Cup2@(3, 2, coeff, dn21, n22));
+      #c3 := AddInhomoCochain@(Cup1@(2, 2, coeff, n22, n21), Cup2@(3, 2, coeff, dn21, n22));
+      c3 := AddInhomoCochain@(Cup1@(2, 2, coeff, n22, n21), Cup2@(3, 2, coeff, dn22, n21));
       c3 := AddInhomoCochain@(c3, Cup1@(2, 2, coeff, m2, N2));
       
       t3 := function(g1, g2, g3)
