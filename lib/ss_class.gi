@@ -30,14 +30,14 @@ end);
 InstallGlobalFunction(SptSetPurifySpecSeqClass,
 function(cl) # recursive version
   local F, SS, deg, layers, brMap, bdry, p, q, cp, cp_, Epqinf, r, Erpq,
-  n, n_, dnc, coc, pll;
+  drm1, beta, beta_, cbeta, 
+  n, n_, dnc, coc;
   F := FamilyObj(cl);
   SS := F!.specSeq;
   deg := F!.degree;
   coc := cl!.cochain;
   layers := coc!.layers;
   brMap := SS!.brMap;
-  pll := -1; # -1 indicating that it is not set.
 
   bdry := SptSetSpecSeqCochainZero(SS, deg-1);
 
@@ -66,20 +66,15 @@ function(cl) # recursive version
     for r in [p,(p-1)..2] do
       Erpq := SptSetSpecSeqComponent2(SS, r, p, q);
       if not SptSetFpZModuleIsZeroElm(Erpq, cp) then
-        Error("purification at r>2 is not implimented.");
+        #Error("purification at r>2 is not implimented.");
+
+        bdry2 := PartialPurify@(coc, p, r, cp);
+        SptSetStackInplace(bdry, bdry2);        
       fi;
     od;
-    # cp_ must be a trivial coboundary.
-    n := SptSetZLMapInverse(SptSetSpecSeqDerivative2(SS, 1, p-1, q), cp);
-    n_ := SptSetSolveCocycleEq(brMap, p, SS!.spectrum[q+1], cp_, n);
-    # n_ := NegativeInhomoCochain@(n_);
-    # bdry!.layers[p-1 +1] := n_;
-    bdry!.layers[p-1 +1] := NegativeInhomoCochain@(n_);
 
-    dnc := SptSetSpecSeqCoboundarySL(SS, deg-1, p-1, NegativeInhomoCochain@(n_));
-    coc := SptSetStack(coc, dnc);
-    coc!.layers[p+1] := ZeroCocycle@;
-    layers := coc!.layers;
+    bdry2 := PartialPurifyCoboundary@(coc, p, cp);
+    SptSetStackInplace(bdry, bdry2);
     #if ValueOption("PurifyDebug") = true then
     #  Display(coc!.layers[3] = ZeroCocycle@);
     #fi;
@@ -88,11 +83,47 @@ function(cl) # recursive version
 #  if ValueOption("PurifyDebug") = true then
 #    Display(coc!.layers[3] = ZeroCocycle@);
 #  fi;
-  cl!.cochain := coc;
+  # cl!.cochain := coc;
   SetLeadingLayer(cl, p);
   #Display(["Debugging: ", cl!.cochain!.layers[3](g, g)]);
   #Display(["Purification completed at layer", p+1]);
   #return [cl, bdry];
+  return bdry;
+end);
+
+InstallGlobalFunction(PartialPurify@,
+function(coc, p, r, cp)
+  Error("Not implemented!");
+  #drm1 := SptSetSpecSeqDerivative2(SS, r-1, p-r+1, q+r-2);
+  #beta := SptSetZLMapInverse(drm1, cp);
+  #beta_ := SptSetMapToBarCocycle(SS!.brMap, p-r+1, spectrum[q+r-2+1], beta);
+  #cbeta := SptSetSpecSeqCoboundarySL(SS, ??, ??, NegativeInhomoCochain@(beta_));
+end);
+
+InstallGlobalFunction(PartialPurifyCoboundary@,
+function(coc, p, cp)
+  local F, SS, deg, brMap, q,
+  cp_, n, n_, bdry, dnc;
+  F := FamilyObj(coc);
+  SS := F!.specSeq;
+  deg := F!.degree;
+  brMap := SS!.brMap;
+  q := deg - p;
+
+  bdry := SptSetSpecSeqCochainZero(SS, deg-1);
+  cp_ := coc!.layers[p+1];
+  # cp_ must be a trivial coboundary.
+  n := SptSetZLMapInverse(SptSetSpecSeqDerivative2(SS, 1, p-1, q), cp);
+  n_ := SptSetSolveCocycleEq(brMap, p, SS!.spectrum[q+1], cp_, n);
+  # n_ := NegativeInhomoCochain@(n_);
+  # bdry!.layers[p-1 +1] := n_;
+  
+  bdry!.layers[p-1 +1] := NegativeInhomoCochain@(n_);
+
+  dnc := SptSetSpecSeqCoboundarySL(SS, deg-1, p-1, NegativeInhomoCochain@(n_));
+  SptSetStackInplace(coc, dnc);
+  coc!.layers[p+1] := ZeroCocycle@;
+
   return bdry;
 end);
 

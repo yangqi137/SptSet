@@ -43,6 +43,28 @@ function(c1, c2)
   return SptSetSpecSeqCochain(SS, deg, layers);
 end);
 
+InstallMethod(SptSetStackInplace,
+"stack the second cochain to the first",
+IsIdenticalObj,
+[IsSptSetSpecSeqCochainRep, IsSptSetSpecSeqCochainRep],
+function(c1, c2)
+  local F, SS, deg, p, layers, q;
+  F := FamilyObj(c1);
+  SS := F!.specSeq;
+  deg := F!.degree;
+  layers := [];
+  for p in [0..deg] do
+    q := deg - p;
+    layers[p+1] := AddInhomoCochain@(c1!.layers[p+1], c2!.layers[p+1]);
+    if p > 0 then # the p=0 layer cannot be twisted
+      layers[p+1] := AddInhomoCochain@(layers[p+1],
+      SS!.addTwister[p+1][q+1](c1!.layers, c2!.layers));
+    fi;
+  od;
+
+  c1!.layers := layers;
+end);
+
 InstallGlobalFunction(SptSetSpecSeqCoboundarySL,
 function(SS, deg, p, a)
   local gid, q, dalayers, da, rmax, r, pp;

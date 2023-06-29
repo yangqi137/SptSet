@@ -95,6 +95,15 @@ InstallMethod(FermionEZSPTSpecSeq,
       end;
     end);
 
+    SptSetInstallAddTwister(ss, 1, 1, {l1, l2} -> ZeroCocycle@);
+    
+    SptSetInstallAddTwister(ss, 2, 0,
+    function(l1, l2)
+      local n11, n12;
+      n11 := l1[1+1];
+      n12 := l2[1+1];
+      return {g1, g2} -> 1/2 * n11(g1) * n12(g2);
+    end);
 
     SptSetInstallAddTwister(ss,
       1, 2,
