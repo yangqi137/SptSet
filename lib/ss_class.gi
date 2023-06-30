@@ -29,9 +29,7 @@ end);
 
 InstallGlobalFunction(SptSetPurifySpecSeqClass,
 function(cl) # recursive version
-  local F, SS, deg, layers, brMap, bdry, p, q, cp, cp_, Epqinf, r, Erpq,
-  drm1, beta, beta_, cbeta, 
-  n, n_, dnc, coc;
+  local F, SS, deg, coc, layers, brMap, bdry, bdry2, p, q, cp, cp_, Epqinf, r, Erpq;
   F := FamilyObj(cl);
   SS := F!.specSeq;
   deg := F!.degree;
