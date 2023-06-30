@@ -29,24 +29,24 @@ end);
 
 InstallGlobalFunction(SptSetPurifySpecSeqClass,
 function(cl) # recursive version
-  local F, SS, deg, layers, brMap, bdry, p, q, cp, cp_, Epqinf, r, Erpq,
+  local F, SS, deg, layers, brMap, bdry, bdry2, p, q, cp, cp_, Epqinf, r, Erpq,
   drm1, beta, beta_, cbeta, 
   n, n_, dnc, coc;
   F := FamilyObj(cl);
   SS := F!.specSeq;
   deg := F!.degree;
   coc := cl!.cochain;
-  layers := coc!.layers;
+  #layers := coc!.layers;
   brMap := SS!.brMap;
 
   bdry := SptSetSpecSeqCochainZero(SS, deg-1);
 
   for p in [0..deg] do
-    if layers[p+1] = ZeroCocycle@ then
+    if coc!.layers[p+1] = ZeroCocycle@ then
       continue;
     fi;
     q := deg - p;
-    cp_ := layers[p+1];
+    cp_ := coc!.layers[p+1];
     cp := SptSetMapFromBarCocycle(brMap, p, SS!.spectrum[q+1], cp_);
     Assert(-1, ForAll(cp, IsInt), "ASSERTION FAILURE: top layer is not a cocycle");
     #Display(["Top layer element: ", cp]);
@@ -69,21 +69,35 @@ function(cl) # recursive version
         #Error("purification at r>2 is not implimented.");
 
         bdry2 := PartialPurify@(coc, p, r, cp);
-        SptSetStackInplace(bdry, bdry2);        
+        SptSetStackInplace(bdry, bdry2);
       fi;
     od;
 
-    bdry2 := PartialPurifyCoboundary@(coc, p, cp);
-    SptSetStackInplace(bdry, bdry2);
+    #bdry2 := PartialPurifyCoboundary@(coc, p, cp);
+    #SptSetStackInplace(bdry, bdry2);
+    #bdry!.layers[p-1+1] := bdry2!.layers[p-1+1];
+    # Display(coc!.layers[p+1] = ZeroCocycle@);
     #if ValueOption("PurifyDebug") = true then
     #  Display(coc!.layers[3] = ZeroCocycle@);
     #fi;
+
+    n := SptSetZLMapInverse(SptSetSpecSeqDerivative2(SS, 1, p-1, q), cp);
+    n_ := SptSetSolveCocycleEq(brMap, p, SS!.spectrum[q+1], cp_, n);
+  # n_ := NegativeInhomoCochain@(n_);
+  # bdry!.layers[p-1 +1] := n_;
+  
+    bdry!.layers[p-1 +1] := NegativeInhomoCochain@(n_);
+
+    dnc := SptSetSpecSeqCoboundarySL(SS, deg-1, p-1, NegativeInhomoCochain@(n_));
+    coc := SptSetStack(coc, dnc);
+    coc!.layers[p+1] := ZeroCocycle@;
+
   od;
 
 #  if ValueOption("PurifyDebug") = true then
 #    Display(coc!.layers[3] = ZeroCocycle@);
 #  fi;
-  # cl!.cochain := coc;
+  cl!.cochain := coc;
   SetLeadingLayer(cl, p);
   #Display(["Debugging: ", cl!.cochain!.layers[3](g, g)]);
   #Display(["Purification completed at layer", p+1]);
@@ -118,7 +132,8 @@ function(coc, p, cp)
   # n_ := NegativeInhomoCochain@(n_);
   # bdry!.layers[p-1 +1] := n_;
   
-  bdry!.layers[p-1 +1] := NegativeInhomoCochain@(n_);
+  # bdry!.layers[p-1 +1] := NegativeInhomoCochain@(n_);
+  bdry!.layers[p-1 +1] := n_;
 
   dnc := SptSetSpecSeqCoboundarySL(SS, deg-1, p-1, NegativeInhomoCochain@(n_));
   SptSetStackInplace(coc, dnc);
