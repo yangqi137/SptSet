@@ -52,12 +52,7 @@ function(cl) # recursive version
     #Display(["Top layer element: ", cp]);
     Epqinf := SptSetSpecSeqComponent2Inf(SS, p, q);
     if not SptSetFpZModuleIsZeroElm(Epqinf, cp) then
-      ##SetLeadingLayer(cl, p);
-      ##SetLeadingLayerElement(cl, cp);
-      #Display(["Purification ended at layer", p]);
       break;
-      #return [cl, 0]; # The leading element is nontrivial. Purification complete.
-      # TODO: return the coboundary in this path? this behavior now serves as an assertion check for the caller SptSetSpecSeqClassFromLevelCocycle, but this should be changed later.
     fi;
 
     #Assert(0, SptSetFpZModuleIsZeroElm(
@@ -66,8 +61,6 @@ function(cl) # recursive version
     for r in [p,(p-1)..2] do
       Erpq := SptSetSpecSeqComponent2(SS, r, p, q);
       if not SptSetFpZModuleIsZeroElm(Erpq, cp) then
-        #Error("purification at r>2 is not implimented.");
-
         bdry2 := PartialPurify@(coc, p, r, cp);
         SptSetStackInplace(bdry, bdry2);
       fi;
@@ -107,11 +100,24 @@ end);
 
 InstallGlobalFunction(PartialPurify@,
 function(coc, p, r, cp)
-  Error("Not implemented!");
-  #drm1 := SptSetSpecSeqDerivative2(SS, r-1, p-r+1, q+r-2);
-  #beta := SptSetZLMapInverse(drm1, cp);
-  #beta_ := SptSetMapToBarCocycle(SS!.brMap, p-r+1, spectrum[q+r-2+1], beta);
-  #cbeta := SptSetSpecSeqCoboundarySL(SS, ??, ??, NegativeInhomoCochain@(beta_));
+    local F, SS, deg, brMap, q,
+          dr, beta, beta_, bdry, dbeta;
+    F := FamilyObj(coc);
+    SS := F!.specSeq;
+    deg := F!.degree;
+    brMap := SS!.brMap;
+    q := deg - p;
+
+    dr := SptSetSpecSeqDerivatice2(SS, r, p-r, q+r-1);
+    beta := SptSetZLMapInverse(dr, cp);
+    beta_ := SptSetMapToBarCocycle(brMap, p-r, spectrum[q+r-1 +1], beta);
+
+    dbeta := SptSetSpecSeqCoboundarySL(SS, deg-1, p-r, NegativeInhomoCochain@(beta_));
+    SptSetStackInplace(coc, dbeta);
+    
+    bdry := SptSetSpecSeqCochainZero(SS, deg-1);
+    bdry!.layers[p-r+1] := NegativeInhomoCochain@(beta_);
+    return bdry;
 end);
 
 InstallGlobalFunction(PartialPurifyCoboundary@,
