@@ -6,8 +6,8 @@ end);
 InstallGlobalFunction(LoadExtDataFile@,
 function(nParams, fileName)
     local fin, line, r, i, idx, result;
-    Display(DirectoriesPackageLibrary("SptSet", "lib/data"));
-    #return 0;
+    # Display(DirectoriesPackageLibrary("SptSet", "lib/data"));
+    # return 0;
     fin := InputTextFile(Filename(DirectoriesPackageLibrary("SptSet", "lib/data"), fileName));
     if fin = fail then
         Display("File does not exist!");
@@ -18,12 +18,12 @@ function(nParams, fileName)
         line := ReadLine(fin);
         if line = fail then break; fi;
         r := SplitString(line, "", " \r\n");
-        Display(r);
+        # Display(r);
         idx := 0;
         for i in [1..nParams] do
             idx := idx * 2 + Int(r[i]);
         od;
-        Display(idx);
+        # Display(idx);
         result[idx] := DecodeFraction@(r[nParams + 1]);
     od;
     return result;
