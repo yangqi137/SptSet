@@ -40,6 +40,10 @@ function(cl) # recursive version
   bdry := SptSetSpecSeqCochainZero(SS, deg-1);
 
   for p in [0..deg] do
+    if p = deg then
+      #Display("Last layer does not need tobe purified.");
+      break;
+    fi;
     if coc!.layers[p+1] = ZeroCocycle@ then
       continue;
     fi;
