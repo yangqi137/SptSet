@@ -29,14 +29,12 @@ end);
 
 InstallGlobalFunction(SptSetPurifySpecSeqClass,
 function(cl) # recursive version
-  local F, SS, deg, layers, brMap, bdry, bdry2, p, q, cp, cp_, Epqinf, r, Erpq,
-  drm1, beta, beta_, cbeta, 
-  n, n_, dnc, coc;
+  local F, SS, deg, coc, brMap, bdry, bdry2, p, q, cp, cp_, Epqinf, r, Erpq;
+
   F := FamilyObj(cl);
   SS := F!.specSeq;
   deg := F!.degree;
   coc := cl!.cochain;
-  #layers := coc!.layers;
   brMap := SS!.brMap;
 
   bdry := SptSetSpecSeqCochainZero(SS, deg-1);
@@ -49,7 +47,7 @@ function(cl) # recursive version
     cp_ := coc!.layers[p+1];
     cp := SptSetMapFromBarCocycle(brMap, p, SS!.spectrum[q+1], cp_);
     Assert(-1, ForAll(cp, IsInt), "ASSERTION FAILURE: top layer is not a cocycle");
-    #Display(["Top layer element: ", cp]);
+
     Epqinf := SptSetSpecSeqComponent2Inf(SS, p, q);
     if not SptSetFpZModuleIsZeroElm(Epqinf, cp) then
       break;
@@ -66,35 +64,15 @@ function(cl) # recursive version
       fi;
     od;
 
-    #bdry2 := PartialPurifyCoboundary@(coc, p, cp);
-    #SptSetStackInplace(bdry, bdry2);
-    #bdry!.layers[p-1+1] := bdry2!.layers[p-1+1];
-    # Display(coc!.layers[p+1] = ZeroCocycle@);
-    #if ValueOption("PurifyDebug") = true then
-    #  Display(coc!.layers[3] = ZeroCocycle@);
-    #fi;
-
-    n := SptSetZLMapInverse(SptSetSpecSeqDerivative2(SS, 1, p-1, q), cp);
-    n_ := SptSetSolveCocycleEq(brMap, p, SS!.spectrum[q+1], cp_, n);
-  # n_ := NegativeInhomoCochain@(n_);
-  # bdry!.layers[p-1 +1] := n_;
-  
-    bdry!.layers[p-1 +1] := NegativeInhomoCochain@(n_);
-
-    dnc := SptSetSpecSeqCoboundarySL(SS, deg-1, p-1, NegativeInhomoCochain@(n_));
-    coc := SptSetStack(coc, dnc);
-    coc!.layers[p+1] := ZeroCocycle@;
+    bdry2 := PartialPurifyCoboundary@(coc, p, cp);
+    SptSetStackInplace(bdry, bdry2);
+    # bdry!.layers[p-1+1] := bdry2!.layers[p-1+1];
 
   od;
 
-#  if ValueOption("PurifyDebug") = true then
-#    Display(coc!.layers[3] = ZeroCocycle@);
-#  fi;
   cl!.cochain := coc;
   SetLeadingLayer(cl, p);
-  #Display(["Debugging: ", cl!.cochain!.layers[3](g, g)]);
-  #Display(["Purification completed at layer", p+1]);
-  #return [cl, bdry];
+
   return bdry;
 end);
 
@@ -112,9 +90,9 @@ function(coc, p, r, cp)
       Error("Purification at r>2 is not implemented.");
     fi;
 
-    dr := SptSetSpecSeqDerivatice2(SS, r, p-r, q+r-1);
+    dr := SptSetSpecSeqDerivative2(SS, r, p-r, q+r-1);
     beta := SptSetZLMapInverse(dr, cp);
-    beta_ := SptSetMapToBarCocycle(brMap, p-r, spectrum[q+r-1 +1], beta);
+    beta_ := SptSetMapToBarCocycle(brMap, p-r, SS!.spectrum[q+r-1 +1], beta);
 
     dbeta := SptSetSpecSeqCoboundarySL(SS, deg-1, p-r, NegativeInhomoCochain@(beta_));
     dbeta!.layers[p-r+1+1] := ZeroCocycle@;
