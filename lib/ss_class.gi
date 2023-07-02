@@ -108,11 +108,16 @@ function(coc, p, r, cp)
     brMap := SS!.brMap;
     q := deg - p;
 
+    if r > 2 then
+      Error("Purification at r>2 is not implemented.");
+    fi;
+
     dr := SptSetSpecSeqDerivatice2(SS, r, p-r, q+r-1);
     beta := SptSetZLMapInverse(dr, cp);
     beta_ := SptSetMapToBarCocycle(brMap, p-r, spectrum[q+r-1 +1], beta);
 
     dbeta := SptSetSpecSeqCoboundarySL(SS, deg-1, p-r, NegativeInhomoCochain@(beta_));
+    dbeta!.layers[p-r+1+1] := ZeroCocycle@;
     SptSetStackInplace(coc, dbeta);
     
     bdry := SptSetSpecSeqCochainZero(SS, deg-1);
