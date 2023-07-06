@@ -57,10 +57,10 @@ for it in [2..17] do
     Display(["Complex generator #", i]);
     v1 := layers[2]!.generators[i];
     cl1 := SptSetSpecSeqClassFromLevelCocycle(SS, 3, 2, v1);
-    SptSetPurifySpecSeqClass(cl1);
+    #SptSetPurifySpecSeqClass(cl1);
     cl2 := cl1 + cl1;
-    SptSetPurifySpecSeqClass(cl2);
-    Display(LeadingLayer(cl2));
+    #SptSetPurifySpecSeqClass(cl2);
+    #Display(LeadingLayer(cl2));
     a_ := cl2!.cochain!.layers[3+1];
     a := SptSetMapFromBarCocycle(SS!.brMap, 3, SS!.spectrum[0+1], a_);        
     Display(SptSetFpZModuleCanonicalElm(E30inf, a));
