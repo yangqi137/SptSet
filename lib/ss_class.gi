@@ -40,10 +40,10 @@ function(cl) # recursive version
   bdry := SptSetSpecSeqCochainZero(SS, deg-1);
 
   for p in [0..deg] do
-    if p = deg then
+    #if p = deg then
       #Display("Last layer does not need tobe purified.");
-      break;
-    fi;
+      #break;
+    #fi;
     if coc!.layers[p+1] = ZeroCocycle@ then
       continue;
     fi;
@@ -125,8 +125,8 @@ function(coc, p, cp)
   # n_ := NegativeInhomoCochain@(n_);
   # bdry!.layers[p-1 +1] := n_;
   
-  # bdry!.layers[p-1 +1] := NegativeInhomoCochain@(n_);
-  bdry!.layers[p-1 +1] := n_;
+  bdry!.layers[p-1 +1] := NegativeInhomoCochain@(n_);
+  # bdry!.layers[p-1 +1] := n_;
 
   dnc := SptSetSpecSeqCoboundarySL(SS, deg-1, p-1, NegativeInhomoCochain@(n_));
   SptSetStackInplace(coc, dnc);
