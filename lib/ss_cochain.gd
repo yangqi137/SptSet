@@ -9,3 +9,4 @@ DeclareOperation("SptSetStackInplace",
 [IsCategoryOfSptSetSpecSeqCochain, IsCategoryOfSptSetSpecSeqCochain]);
 DeclareGlobalFunction("SptSetSpecSeqCoboundary");
 DeclareGlobalFunction("SptSetSpecSeqCoboundarySL");
+DeclareGlobalFunction("PartialConstructSSCochain@");

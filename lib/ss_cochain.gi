@@ -101,3 +101,29 @@ function(c)
 
   return dc;
 end);
+
+InstallGlobalFunction
+    (PartialConstructSSCochain@,
+        function(SS, deg, p, cp, r)
+            local brMap, q, coc, cp_, dc, p2, r2, dcp2_, dcp2;
+            brMap := SS!.brMap;
+            q := deg - p;
+            coc := SptSetSpecSeqCochainZero(SS, deg);
+
+            cp_ := SptSetMapToBarCocycle(brMap, p, SS!.spectrum[q+1], cp);
+            coc!.layers[p+1] := cp_;
+            dc := SptSetSpecSeqCoboundarySL(SS, deg, p, cp_);
+            dc!.layers[p+1 +1] := ZeroCocycle@ ; # cp_ must be a cocycle.
+
+            for p2 in [(p+1)..(p+1+r)] do
+                for r2 in [(p2-p), 2] do
+                    dcp2_ := dc!.layers[p2+1];
+                    
+                od;
+                
+                    
+            od;
+        end);
+
+            
+        
