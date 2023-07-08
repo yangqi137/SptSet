@@ -36,7 +36,8 @@ function(R, auMap, w)
 
   SptSetInstallCoboundary(ss, 2, 2, 1,
   function(n2, dn2)
-    return function(g1, g2, g3, g4)
+    local O41, corr;
+    O41 := function(g1, g2, g3, g4)
       local val;
       val := 1/2 * ((n2(g1, g2) + w(g1, g2)) * n2(g3, g4) mod 2);
       if dn2 <> ZeroCocycle@ then
@@ -48,6 +49,10 @@ function(R, auMap, w)
       fi;
       return val;
     end;
+
+    #corr := AddInhomoCochain@({g1, g2, g3} -> 1/2*s(g1)*n2(g2, g3), ScaleInhomoCochain@(1/2, Cup2@(2, 3, ss!.spectrum[2+1], n2, dn2)));
+    #return AddInhomoCochain@(O41, InhomoCoboundary@(ss!.spectrum[2+1], corr));
+    return O41;
   end);
   SptSetInstallCoboundary(ss, 2, 1, 2,
   function(n1, dn1)
@@ -149,23 +154,31 @@ function(R, auMap, w)
   SptSetInstallAddTwister
     (ss, 3, 0, 
     function(l1, l2)
-      local coeff, n11, n12, n21, n22, c3, t3, dn21, dn22, m2, N2;
+      local coeff, n11, n12, n21, n22, c3, t3, dn21, dn22, dn21n22, m2, N2, dN2;
       n11 := l1[1+1];
       n12 := l2[1+1];
       n21 := l1[2+1];
       n22 := l2[2+1];
       coeff := spectrum[0+1];
 
-      dn21 := {g1, g2, g3} -> (s(g1) * n11(g2) * n11(g3));
-      dn22 := {g1, g2, g3} -> (s(g1) * n12(g2) * n12(g3));
+      dn21 := {g1, g2, g3} -> (s(g1) * n11(g2) * n11(g3) + w(g1, g2) * n11(g3));
+      dn22 := {g1, g2, g3} -> (s(g1) * n12(g2) * n12(g3) + w(g1, g2) * n12(g3));
+      dn21n22 := {g1, g2, g3} -> (s(g1) * n11(g2) * n11(g3) + s(g1) * n12(g2) * n12(g3) + w(g1, g2) * n11(g3) + w(g1, g2) * n12(g3));
       m2 := {g1, g2} -> (n11(g1) * n12(g2) + s(g1) * n11(g2) * n12(g2));
       N2 := {g1, g2} -> (n21(g1, g2) + n22(g1, g2) + m2(g1, g2));
+      dN2 := InhomoCoboundary@(coeff, N2);
 
-      #c3 := AddInhomoCochain@(Cup1@(2, 2, coeff, n22, n21), Cup2@(3, 2, coeff, dn21, n22));
       c3 := AddInhomoCochain@(Cup1@(2, 2, coeff, n22, n21), Cup2@(3, 2, coeff, dn22, n21));
-      #c3 := AddInhomoCochain@(c3, Cup1@(2, 2, coeff, m2, N2));
       c3 := AddInhomoCochain@(c3, Cup1@(2, 2, coeff, N2, m2));
       c3 := AddInhomoCochain@(c3, Cup0@(1, 2, coeff, s, m2));
+      
+      #c3 := Cup1@(2, 2, coeff, n21, n22);
+      #c3 := AddInhomoCochain@(c3, Cup2@(3, 2, coeff, dn21, n21));
+      #c3 := AddInhomoCochain@(c3, Cup2@(2, 3, coeff, n22, dn21));
+      #c3 := AddInhomoCochain@(c3, Cup2@(3, 2, coeff, dn22, n22));
+      #c3 := AddInhomoCochain@(c3, Cup2@(3, 2, coeff, dn21n22, N2));
+      #c3 := AddInhomoCochain@(c3, Cup1@(2, 2, coeff, m2, N2));
+      #c3 := AddInhomoCochain@(c3, Cup2@(2, 3, coeff, m2, dN2));
       
       t3 := function(g1, g2, g3)
         local g03;

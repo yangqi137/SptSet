@@ -51,6 +51,7 @@ function(cl) # recursive version
     cp_ := coc!.layers[p+1];
     cp := SptSetMapFromBarCocycle(brMap, p, SS!.spectrum[q+1], cp_);
     Assert(-1, ForAll(cp, IsInt), "ASSERTION FAILURE: top layer is not a cocycle");
+    #if not ForAll(cp, IsInt) then Error("top layer is not a cocycle."); fi;
 
     Epqinf := SptSetSpecSeqComponent2Inf(SS, p, q);
     if not SptSetFpZModuleIsZeroElm(Epqinf, cp) then

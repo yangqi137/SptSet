@@ -1,7 +1,7 @@
 LoadPackage("SptSet");
 
 SetAssertionLevel(1);
-for it in [2..17] do
+it := 15;
   Display(it);
   SG := SpaceGroupBBNWZ(2, it);
   fSG := IsomorphismPcpGroup(SG);
@@ -29,7 +29,8 @@ for it in [2..17] do
   SptSetFpZModuleCanonicalForm(E30inf);
 
   n := SptSetNumberOfGenerators(layers[1]);
-  for i in [1..n] do
+  # for i in [1..n] do
+  i := 1;
     Display(["Majorana generator #", i]);
     v1 := layers[1]!.generators[i];
     cl1 := SptSetSpecSeqClassFromLevelCocycle(SS, 3, 1, v1);
@@ -37,38 +38,25 @@ for it in [2..17] do
     cl2 := cl1 + cl1;
     SptSetPurifySpecSeqClass(cl2);
     Display(LeadingLayer(cl2));
-    if LeadingLayer(cl2) = 2 then
-      a_ := cl2!.cochain!.layers[2+1];
-      a := SptSetMapFromBarCocycle(SS!.brMap, 2, SS!.spectrum[1+1], a_);
-      Display(SptSetFpZModuleCanonicalElm(E21inf, a));
-
-      cl4 := cl2 + cl2;
-      SptSetPurifySpecSeqClass(cl4);
-      Display(LeadingLayer(cl4));
-
-      a_ := cl4!.cochain!.layers[3+1];
-      a := SptSetMapFromBarCocycle(SS!.brMap, 3, SS!.spectrum[0+1], a_);
-      Display(SptSetFpZModuleCanonicalElm(E30inf, a));
-    else
       a_ := cl2!.cochain!.layers[3+1];
-      a := SptSetMapFromBarCocycle(SS!.brMap, 3, SS!.spectrum[0+1], a_);        
+      a := SptSetMapFromBarCocycle(SS!.brMap, 3, SS!.spectrum[0+1], a_);
+      Display(a);
       Display(SptSetFpZModuleCanonicalElm(E30inf, a));
-    fi;
-  od;
+  #od;
 
-  n := SptSetNumberOfGenerators(layers[2]);
-  for i in [1..n] do
-    Display(["Complex generator #", i]);
-    v1 := layers[2]!.generators[i];
-    cl1 := SptSetSpecSeqClassFromLevelCocycle(SS, 3, 2, v1);
-    #SptSetPurifySpecSeqClass(cl1);
-    cl2 := cl1 + cl1;
-    SptSetPurifySpecSeqClass(cl2);
-    Display(LeadingLayer(cl2));
-    a_ := cl2!.cochain!.layers[3+1];
-    a := SptSetMapFromBarCocycle(SS!.brMap, 3, SS!.spectrum[0+1], a_);        
-    Display(SptSetFpZModuleCanonicalElm(E30inf, a));
-  od;
+#od;
 
-od;
-Display(Runtimes());
+bl2 := ShortBasisListFromResolution@SptSet(SS!.brMap, 2);
+bl3 := ShortBasisListFromResolution@SptSet(SS!.brMap, 3);
+bl4 := ShortBasisListFromResolution@SptSet(SS!.brMap, 4);
+
+n1_ := cl1!.cochain!.layers[1+1];
+n2_ := cl1!.cochain!.layers[2+1];
+nu3_ := cl1!.cochain!.layers[3+1];
+
+CheckCochainEqOverBasisListZ2@SptSet(InhomoCoboundary@SptSet(SS!.spectrum[2+1], n2_), SS!.bdry[2+1][1+1][2+1](n1_, ZeroCocycle@SptSet), bl3);
+
+dnu3_ := InhomoCoboundary@SptSet(SS!.spectrum[0+1], nu3_);
+dn2_ := InhomoCoboundary@SptSet(SS!.spectrum[1+1], n2_);
+O4_ := SS!.bdry[2+1][2+1][1+1](n2_, dn2_);
+CheckCochainEqOverBasisListU1@SptSet(O4_, dnu3_, bl4);
