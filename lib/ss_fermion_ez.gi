@@ -177,7 +177,7 @@ InstallMethod(FermionEZSPTSpecSeq,
       t3 := function(g1, g2, g3)
         local g03;
         g03 := g1*g2*g3;
-        return ExtData@(AddTwister2DTable@, n11(g1), n11(g03), n11(g2), n12(g1), n12(g03), n12(g2), 0, 0, 0);
+        return ExtData@(AddTwister2DTable@, n11(g1), n11(g03), n11(g2), n12(g1), n12(g03), n12(g2), 0, s(g1), s(g2));
       end;
 
       return {g1, g2, g3} -> (1/2*c3(g1, g2, g3) + t3(g1, g2, g3));

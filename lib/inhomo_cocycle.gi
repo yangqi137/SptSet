@@ -143,3 +143,35 @@ function(p, q, coeff, a, b)
     return result;
   end;
 end);
+
+InstallGlobalFunction(CheckCochainEqOverBasisList@,
+function(c1, c2, basislist)
+  local deg, glist;
+  if c1 = ZeroCocycle@ then
+    if c2 = ZeroCocycle@ then return;
+    else
+      deg := NumberArgumentsFunction(c2);
+    fi;
+  else
+    deg := NumberArgumentsFunction(c1);
+  fi;
+
+  for glist in basislist do
+    if CallFuncList(c1, glist) <> CallFuncList(c2, glist) then
+      Error("CheckCochainEqOverSubset fails!");
+    fi;
+  od;
+end);
+
+InstallGlobalFunction(ShortBasisListFromResolution@,
+function(brMap, deg)
+  local R, n, i, bl, bw;
+  R := brMap!.hapResolution;
+  n := Dimension(R)(deg);
+  bl := SSortedList([]);
+  for i in [1..n] do
+    bw := SptSetMapToBarWord(brMap, deg, i);
+    AddSet(bl, bw{[3..(deg+2)]});
+  od;
+  return bl;
+end);
