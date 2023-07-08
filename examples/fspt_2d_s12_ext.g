@@ -1,7 +1,7 @@
 LoadPackage("SptSet");
 
 SetAssertionLevel(1);
-for it in [2..17] do
+for it in [15..17] do
   Display(it);
   SG := SpaceGroupBBNWZ(2, it);
   fSG := IsomorphismPcpGroup(SG);

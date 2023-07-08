@@ -65,6 +65,8 @@ function(cl) # recursive version
       if not SptSetFpZModuleIsZeroElm(Erpq, cp) then
         bdry2 := PartialPurify@(coc, p, r, cp);
         SptSetStackInplace(bdry, bdry2);
+        cp_ := coc!.layers[p+1];
+        cp := SptSetMapFromBarCocycle(brMap, p, SS!.spectrum[q+1], cp_);
       fi;
     od;
 
