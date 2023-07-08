@@ -1,33 +1,48 @@
 2
 Layers:
-[ <ZL-Module []>, <ZL-Module with torsions [ 2, 2, 2 ]>, <ZL-Module with torsions [ 2 ]> ]
+[ <ZL-Module with torsions [ 2, 2, 2 ]>, <ZL-Module with torsions [ 2, 2, 2, 2 ]>,
+  <ZL-Module with torsions [ 2, 2, 2, 2 ]> ]
+[ "Majorana generator #", 1 ]
+2
+[ 0, 0, 1, 0 ]
+3
+[ 0, 0, 1, 0 ]
+[ "Majorana generator #", 2 ]
+2
+[ 1, 0, 0, 0 ]
+3
+[ 1, 0, 0, 0 ]
+[ "Majorana generator #", 3 ]
+2
+[ 0, 1, 0, 0 ]
+3
+[ 0, 1, 0, 0 ]
 [ "Complex generator #", 1 ]
 3
-[ 0 ]
+[ 1, 0, 0, 0 ]
 [ "Complex generator #", 2 ]
 3
-[ 0 ]
+[ 0, 1, 0, 0 ]
 [ "Complex generator #", 3 ]
 3
-[ 0 ]
+[ 0, 0, 1, 0 ]
+[ "Complex generator #", 4 ]
+3
+[ 0, 0, 0, 1 ]
 3
 Layers:
-[ <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2, 2, 2 ]>, <ZL-Module with torsions [ 2 ]> ]
+[ <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2, 2 ]> ]
 [ "Majorana generator #", 1 ]
+2
+[ 0, 1 ]
 3
-[ 0 ]
-[ "Majorana generator #", 2 ]
-3
-[ 0 ]
+[ 1, 0 ]
 [ "Complex generator #", 1 ]
 3
-[ 0 ]
+[ 1, 1 ]
 [ "Complex generator #", 2 ]
 3
-[ 0 ]
-[ "Complex generator #", 3 ]
-3
-[ 0 ]
+[ 1, 0 ]
 4
 Layers:
 [ <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2 ]>, <ZL-Module []> ]
@@ -42,136 +57,130 @@ Layers:
 [  ]
 5
 Layers:
-[ <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2 ]> ]
-[ "Majorana generator #", 1 ]
-3
-[ 0 ]
-[ "Majorana generator #", 2 ]
-3
-[ 0 ]
-[ "Complex generator #", 1 ]
-3
-[ 0 ]
-6
-Layers:
-[ <ZL-Module []>, <ZL-Module with torsions [ 2, 2, 2, 2 ]>, <ZL-Module with torsions [ 2, 2, 2, 2 ]> ]
-[ "Complex generator #", 1 ]
-3
-[ 0, 0, 0, 0 ]
-[ "Complex generator #", 2 ]
-3
-[ 0, 0, 0, 0 ]
-[ "Complex generator #", 3 ]
-3
-[ 0, 0, 0, 0 ]
-[ "Complex generator #", 4 ]
-3
-[ 0, 0, 0, 0 ]
-7
-Layers:
-[ <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2, 2, 2 ]>, <ZL-Module with torsions [ 2 ]> ]
-[ "Majorana generator #", 1 ]
-3
-[ 0 ]
-[ "Complex generator #", 1 ]
-3
-[ 0 ]
-[ "Complex generator #", 2 ]
-3
-[ 0 ]
-[ "Complex generator #", 3 ]
-3
-[ 0 ]
-8
-Layers:
 [ <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2 ]> ]
 [ "Majorana generator #", 1 ]
 3
 [ 0 ]
 [ "Complex generator #", 1 ]
 3
-[ 0 ]
+[ 1 ]
+6
+Layers:
+[ <ZL-Module []>, <ZL-Module []>, <ZL-Module with torsions [ 2, 2, 2, 2, 2, 2, 2, 2 ]> ]
+7
+Layers:
+[ <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2, 2, 2 ]>, <ZL-Module with torsions [ 2, 2, 2 ]> ]
+[ "Majorana generator #", 1 ]
+2
+[ 0, 1, 1 ]
+3
+ [ 0, 0, 1 ]
+[ "Majorana generator #", 2 ]
+2
+[ 0, 1, 0 ]
+3
+[ 0, 1, 1 ]
+[ "Complex generator #", 1 ]
+3
+[ 1, 0, 0 ]
+[ "Complex generator #", 2 ]
+3
+[ 0, 1, 1 ]
+[ "Complex generator #", 3 ]
+3
+[ 0, 1, 0 ]
+8
+Layers:
+[ <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2, 2 ]> ]
+[ "Majorana generator #", 1 ]
+2
+[ 1, 0 ]
+3
+[ 1, 1 ]
+[ "Majorana generator #", 2 ]
+3
+[ 1, 0 ]
+[ "Complex generator #", 1 ]
+3
+[ 1, 1 ]
+[ "Complex generator #", 2 ]
+3
+[ 0, 1 ]
 9
 Layers:
-[ <ZL-Module []>, <ZL-Module with torsions [ 2, 2, 2 ]>, <ZL-Module with torsions [ 2, 2 ]> ]
+[ <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2, 2, 2, 2, 2 ]> ]
+[ "Majorana generator #", 1 ]
+2
+[ 1 ]
+3
+[ 1, 1, 0, 0, 0 ]
 [ "Complex generator #", 1 ]
 3
-[ 0, 0 ]
-[ "Complex generator #", 2 ]
-3
-[ 0, 0 ]
-[ "Complex generator #", 3 ]
-3
-[ 0, 0 ]
+[ 1, 1, 0, 0, 0 ]
 10
 Layers:
-[ <ZL-Module []>, <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2, 4 ]> ]
+[ <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2, 2, 2 ]>, <ZL-Module with torsions [ 2, 4, 4 ]> ]
+[ "Majorana generator #", 1 ]
+2
+[ 0, 1, 0 ]
+3
+[ 1, 0, 2 ]
+[ "Majorana generator #", 2 ]
+3
+[ 0, 2, 0 ]
 [ "Complex generator #", 1 ]
 3
-[ 0, 2 ]
+[ 1, 1, 0 ]
 [ "Complex generator #", 2 ]
 3
-[ 0, 2 ]
-11
-Layers:
-[ <ZL-Module []>, <ZL-Module with torsions [ 2, 2, 2, 2 ]>, <ZL-Module with torsions [ 2, 2, 2 ]> ]
-[ "Complex generator #", 1 ]
-3
-[ 0, 0, 0 ]
-[ "Complex generator #", 2 ]
-3
-[ 0, 0, 0 ]
+[ 1, 0, 2 ]
 [ "Complex generator #", 3 ]
 3
-[ 0, 0, 0 ]
-[ "Complex generator #", 4 ]
-3
-[ 0, 0, 0 ]
+[ 0, 0, 3 ]
+11
+Layers:
+[ <ZL-Module []>, <ZL-Module []>, <ZL-Module with torsions [ 2, 2, 2, 2, 2, 2 ]> ]
 12
 Layers:
-[ <ZL-Module []>, <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2, 2 ]> ]
+[ <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2, 2, 4 ]> ]
+[ "Majorana generator #", 1 ]
+3
+[ 1, 0, 3 ]
 [ "Complex generator #", 1 ]
 3
-[ 0, 0 ]
-[ "Complex generator #", 2 ]
-3
-[ 0, 0 ]
+[ 1, 0, 3 ]
 13
 Layers:
 [ <ZL-Module []>, <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 3, 3, 3 ]> ]
 [ "Complex generator #", 1 ]
 3
-[ 0, 0, 1 ]
+[ 0, 0, 2 ]
 14
 Layers:
-[ <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2 ]> ]
-[ "Majorana generator #", 1 ]
-3
-[ 0 ]
+[ <ZL-Module []>, <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2 ]> ]
 [ "Complex generator #", 1 ]
 3
-[ 0 ]
+[ 1 ]
 15
 Layers:
-[ <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 6 ]> ]
-[ "Majorana generator #", 1 ]
-3
-[ 2 ]
+[ <ZL-Module []>, <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 6 ]> ]
 [ "Complex generator #", 1 ]
 3
-[ 0 ]
+[ 1 ]
 16
 Layers:
-[ <ZL-Module []>, <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 3, 6 ]> ]
+[ <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 6, 6 ]> ]
+[ "Majorana generator #", 1 ]
+2
+[ 1, 1 ]
+3
+[ 0, 3 ]
 [ "Complex generator #", 1 ]
 3
-[ 1, 4 ]
-17
-Layers:
-[ <ZL-Module []>, <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2, 2 ]> ]
-[ "Complex generator #", 1 ]
-3
-[ 0, 0 ]
+[ 1, 0 ]
 [ "Complex generator #", 2 ]
 3
-[ 0, 0 ]
+[ 1, 3 ]
+17
+Layers:
+[ <ZL-Module []>, <ZL-Module []>, <ZL-Module with torsions [ 2, 2, 2, 2 ]> ]
