@@ -30,8 +30,9 @@ it := 12;
     Display(["Majorana generator #", i]);
     v1 := layers[1]!.generators[i];
     cl1 := SptSetSpecSeqClassFromLevelCocycle(SS, 3, 1, v1);
-    SptSetPurifySpecSeqClass(cl1);
+    # SptSetPurifySpecSeqClass(cl1);
     cl2 := cl1 + cl1;
+    # cl2!.cochain!.layers[1+1] != ZeroCocycle@;
     SptSetPurifySpecSeqClass(cl2);
     Display(LeadingLayer(cl2));
     if LeadingLayer(cl2) = 2 then
@@ -68,4 +69,4 @@ it := 12;
   od;
 
   
-od;
+# od;
