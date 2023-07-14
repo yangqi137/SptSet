@@ -154,7 +154,8 @@ function(R, auMap, w)
   SptSetInstallAddTwister
     (ss, 3, 0, 
     function(l1, l2)
-      local coeff, n11, n12, n21, n22, c3, t3, dn21, dn22, dn21n22, m2, N2, dN2;
+      local coeff, n11, n12, n21, n22, c3, t3, dn21, dn22, m2, N2;
+
       n11 := l1[1+1];
       n12 := l2[1+1];
       n21 := l1[2+1];
@@ -163,22 +164,17 @@ function(R, auMap, w)
 
       dn21 := {g1, g2, g3} -> (s(g1) * n11(g2) * n11(g3) + w(g1, g2) * n11(g3));
       dn22 := {g1, g2, g3} -> (s(g1) * n12(g2) * n12(g3) + w(g1, g2) * n12(g3));
-      dn21n22 := {g1, g2, g3} -> (s(g1) * n11(g2) * n11(g3) + s(g1) * n12(g2) * n12(g3) + w(g1, g2) * n11(g3) + w(g1, g2) * n12(g3));
       m2 := {g1, g2} -> (n11(g1) * n12(g2) + s(g1) * n11(g2) * n12(g2));
       N2 := {g1, g2} -> (n21(g1, g2) + n22(g1, g2) + m2(g1, g2));
-      dN2 := InhomoCoboundary@(coeff, N2);
 
       c3 := AddInhomoCochain@(Cup1@(2, 2, coeff, n22, n21), Cup2@(3, 2, coeff, dn22, n21));
       c3 := AddInhomoCochain@(c3, Cup1@(2, 2, coeff, N2, m2));
       c3 := AddInhomoCochain@(c3, Cup0@(1, 2, coeff, s, m2));
-      
-      #c3 := Cup1@(2, 2, coeff, n21, n22);
-      #c3 := AddInhomoCochain@(c3, Cup2@(3, 2, coeff, dn21, n21));
-      #c3 := AddInhomoCochain@(c3, Cup2@(2, 3, coeff, n22, dn21));
-      #c3 := AddInhomoCochain@(c3, Cup2@(3, 2, coeff, dn22, n22));
-      #c3 := AddInhomoCochain@(c3, Cup2@(3, 2, coeff, dn21n22, N2));
-      #c3 := AddInhomoCochain@(c3, Cup1@(2, 2, coeff, m2, N2));
-      #c3 := AddInhomoCochain@(c3, Cup2@(2, 3, coeff, m2, dN2));
+      if n11 <> n12 and n21 <> n22 then
+        c3 := AddInhomoCochain@(c3, Cup2@(3, 2, coeff,
+          {g1, g2, g3} -> (s(g1) * (n11(g2)*n12(g3)-n12(g2)*n11(g3))),
+          {g1, g2} -> (n21(g1, g2) + n22(g1, g2))));
+      fi;
       
       t3 := function(g1, g2, g3)
         local g03;
