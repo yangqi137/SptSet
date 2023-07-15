@@ -29,17 +29,13 @@ InstallMethod(FermionEZSPTSpecSeq,
 
     SptSetInstallCoboundary(ss, 2, 2, 1,
     function(n2, dn2)
-      return function(g1, g2, g3, g4)
-        local val;
-        val := 1/2 * (n2(g1, g2) * n2(g3, g4) mod 2);
-        if dn2 <> ZeroCocycle@ then
-          val := val + 1/2 * ((n2(g1*g2*g3, g4) * dn2(g1, g2, g3)
-            + n2(g1, g2*g3*g4) * dn2(g2, g3, g4)) mod 2);
-          val := val + 1/2 * (dn2(g1, g2, g3*g4) * dn2(g1*g2, g3, g4) mod 2);
-          val := val - 1/4 * (dn2(g1, g2, g3) * (1 - dn2(g1, g2, g3*g4)) mod 2);
-        fi;
-        return val;
-      end;
+      local c4, coeff;
+      coeff := spectrum[1+1];
+      c4 := Cup0@(2, 2, coeff, n2, n2);
+      if dn2 <> ZeroCocycle@ then
+        c4 := AddInhomoCochain@(c4, Cup1@(3, 2, coeff, dn2, n2));
+      fi;
+      return ScaleInhomoCochain@(1/2, c4);
     end);
 
     SptSetInstallCoboundary(ss, 2, 1, 2,
@@ -48,7 +44,15 @@ InstallMethod(FermionEZSPTSpecSeq,
     end);
     SptSetInstallCoboundary(ss, 3, 1, 2,
     function(n1, dn1)
-      return {g1, g2, g3, g4} -> 0;
+      local dn2;
+      dn2 := {g1, g2, g3} -> (s(g1) * n1(g2) * n1(g3));
+      return function(g1, g2, g3, g4)
+        local s1dn2, c4, t4;
+        s1dn2 := 1/2 * s(g1) * dn2(g2, g3, g4);
+        c4 := 1/2 * dn2(g1, g2, g3*g4) * dn2(g1*g2, g3, g4);
+        t4 := -1/4 * ((dn2(g1, g2, g3) * (1 - dn2(g1, g2, g3*g4))) mod 2);
+        return s1dn2 + c4 + t4;
+      end;
     end);
 
     SptSetInstallCoboundary(ss, 2, 0, 3,
