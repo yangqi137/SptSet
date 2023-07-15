@@ -43,6 +43,28 @@ function(c1, c2)
   return SptSetSpecSeqCochain(SS, deg, layers);
 end);
 
+InstallMethod(SptSetStackInplace,
+"stack the second cochain to the first",
+IsIdenticalObj,
+[IsSptSetSpecSeqCochainRep, IsSptSetSpecSeqCochainRep],
+function(c1, c2)
+  local F, SS, deg, p, layers, q;
+  F := FamilyObj(c1);
+  SS := F!.specSeq;
+  deg := F!.degree;
+  layers := [];
+  for p in [0..deg] do
+    q := deg - p;
+    layers[p+1] := AddInhomoCochain@(c1!.layers[p+1], c2!.layers[p+1]);
+    if p > 0 then # the p=0 layer cannot be twisted
+      layers[p+1] := AddInhomoCochain@(layers[p+1],
+      SS!.addTwister[p+1][q+1](c1!.layers, c2!.layers));
+    fi;
+  od;
+
+  c1!.layers := layers;
+end);
+
 InstallGlobalFunction(SptSetSpecSeqCoboundarySL,
 function(SS, deg, p, a)
   local gid, q, dalayers, da, rmax, r, pp;
@@ -79,3 +101,40 @@ function(c)
 
   return dc;
 end);
+
+InstallGlobalFunction(PartialConstructSSCochain@,
+  function(SS, deg, p, cp, r)
+    local brMap, q, coc, cp_, dc, p2, q2, r2, Erpq2, dcp2_, dcp2, cp_prime;
+    brMap := SS!.brMap;
+    q := deg - p;
+    coc := SptSetSpecSeqCochainZero(SS, deg);
+
+    cp_ := SptSetMapToBarCocycle(brMap, p, SS!.spectrum[q+1], cp);
+    coc!.layers[p+1] := cp_;
+    dc := SptSetSpecSeqCoboundarySL(SS, deg, p, cp_);
+    dc!.layers[p+1 +1] := ZeroCocycle@ ; # cp_ must be a cocycle.
+
+    for p2 in [(p+1)..(p+1+r)] do
+      q2 := deg - p2;
+
+      dcp2_ := dc!.layers[p2+1 +1];
+      dcp2 := SptSetMapFromBarCocycle(brMap, p2+1, SS!.spectrum[q2+1], dcp2_);
+
+      for r2 in [(p2-p), (p2-p-1)..2] do
+        Erpq2 := SptSetSpecSeqComponent2(SS, r2, p2+1, q2);
+        if not SptSetFpZModuleIsZeroElm(Erpq2, dcp2) then
+          cp_prime := PartialPurify@(dc, p2+1, r2, dcp2);
+          SptSetStackInplace(coc, cp_prime);
+          dcp2_ := dc!.layers[p2+1 +1];
+          dcp2 := SptSetMapFromBarCocycle(brMap, p2+1, SS!.spectrum[q2+1], dcp2_);
+        fi;
+      od;
+
+      coc!.layers[p2 +1] := PartialPurifyCoboundary@(dc, p2+1, dcp2);                   
+    od;
+
+    return coc;
+end);
+
+            
+        

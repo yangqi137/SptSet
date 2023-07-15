@@ -115,3 +115,86 @@ function(p, q, coeff, a, b)
   end;
   return f;
 end);
+
+InstallGlobalFunction(Cup2@,
+function(p, q, coeff, a, b)
+  local gAction, f, gid;
+  gAction := coeff!.gAction;
+  gid := Identity(PreImage(gAction));
+  return function(glist...)
+    local gl1, gl2, gl3, gl4, gl1p, gl2p, gl3p, i, j, s, result;
+    result := 0;
+    # Display([p, q]);
+    for i in [0..(p-2)] do
+      for j in [(i+1)..(q+i-1)] do
+        # Display([[1..i], [(i+1)..j], [(j+1)..(j-i+p-1)], [(j-i+p)..(p+q-2)]]);
+        gl1 := glist{[1..i]};
+        gl2 := glist{[(i+1)..j]};
+        gl3 := glist{[(j+1)..(j-i+p-1)]};
+        gl4 := glist{[(j-i+p)..(p+q-2)]};
+
+        gl1p := Product(gl1, gid);
+        gl2p := Product(gl2, gid);
+        gl3p := Product(gl3, gid);
+
+        s:= (-1)^((p-i)*(j-i+1));
+        result := result + s * CallFuncList(a, Concatenation(gl1, [gl2p], gl3))
+          * ((gl1p^gAction)[1][1] * CallFuncList(b, Concatenation(gl2, [gl3p], gl4)));
+      od;
+    od;
+    return result;
+  end;
+end);
+
+InstallGlobalFunction(CheckCochainEqOverBasisListZ2@,
+function(c1, c2, basislist)
+  local deg, glist;
+  if c1 = ZeroCocycle@ then
+    if c2 = ZeroCocycle@ then return;
+    else
+      deg := NumberArgumentsFunction(c2);
+    fi;
+  else
+    deg := NumberArgumentsFunction(c1);
+  fi;
+
+  for glist in basislist do
+    if (CallFuncList(c1, glist) mod 2) <> (CallFuncList(c2, glist) mod 2) then
+      Error("CheckCochainEqOverSubset fails!");
+    fi;
+  od;
+end);
+
+InstallGlobalFunction(CheckCochainEqOverBasisListU1@,
+function(c1, c2, basislist)
+  local deg, glist;
+  if c1 = ZeroCocycle@ then
+    if c2 = ZeroCocycle@ then return;
+    else
+      deg := NumberArgumentsFunction(c2);
+    fi;
+  else
+    deg := NumberArgumentsFunction(c1);
+  fi;
+
+  for glist in basislist do
+    if not IsInt(CallFuncList(c1, glist) - CallFuncList(c2, glist)) then
+      Error("CheckCochainEqOverSubset fails!");
+    fi;
+  od;
+end);
+
+InstallGlobalFunction(ShortBasisListFromResolution@,
+function(brMap, deg)
+  local R, n, i, bl, bwl, bw;
+  R := brMap!.hapResolution;
+  n := Dimension(R)(deg);
+  bl := SSortedList([]);
+  for i in [1..n] do
+    bwl := SptSetMapToBarWord(brMap, deg, i);
+    for bw in bwl do
+      AddSet(bl, bw{[3..(deg+2)]});
+    od;
+  od;
+  return bl;
+end);
