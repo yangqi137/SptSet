@@ -111,14 +111,15 @@ InstallMethod(SptSetSpecSeqBuildDerivative,
   "build d^pq_r",
   [IsSptSetSpecSeqVanillaRep, IsInt, IsInt, IsInt],
   function(ss, r, p, q)
-    local M, N, m, n, fA, i, np_, opr_, dnp1_, dnp1, np1, np1_, opr;
+    # local M, N, m, n, fA, i, np_, opr_, dnp1_, dnp1, np1, np1_, opr;
+    local M, N, m, n, fA, i, np_, dnp, cl_dnp, opr_, opr;
     M := SptSetSpecSeqComponent(ss, r, p, q);
     N := SptSetSpecSeqComponent(ss, r, p+r, q-r+1);
     if SptSetFpZModuleIsZero(M) or SptSetFpZModuleIsZero(N) then
       return SptSetZeroMap(M, N);
     fi;
 
-    if r = 1 then # First page: coboundary maps
+    if r = 1 then # First page: coboundary maps; no need to use inhomo cochains.
       return SptSetCoboundaryMap(M, N,
         ss!.resolution, p, ss!.spectrum[q+1]);
     fi;
@@ -127,26 +128,30 @@ InstallMethod(SptSetSpecSeqBuildDerivative,
     fA := [];
 
     for i in [1..m] do
-      np_ := SptSetMapToBarCocycle(ss!.brMap, p, ss!.spectrum[q+1],
-        M!.generators[i]);
-      if r = 2 then
-        #opr_ := ss!.bdry[r+1][p+1][q+1](np_);
-        opr_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
-      elif r = 3 then
-        dnp1_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
-        dnp1 := SptSetMapFromBarCocycle(ss!.brMap,
-          p+r-1, ss!.spectrum[q-(r-1)+1 +1], dnp1_);
-        np1 := SptSetZLMapInverse(
-          SptSetSpecSeqDerivative(ss, 1, p+1, q-1),
-          dnp1);
-        np1_ := SptSetSolveCocycleEq(ss!.brMap,
-          p+r-1, ss!.spectrum[q-(r-1)+1 +1], dnp1_, np1);
-        #opr_ := ss!.bdry[r+1][p+1][q+1](np_, dnp1_, np1_);
-        opr_ := ss!.bdry[2+1][p+1+1][q-1+1](np1_, dnp1_);
-      else
-        Display(["d", r, "not implimented"]);
-        return fail;
-      fi;
+      np_ := SptSetMapToBarCocycle(ss!.brMap, p, ss!.spectrum[q+1], M!.generators[i]);
+      dnp := SptSetSpecSeqCoboundarySL(ss, p+q, p, np_);
+      dnp!.layers[p+1 +1] := ZeroCocycle@; # d np_ must be a cocycle
+      cl_dnp := SptSetSpecSeqClassFromCochainNC(dnp);
+      PartialPurifySSClass@(cl_dnp, r, p+r-1);
+      Assert(-1, LeadingLayer(cl_dnp) = p+r-1, "ASSERTION FAIL: obstruction does not vanish on the previous page.");
+      opr_ := cl_dnp!.cochain!.layers[p+r +1];
+      # if r = 2 then
+      #   opr_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
+      # elif r = 3 then
+      #   dnp1_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
+      #   dnp1 := SptSetMapFromBarCocycle(ss!.brMap,
+      #     p+r-1, ss!.spectrum[q-(r-1)+1 +1], dnp1_);
+      #   np1 := SptSetZLMapInverse(
+      #     SptSetSpecSeqDerivative(ss, 1, p+1, q-1),
+      #     dnp1);
+      #   np1_ := SptSetSolveCocycleEq(ss!.brMap,
+      #     p+r-1, ss!.spectrum[q-(r-1)+1 +1], dnp1_, np1);
+      #   #opr_ := ss!.bdry[r+1][p+1][q+1](np_, dnp1_, np1_);
+      #   opr_ := ss!.bdry[2+1][p+1+1][q-1+1](np1_, dnp1_);
+      # else
+      #   Display(["d", r, "not implimented"]);
+      #   return fail;
+      # fi;
 
       opr := SptSetMapFromBarCocycle(ss!.brMap,
         p+r, ss!.spectrum[q-r+1 +1], opr_);
@@ -164,7 +169,8 @@ InstallMethod(SptSetSpecSeqBuildDerivative2,
   "build d^pq_r",
   [IsSptSetSpecSeqVanillaRep, IsInt, IsInt, IsInt],
   function(ss, r, p, q)
-    local M, N, m, n, fA, i, np_, opr_, dnp1_, dnp1, np1, np1_, opr;
+    #local M, N, m, n, fA, i, np_, opr_, dnp1_, dnp1, np1, np1_, opr;
+    local M, N, m, n, fA, i, np_, dnp, cl_dnp, opr_, opr;
     M := SptSetSpecSeqComponent(ss, r, p, q);
     N := SptSetSpecSeqComponent2(ss, r, p+r, q-r+1);
     if SptSetFpZModuleIsZero(M) or SptSetFpZModuleIsZero(N) then
@@ -180,26 +186,31 @@ InstallMethod(SptSetSpecSeqBuildDerivative2,
     fA := [];
 
     for i in [1..m] do
-      np_ := SptSetMapToBarCocycle(ss!.brMap, p, ss!.spectrum[q+1],
-        M!.generators[i]);
-      if r = 2 then
-        #opr_ := ss!.bdry[r+1][p+1][q+1](np_);
-        opr_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
-      elif r = 3 then
-        dnp1_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
-        dnp1 := SptSetMapFromBarCocycle(ss!.brMap,
-          p+r-1, ss!.spectrum[q-(r-1)+1 +1], dnp1_);
-        np1 := SptSetZLMapInverse(
-          SptSetSpecSeqDerivative(ss, 1, p+1, q-1),
-          dnp1);
-        np1_ := SptSetSolveCocycleEq(ss!.brMap,
-          p+r-1, ss!.spectrum[q-(r-1)+1 +1], dnp1_, np1);
-        #opr_ := ss!.bdry[r+1][p+1][q+1](np_, dnp1_, np1_);
-        opr_ := ss!.bdry[2+1][p+1+1][q-1+1](np1_, dnp1_);
-      else
-        Display(["d", r, "not implimented"]);
-        return fail;
-      fi;
+      np_ := SptSetMapToBarCocycle(ss!.brMap, p, ss!.spectrum[q+1], M!.generators[i]);
+      dnp := SptSetSpecSeqCoboundarySL(ss, p+q, p, np_);
+      dnp!.layers[p+1 +1] := ZeroCocycle@; # d np_ must be a cocycle
+      cl_dnp := SptSetSpecSeqClassFromCochainNC(dnp);
+      PartialPurifySSClass@(cl_dnp, r, p+r-1);
+      Assert(-1, LeadingLayer(cl_dnp) = p+r-1, "ASSERTION FAIL: obstruction does not vanish on the previous page.");
+      opr_ := cl_dnp!.cochain!.layers[p+r +1];
+      # if r = 2 then
+      #   #opr_ := ss!.bdry[r+1][p+1][q+1](np_);
+      #   opr_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
+      # elif r = 3 then
+      #   dnp1_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
+      #   dnp1 := SptSetMapFromBarCocycle(ss!.brMap,
+      #     p+r-1, ss!.spectrum[q-(r-1)+1 +1], dnp1_);
+      #   np1 := SptSetZLMapInverse(
+      #     SptSetSpecSeqDerivative(ss, 1, p+1, q-1),
+      #     dnp1);
+      #   np1_ := SptSetSolveCocycleEq(ss!.brMap,
+      #     p+r-1, ss!.spectrum[q-(r-1)+1 +1], dnp1_, np1);
+      #   #opr_ := ss!.bdry[r+1][p+1][q+1](np_, dnp1_, np1_);
+      #   opr_ := ss!.bdry[2+1][p+1+1][q-1+1](np1_, dnp1_);
+      # else
+      #   Display(["d", r, "not implimented"]);
+      #   return fail;
+      # fi;
 
       opr := SptSetMapFromBarCocycle(ss!.brMap,
         p+r, ss!.spectrum[q-r+1 +1], opr_);

@@ -102,8 +102,71 @@ function(c)
   return dc;
 end);
 
+InstallGlobalFunction(PartialPurifySSClass@,
+function(cl, rf, pf)
+  # pf = last layer to be purified.
+  # rf = highest page available.
+  local F, SS, deg, coc, brMap, bdry, bdry2, p, q, cp, cp_, Epqrf, r, Erpq;
+
+  F := FamilyObj(cl);
+  SS := F!.specSeq;
+  deg := F!.degree;
+  coc := cl!.cochain;
+  brMap := SS!.brMap;
+
+  bdry := SptSetSpecSeqCochainZero(SS, deg-1);
+
+  Assert(0, pf <= deg);
+
+  for p in [0..pf] do
+    if coc!.layers[p+1] = ZeroCocycle@ then
+      continue;
+    fi;
+    q := deg - p;
+    cp_ := coc!.layers[p+1];
+    cp := SptSetMapFromBarCocycle(brMap, p, SS!.spectrum[q+1], cp_);
+    Assert(-1, ForAll(cp, IsInt), "ASSERTION FAILURE: top layer is not a cocycle");
+    #if not ForAll(cp, IsInt) then Error("top layer is not a cocycle."); fi;
+
+    # Epqinf := SptSetSpecSeqComponent2Inf(SS, p, q);
+    # rf = -1 means infinite page.
+    if rf > 0 then
+      Epqrf := SptSetSpecSeqComponent2(SS, rf, p, q);
+    else
+      Epqrf := SptSetSpecSeqComponent2Inf(SS, p, q);
+    fi;
+    if not SptSetFpZModuleIsZeroElm(Epqrf, cp) then
+      break;
+    fi;
+
+    #Assert(0, SptSetFpZModuleIsZeroElm(
+    #SptSetSpecSeqComponent2(SS, p+1, p, q), cp),
+    #"Assertion: p+1 should be the highest page with trivialization");
+    for r in [p,(p-1)..2] do
+      Erpq := SptSetSpecSeqComponent2(SS, r, p, q);
+      if not SptSetFpZModuleIsZeroElm(Erpq, cp) then
+        bdry2 := PartialPurify@(coc, p, r, cp);
+        SptSetStackInplace(bdry, bdry2);
+        cp_ := coc!.layers[p+1];
+        cp := SptSetMapFromBarCocycle(brMap, p, SS!.spectrum[q+1], cp_);
+      fi;
+    od;
+
+    bdry2 := PartialPurifyCoboundary@(coc, p, cp);
+    SptSetStackInplace(bdry, bdry2);
+
+  od;
+
+  cl!.cochain := coc;
+  SetLeadingLayer(cl, p);
+
+  return bdry;
+end);
+
 InstallGlobalFunction(PartialConstructSSCochain@,
   function(SS, deg, p, cp, r)
+    # r means the construction needed for the computation of the derivative on the r-th page (d_r).
+    # i. e. the cochain contains r terms: c^p, ..., c^{p+r-2}.
     local brMap, q, coc, cp_, dc, p2, q2, r2, Erpq2, dcp2_, dcp2, cp_prime;
     brMap := SS!.brMap;
     q := deg - p;
@@ -111,10 +174,16 @@ InstallGlobalFunction(PartialConstructSSCochain@,
 
     cp_ := SptSetMapToBarCocycle(brMap, p, SS!.spectrum[q+1], cp);
     coc!.layers[p+1] := cp_;
+
+    Assert(0, r >= 2, "PartialConstruction is only needed for r>=2.");
+    if r = 2 then
+      return coc;
+    fi;
+
     dc := SptSetSpecSeqCoboundarySL(SS, deg, p, cp_);
     dc!.layers[p+1 +1] := ZeroCocycle@ ; # cp_ must be a cocycle.
 
-    for p2 in [(p+1)..(p+1+r)] do
+    for p2 in [(p+1)..(p+r-1)] do
       q2 := deg - p2;
 
       dcp2_ := dc!.layers[p2+1 +1];
