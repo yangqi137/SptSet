@@ -34,34 +34,34 @@ function(R, auMap, w)
     return ZeroCocycle@;
   end);
 
-  SptSetInstallCoboundary(ss, 2, 2, 1,
-  function(n2, dn2)
-    local O41, corr;
-    O41 := function(g1, g2, g3, g4)
-      local val;
-      val := 1/2 * ((n2(g1, g2) + w(g1, g2)) * n2(g3, g4) mod 2);
-      if dn2 <> ZeroCocycle@ then
-        val := val + 1/2 * ((n2(g1*g2*g3, g4) * dn2(g1, g2, g3)
-          + n2(g1, g2*g3*g4) * dn2(g2, g3, g4)) mod 2);
-        val := val + 1/2 * (w(g1, g2*g3) * dn2(g2, g3, g4));
-        val := val + 1/2 * (dn2(g1, g2, g3*g4) * dn2(g1*g2, g3, g4) mod 2);
-        val := val - 1/4 * (dn2(g1, g2, g3) * (1 - dn2(g1, g2, g3*g4)) mod 2);
-      fi;
-      return val;
-    end;
-
-    #corr := AddInhomoCochain@({g1, g2, g3} -> 1/2*s(g1)*n2(g2, g3), ScaleInhomoCochain@(1/2, Cup2@(2, 3, ss!.spectrum[2+1], n2, dn2)));
-    #return AddInhomoCochain@(O41, InhomoCoboundary@(ss!.spectrum[2+1], corr));
-    return O41;
-  end);
   SptSetInstallCoboundary(ss, 2, 1, 2,
   function(n1, dn1)
     return {g1, g2, g3} -> (s(g1) * n1(g2) * n1(g3) + w(g1, g2) * n1(g3));
   end);
   SptSetInstallCoboundary(ss, 3, 1, 2,
   function(n1, dn1)
-    return {g1, g2, g3, g4} -> 0;
+      local dn2;
+      dn2 := {g1, g2, g3} -> (s(g1) * n1(g2) * n1(g3) + w(g1, g2) * n1(g3));
+      return function(g1, g2, g3, g4)
+        local val;
+        val := 1/2 * s(g1) * dn2(g2, g3, g4);
+        val := val + 1/2 * (w(g1, g2*g3) * dn2(g2, g3, g4));
+        val := val + 1/2 * dn2(g1, g2, g3*g4) * dn2(g1*g2, g3, g4);
+        val := val - 1/4 * ((dn2(g1, g2, g3) * (1 - dn2(g1, g2, g3*g4))) mod 2);
+        return val;
+      end;
   end);
+  SptSetInstallCoboundary(ss, 2, 2, 1,
+  function(n2, dn2)
+      local c4, coeff;
+      coeff := spectrum[1+1];
+      c4 := {g1, g2, g3, g4} -> ((w(g1, g2) + n2(g1, g2)) * n2(g3, g4));
+      if dn2 <> ZeroCocycle@ then
+        c4 := AddInhomoCochain@(c4, Cup1@(3, 2, coeff, dn2, n2));
+      fi;
+      return ScaleInhomoCochain@(1/2, c4);
+  end);
+
 
   SptSetInstallCoboundary(ss, 2, 0, 3,
   function(n0, dn0)
@@ -192,7 +192,19 @@ function(R, auMap, w)
     SptSetInstallAddTwister(ss, 1, 3, {l1, l2} -> ZeroCocycle@);
     SptSetInstallAddTwister(ss, 2, 2, {l1, l2} -> ZeroCocycle@);
     SptSetInstallAddTwister(ss, 3, 1, {l1, l2} -> ZeroCocycle@);
-    SptSetInstallAddTwister(ss, 4, 0, {l1, l2} -> ZeroCocycle@);
+    SptSetInstallAddTwister(ss, 4, 0,
+    function(l1, l2)
+      local coeff, n31, n32;
+
+      Assert(0, l1[2+1] = ZeroCocycle@ or l2[2+1] = ZeroCocycle@);
+      Assert(0, l1[1+1] = ZeroCocycle@ or l2[1+1] = ZeroCocycle@);
+
+      coeff := spectrum[1+1];
+      n31 := l1[3+1];
+      n32 := l2[3+1];
+
+      return ScaleInhomoCochain@(1/2, Cup2@(3, 3, coeff, n31, n32));
+    end);
 
   SptSetInstallCoboundary(ss, 2, 3, 1, function(n3, dn3)
     return function(g1, g2, g3, g4, g5)
