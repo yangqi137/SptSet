@@ -134,7 +134,7 @@ InstallMethod(SptSetSpecSeqBuildDerivative,
       cl_dnp := SptSetSpecSeqClassFromCochainNC(dnp);
       PartialPurifySSClass@(cl_dnp, r, p+r-1);
       Assert(-1, LeadingLayer(cl_dnp) = p+r-1, "ASSERTION FAIL: obstruction does not vanish on the previous page.");
-      opr_ := cl_dnp!.cochain!.layers[p+r +1];
+      opr_ := NegativeInhomoCochain@(cl_dnp!.cochain!.layers[p+r +1]);
       # if r = 2 then
       #   opr_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
       # elif r = 3 then
@@ -191,8 +191,9 @@ InstallMethod(SptSetSpecSeqBuildDerivative2,
       dnp!.layers[p+1 +1] := ZeroCocycle@; # d np_ must be a cocycle
       cl_dnp := SptSetSpecSeqClassFromCochainNC(dnp);
       PartialPurifySSClass@(cl_dnp, r, p+r-1);
+      # PartialPurifySSCobdry@(dnp, ss, r);
       Assert(-1, LeadingLayer(cl_dnp) = p+r-1, "ASSERTION FAIL: obstruction does not vanish on the previous page.");
-      opr_ := cl_dnp!.cochain!.layers[p+r +1];
+      opr_ := NegativeInhomoCochain@(cl_dnp!.cochain!.layers[p+r +1]);
       # if r = 2 then
       #   #opr_ := ss!.bdry[r+1][p+1][q+1](np_);
       #   opr_ := ss!.bdry[2+1][p+1][q+1](np_, ZeroCocycle@);
