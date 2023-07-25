@@ -11,7 +11,7 @@ InstallMethod(SptSetConstructBarResMap,
 "construct a bar res map of my implimentation",
 [IsSptSetBarResMapMineRep, IsHapResolution],
 function(filter, R)
-  local G, toBarCache, deg, maxFromBarCacheDeg;
+  local G, toBarCache, fromBarCache, equivBarCache, deg, maxFromBarCacheDeg;
   G := GroupOfResolution(R);
   toBarCache := [];
   for deg in [0..Length(R)] do
