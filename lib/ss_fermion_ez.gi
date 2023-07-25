@@ -158,10 +158,10 @@ InstallMethod(FermionEZSPTSpecSeq,
       n22 := l2[2+1];
       coeff := spectrum[1+1];
 
-      # dn21 := {g1, g2, g3} -> (s(g1) * n11(g2) * n11(g3));
-      # dn22 := {g1, g2, g3} -> (s(g1) * n12(g2) * n12(g3));
-      dn21 := InhomoCoboundary@(coeff, n21);
-      dn22 := InhomoCoboundary@(coeff, n22);
+      dn21 := {g1, g2, g3} -> (s(g1) * n11(g2) * n11(g3));
+      dn22 := {g1, g2, g3} -> (s(g1) * n12(g2) * n12(g3));
+      # dn21 := InhomoCoboundary@(coeff, n21);
+      # dn22 := InhomoCoboundary@(coeff, n22);
       m2 := {g1, g2} -> (n11(g1) * n12(g2) + s(g1) * n11(g2) * n12(g2));
       N2 := {g1, g2} -> (n21(g1, g2) + n22(g1, g2) + m2(g1, g2));
 
