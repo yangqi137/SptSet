@@ -1,7 +1,7 @@
 DeclareRepresentation(
   "IsSptSetBarResMapMineRep",
   IsCategoryOfSptSetBarResMap and IsComponentObjectRep,
-  ["hapResolution", "group", "toBarCache", "fromBarCache"]
+  ["hapResolution", "group", "toBarCache", "fromBarCache", "equivBarCache"]
 );
 
 BindGlobal("TheTypeSptSetBarResMapMine",
@@ -11,15 +11,29 @@ InstallMethod(SptSetConstructBarResMap,
 "construct a bar res map of my implimentation",
 [IsSptSetBarResMapMineRep, IsHapResolution],
 function(filter, R)
-  local G, toBarCache, deg;
+  local G, toBarCache, deg, maxFromBarCacheDeg;
   G := GroupOfResolution(R);
   toBarCache := [];
   for deg in [0..Length(R)] do
     toBarCache[deg+1] := [];
   od;
   toBarCache[1][1] := [ [ 1, Identity(G)] ];
+
+  fromBarCache := [];
+  # maxFromBarCacheDeg := 4;
+  for deg in [0..Length(R)] do
+    fromBarCache[deg+1] := NewDictionary(R!.elts, true);
+  od;
+
+  equivBarCache := [];
+  # maxFromBarCacheDeg := 4;
+  for deg in [0..Length(R)] do
+    equivBarCache[deg+1] := NewDictionary(R!.elts, true);
+  od;
+  
   return Objectify(TheTypeSptSetBarResMapMine,
-  rec(hapResolution := R, group := G, toBarCache := toBarCache));
+  rec(hapResolution := R, group := G, toBarCache := toBarCache,
+    fromBarCache := fromBarCache, equivBarCache := equivBarCache));
 end);
 
 # some local functions
@@ -132,15 +146,21 @@ function(brMap, deg, glist)
     return [ [1, 1, Position(elts, gid)] ];
   fi;
 
-  ans := [];
+  ans := LookupDictionary(brMap!.fromBarCache[deg+1], glist);
+  if ans = fail then
 
-  dg := BarResolutionBoundary@(gid, glist);
-  for xdg in dg do
-    glxdg := xdg{[3..(deg+1)]};
-    fglxdg := StructuralCopy(SptSetMapFromBarWord(brMap, deg-1, glxdg));
-    hfglxdg := HapResolutionHomotopy@(R, deg-1, xdg[1], xdg[2], fglxdg);
-    Append(ans, hfglxdg);
-  od;
+    ans := [];
+    dg := BarResolutionBoundary@(gid, glist);
+    for xdg in dg do
+      glxdg := xdg{[3..(deg+1)]};
+      fglxdg := StructuralCopy(SptSetMapFromBarWord(brMap, deg-1, glxdg));
+      hfglxdg := HapResolutionHomotopy@(R, deg-1, xdg[1], xdg[2], fglxdg);
+      Append(ans, hfglxdg);
+    od;
+    
+    AddDictionary(brMap!.fromBarCache[deg+1], glist, ans);
+  fi;
+
   return ans;
 end);
 
@@ -148,50 +168,57 @@ InstallMethod(SptSetMapEquivBarWord,
 "compute the homotopy equivalence of a bar-resolution word",
 [IsSptSetBarResMapMineRep, IsList],
 function(brMap, glist)
-  local gid, deg, elts, dgl, hdgl, fgl, x, fx, xfx, w;
+  local gid, deg, elts, dgl, hdgl, fgl, x, fx, xfx, w, ans;
   gid := Identity(brMap!.group);
   deg := Length(glist);
   elts := brMap!.hapResolution!.elts;
 
-  w := [];
-
   # boundary condition.
   if deg = 0 then
-    return w;
+    return [];
   fi;
 
   if gid in glist then
     return [];
   fi;
 
-  dgl := BarResolutionBoundary@(gid, glist);
-  # computes -h(d(gl)) and adds it to w
-  for x in dgl do
-    fx := StructuralCopy(SptSetMapEquivBarWord(brMap, x{[3..(deg+1)]}));
-    for xfx in fx do
-      xfx[1] := -x[1] * xfx[1];
-      xfx[2] := x[2] * xfx[2];
-      Add(w, xfx);
+  ans := LookupDictionary(brMap!.equivBarCache[deg+1], glist);
+  if ans = fail then
+
+    w := [];
+
+    dgl := BarResolutionBoundary@(gid, glist);
+    # computes -h(d(gl)) and adds it to w
+    for x in dgl do
+      fx := StructuralCopy(SptSetMapEquivBarWord(brMap, x{[3..(deg+1)]}));
+      for xfx in fx do
+        xfx[1] := -x[1] * xfx[1];
+        xfx[2] := x[2] * xfx[2];
+        Add(w, xfx);
+      od;
     od;
-  od;
 
-  # computes f(g(gl))
-  fgl := SptSetMapFromBarWord(brMap, deg, glist);
-  for x in fgl do
-    # format of x : [prefactor, basis, g]
-    fx := StructuralCopy(SptSetMapToBarWord(brMap, deg, x[2]));
-    for xfx in fx do
-      xfx[1] := xfx[1] * x[1];
-      xfx[2] := elts[x[3]] * xfx[2];
-      Add(w, xfx);
+    # computes f(g(gl))
+    fgl := SptSetMapFromBarWord(brMap, deg, glist);
+    for x in fgl do
+      # format of x : [prefactor, basis, g]
+      fx := StructuralCopy(SptSetMapToBarWord(brMap, deg, x[2]));
+      for xfx in fx do
+        xfx[1] := xfx[1] * x[1];
+        xfx[2] := elts[x[3]] * xfx[2];
+        Add(w, xfx);
+      od;
     od;
-  od;
 
-  #compute -gl
-  x := [-1, gid];
-  Append(x, glist);
-  Add(w, x);
+    #compute -gl
+    x := [-1, gid];
+    Append(x, glist);
+    Add(w, x);
 
-  w := WordSimplify@(w);
-  return BarResolutionHomotopy@(gid, 1, gid, w);
+    w := WordSimplify@(w);
+    ans := BarResolutionHomotopy@(gid, 1, gid, w);
+
+    AddDictionary(brMap!.equivBarCache[deg+1], glist, ans);
+  fi;
+  return ans;
 end);
