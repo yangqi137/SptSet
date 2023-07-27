@@ -35,6 +35,15 @@ function(brMap, deg, coeff, alpha)
   return SptSetMapToBarCocycle(brMap, deg, coeff!.gAction, alpha);
 end);
 
+InstallMethod(SptSetMapToBarCocycle,
+              "map to an inhomogeneous cocycle",
+              [IsCategoryOfSptSetBarResMap, IsInt, IsSptSetCoeffU1Rep, IsRowVector],
+              function(brmap, deg, coeff, alpha)
+                  local beta;
+                  beta := SolveU1CocycleEq@(brmap!.hapResolution, deg+1, coeff!.gAction, alpha);
+                  return SptSetMapToBarCocycle(brmap, deg, coeff!.gAction, beta);
+              end);
+
 InstallMethod(SptSetMapFromBarCocycle,
 "map from an inhomogeneous cocycle",
 [IsCategoryOfSptSetBarResMap, IsInt, IsGeneralMapping, IsFunction],
