@@ -14,8 +14,15 @@ function(modules, ext_data)
     for im in [1..(nm-1)] do
         M := modules[im];
         ng := SptSetNumberOfGenerators(M);
-        for ig in [1..ng] do
-            vi := M!.generators[i];
+        for j in [1..ng] do
+            vj := M!.generators[j];
+            tj := M!.relations[j][j];
+            vvj := 
+            if tj <> 0 then
+                ext_j := ext_data[i][j];
+            else
+            fi;
+            
         od;
     od;
 end);
