@@ -155,9 +155,9 @@ InstallMethod(FermionEZSPTSpecSeq,
     SptSetInstallCoboundary(ss, 2, 3, 1, function(n3, dn3)
       local c5, coeff;
       coeff := spectrum[1+1];
-      c5 := Cup1@(2, 2, coeff, n3, n3);
+      c5 := Cup1@(3, 3, coeff, n3, n3);
       if dn3 <> ZeroCocycle@ then
-        c5 := AddInhomoCochain@(c5, Cup2@(3, 2, coeff, dn3, n3));
+        c5 := AddInhomoCochain@(c5, Cup2@(4, 3, coeff, dn3, n3));
       fi;
       return ScaleInhomoCochain@(1/2, c5);
 
