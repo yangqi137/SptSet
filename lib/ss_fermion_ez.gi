@@ -117,27 +117,31 @@ InstallMethod(FermionEZSPTSpecSeq,
     SptSetInstallCoboundary(ss, 3, 2, 2,
     function(n2, dn2)
       return function(g1, g2, g3, g4, g5)
-        local n2_012, n2_013, n2_014, n2_015,
-          n2_023, n2_024, n2_025,
-          n2_034, n2_035, n2_045,
-          n2_123, n2_124, n2_134, n2_234,
-          a4, b4, N1234, L01234, a4t, b4t, o5sym;
+        local n2_123, n2_134, n2_125, n2_145,
+          n2_234, n2_245, n2_235, n2_345,
+          a4, b4, N2345, L12345, a4t, b4t, o5sym;
 
-          n2_012 := n2(g1, g2) mod 2;
-          n2_013 := n2(g1, g2*g3) mod 2;
-          n2_014 := n2(g1, g2*g3*g4) mod 2;
-          n2_015 := n2(g1, g2*g3*g4*g5) mod 2;
-          n2_023 := n2(g1*g2, g3) mod 2;
-          n2_024 := n2(g1*g2, g3*g4) mod 2;
-          n2_025 := n2(g1*g2, g3*g4*g5) mod 2;
-          n2_034 := n2(g1*g2*g3, g4) mod 2;
-          n2_035 := n2(g2*g2*g3, g4*g5) mod 2;
-          n2_045 := n2(g1*g2*g3*g4, g5) mod 2;
-          n2_123 := n2(g2, g3) mod 2;
-          n2_124 := n2(g2, g3*g4) mod 2;
-          n2_134 := n2(g2*g3, g4) mod 2;
+        n2_123 := n2(g2, g3) mod 2;
+        n2_134 := n2(g2*g3, g4) mod 2;
+        n2_125 := n2(g2, g3*g4*g5) mod 2;
+        n2_145 := n2(g2*g3*g4, g5) mod 2;
 
-        o5sym := 1/2 * s(g1) * a4tilde(g2, g3, g4, g5)??
+        n2_234 := n2(g3, g4) mod 2;
+        n2_245 := n2(g3*g4, g5) mod 2;
+        n2_235 := n2(g3, g4*g5) mod 2;
+        n2_345 := n2(g4, g5) mod 2;
+        
+        a4 := (n2_123 * n2_345 + s1(g2) * n2_235 * n2_345) mod 2;
+        b4 := (s1(g2) * n2_245 * n2_234) mod 2;
+
+        N2345 := (n2_234 * n2_235 * n2_245 * n2_345) mod 2;
+        L12345 := (n2_123 * n2_134 * (1-n2_125) * (1-n2_145)
+                  + n2_134 * n2_145 * (1-n2_123) * (1-n2_125)
+                  + (1-n2_123) * (1-n2_125) * (1-n2_134) * (1-n2_145)) mod 2;
+        a4t := a4 + N2345 * (1-L12345) * b4;
+        b4t := b4 + N2345 * (L12345-1) * b4;
+
+        o5sym := 1/2 * s(g1) * a4t;
       end;
     end);
     
