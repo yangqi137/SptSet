@@ -124,6 +124,87 @@ function(R, auMap, w)
     end;
   end);
 
+  SptSetInstallCoboundary(ss, 3, 2, 2,
+  function(n2, dn2)
+    return function(g1, g2, g3, g4, g5)
+      local n2_123, n2_134, n2_125, n2_145,
+        n2_234, n2_245, n2_235, n2_345,
+        a4, b4, N2345, L12345, a4t, b4t, o5sym, t5;
+
+      n2_123 := n2(g2, g3) mod 2;
+      n2_134 := n2(g2*g3, g4) mod 2;
+      n2_125 := n2(g2, g3*g4*g5) mod 2;
+      n2_145 := n2(g2*g3*g4, g5) mod 2;
+
+      n2_234 := n2(g3, g4) mod 2;
+      n2_245 := n2(g3*g4, g5) mod 2;
+      n2_235 := n2(g3, g4*g5) mod 2;
+      n2_345 := n2(g4, g5) mod 2;
+        
+      a4 := (n2_123 * n2_345 + s(g2) * n2_235 * n2_345) mod 2;
+      b4 := (s(g2) * n2_245 * n2_234) mod 2;
+
+      N2345 := (n2_234 * n2_235 * n2_245 * n2_345) mod 2;
+      L12345 := (n2_123 * n2_134 * (1-n2_125) * (1-n2_145)
+                + n2_134 * n2_145 * (1-n2_123) * (1-n2_125)
+                + (1-n2_123) * (1-n2_125) * (1-n2_134) * (1-n2_145)) mod 2;
+      a4t := a4 + N2345 * (1-L12345) * b4;
+      b4t := b4 + N2345 * (L12345-1) * b4;
+
+      o5sym := 1/2 * (s(g1) * a4t + w(g1, g2*g3) * a4t + w(g1, g2) * b4t);
+
+      t5 := ExtData@(O5gamma@, s(g1*g2), s(g1), w(g1*g2, g3), w(g1, g2*g3), w(g1, g2),
+        n2(g1, g2), n2(g1, g2*g3), n2(g1, g2*g3*g4), n2(g1, g2*g3*g4*g5),
+        n2(g1*g2, g3), n2(g1*g2, g3*g4), n2(g1*g2, g3*g4*g5),
+        n2(g1*g2*g3, g4), n2(g1*g2*g3, g4*g5), n2(g1*g2*g3*g4, g5));
+
+      return o5sym + t5;
+    end;
+  end);
+
+  SptSetInstallCoboundary(ss, 2, 3, 1, function(n3, dn3)
+    local c5, coeff;
+    coeff := spectrum[1+1];
+
+    c5 := AddInhomoCochain@(Cup0@(2, 3, coeff, w, n3), Cup1@(3, 3, coeff, n3, n3));
+    if dn3 <> ZeroCocycle@ then
+      c5 := AddInhomoCochain@(c5, Cup2@(4, 3, coeff, dn3, n3));
+    fi;
+    return ScaleInhomoCochain@(1/2, c5);
+
+    # return function(g1, g2, g3, g4, g5)
+    #   local o5, n3c1n3, n3c2dn3;
+    #   # o5 = 1/2 * (w2 u n3 + n3 u1 n3).
+    #   # we are again ignoring the G-actions because Z2 can only have a trivial G-action.
+    #   o5 := 1/2 * w(g1, g2) * n3(g3, g4, g5);
+    #   n3c1n3 := n3(g1*g2*g3, g4, g5) * n3(g1, g2, g3);
+    #   n3c1n3 := n3c1n3 + n3(g1, g2*g3*g4, g5) * n3(g2, g3, g4);
+    #   n3c1n3 := n3c1n3 + n3(g1, g2, g3*g4*g5) * n3(g3, g4, g5);
+    #   o5 := o5 + 1/2 * n3c1n3;
+    #   if dn3 <> ZeroCocycle@ then
+    #     n3c2dn3 := n3(g1, g2, g3) * dn3(g1, g2*g3, g4, g5) - n3(g1*g2, g3, g4) * dn3(g1, g2, g3*g4, g5) + n3(g1*g2*g3, g4, g5) * dn3(g1, g2, g3, g4*g5)
+    #       + n3(g1, g2, g3) * dn3(g2, g3, g4, g5) + n3(g1, g2*g3, g4) * dn3(g2, g3, g4, g5);
+    #     o5 := o5 + 1/2 * n3c2dn3;
+
+    #     # 1/2w2(013)dn3(12345)
+    #     o5 := o5 + 1/2 * w(g1, g2*g3) * dn3(g2, g3, g4, g5);
+
+    #     # 1/2w2(023)[dn3(01245) + dn3(01235) + dn3(01234)]
+    #     o5 := o5 + 1/2 * w(g1*g2, g3) * (dn3(g1, g2, g3*g4, g5)
+    #       + dn3(g1, g2, g3, g4*g5) + dn3(g1, g2, g3, g4));
+
+    #     # 1/2dn3(02345)dn3(01235)
+    #     o5 := o5 + 1/2 * dn3(g1*g2, g3, g4, g5) * dn3(g1, g2, g3, g4*g5);
+    #     # 1/4dn3(01245)dn3(01234)
+    #     o5 := o5 + 1/4 * (dn3(g1, g2, g3*g4, g5) * dn3(g1, g2, g3, g4) mod 2);
+    #     # -1/4[dn3(12345)+dn3(02345)+dn3ð01345)]dn3(01235)
+    #     o5 := o5 - 1/4 * ((dn3(g2, g3, g4, g5) + dn3(g1*g2, g3, g4, g5)
+    #       + dn3(g1, g2*g3, g4, g5)) * dn3(g1, g2, g3, g4*g5) mod 2);
+    #   fi;
+    #   return o5;
+    # end;
+  end);
+
   SptSetInstallAddTwister(ss, 1, 1, {l1, l2} -> ZeroCocycle@);
     
   SptSetInstallAddTwister(ss, 2, 0,
@@ -212,40 +293,6 @@ function(R, auMap, w)
 
       return ScaleInhomoCochain@(1/2, Cup2@(3, 3, coeff, n31, n32));
     end);
-
-  SptSetInstallCoboundary(ss, 2, 3, 1, function(n3, dn3)
-    return function(g1, g2, g3, g4, g5)
-      local o5, n3c1n3, n3c2dn3;
-      # o5 = 1/2 * (w2 u n3 + n3 u1 n3).
-      # we are again ignoring the G-actions because Z2 can only have a trivial G-action.
-      o5 := 1/2 * w(g1, g2) * n3(g3, g4, g5);
-      n3c1n3 := n3(g1*g2*g3, g4, g5) * n3(g1, g2, g3);
-      n3c1n3 := n3c1n3 + n3(g1, g2*g3*g4, g5) * n3(g2, g3, g4);
-      n3c1n3 := n3c1n3 + n3(g1, g2, g3*g4*g5) * n3(g3, g4, g5);
-      o5 := o5 + 1/2 * n3c1n3;
-      if dn3 <> ZeroCocycle@ then
-        n3c2dn3 := n3(g1, g2, g3) * dn3(g1, g2*g3, g4, g5) - n3(g1*g2, g3, g4) * dn3(g1, g2, g3*g4, g5) + n3(g1*g2*g3, g4, g5) * dn3(g1, g2, g3, g4*g5)
-          + n3(g1, g2, g3) * dn3(g2, g3, g4, g5) + n3(g1, g2*g3, g4) * dn3(g2, g3, g4, g5);
-        o5 := o5 + 1/2 * n3c2dn3;
-
-        # 1/2w2(013)dn3(12345)
-        o5 := o5 + 1/2 * w(g1, g2*g3) * dn3(g2, g3, g4, g5);
-
-        # 1/2w2(023)[dn3(01245) + dn3(01235) + dn3(01234)]
-        o5 := o5 + 1/2 * w(g1*g2, g3) * (dn3(g1, g2, g3*g4, g5)
-          + dn3(g1, g2, g3, g4*g5) + dn3(g1, g2, g3, g4));
-
-        # 1/2dn3(02345)dn3(01235)
-        o5 := o5 + 1/2 * dn3(g1*g2, g3, g4, g5) * dn3(g1, g2, g3, g4*g5);
-        # 1/4dn3(01245)dn3(01234)
-        o5 := o5 + 1/4 * (dn3(g1, g2, g3*g4, g5) * dn3(g1, g2, g3, g4) mod 2);
-        # -1/4[dn3(12345)+dn3(02345)+dn3ð01345)]dn3(01235)
-        o5 := o5 - 1/4 * ((dn3(g2, g3, g4, g5) + dn3(g1*g2, g3, g4, g5)
-          + dn3(g1, g2*g3, g4, g5)) * dn3(g1, g2, g3, g4*g5) mod 2);
-      fi;
-      return o5;
-    end;
-  end);
 
   return ss;
 end);

@@ -102,7 +102,7 @@ InstallMethod(SptSetSpecSeqBuildComponent2,
       return SptSetCochainModule(ss!.resolution,
         p, ss!.spectrum[q+1]);
     else
-      phi := SptSetSpecSeqDerivative(ss, r-1, p-(r-1), q+(r-1)-1);
+      phi := SptSetSpecSeqDerivative2(ss, r-1, p-(r-1), q+(r-1)-1);
       return SptSetCokernelModule(phi);
     fi;
   end);
