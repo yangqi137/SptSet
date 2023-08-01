@@ -146,6 +146,40 @@ function(p, q, coeff, a, b)
   end;
 end);
 
+InstallGlobalFunction(Cup3@,
+function(p, q, coeff, a, b)
+  local gAction, f, gid;
+  gAction := coeff!.gAction;
+  gid := Identity(PreImage(gAction));
+  return function(glist...)
+    local gl1, gl2, gl3, gl4, gl5, gl1p, gl2p, gl3p, gl4p, i, j, k, m, s, result;
+    result := 0;
+
+    for i in [0..(p-3)] do
+      gl1 := glist{[1..i]};
+      gl1p := Product(gl1, gid);
+      for j in [(i+1)..(q+i-2)] do
+        gl2 := glist{[(i+1)..j]};
+        gl2p := Product(gl2, gid);
+        for k in [(j+1)..(p-2+j-i)] do
+          gl3 := glist{[(j+1)..k]};
+          gl3p := Product(gl3, gid);
+          m := q + i - j + k - 1;
+          gl4 := glist{[(k+1)..m]};
+          gl4p := Product(gl4, gid);
+          gl5 := glist{[(m+1)..(p+q-3)]};
+
+          s := (-1)^((p-i) * (j-i+1) + (q+i-j) * (p-i+j-k-3));
+          result := result + s * CallFuncList(a, Concatenation(gl1, [gl2p], gl3, [gl4p], gl5))
+            * ((gl1p^gAction)[1][1] * CallFuncList(b, Concatenation(gl2, [gl3p], gl4)));
+        od;
+      od;
+    od;
+
+    return result;
+  end;
+end);
+
 InstallGlobalFunction(CheckCochainEqOverBasisListZ2@,
 function(c1, c2, basislist)
   local deg, glist;
