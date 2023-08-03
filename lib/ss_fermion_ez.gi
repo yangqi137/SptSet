@@ -98,6 +98,17 @@ InstallMethod(FermionEZSPTSpecSeq,
         end;
       fi;
     end);
+
+    SptSetInstallCoboundary(ss, 3, 1, 3,
+    function(n1, dn1)
+      return ZeroCocycle@;
+    end);
+
+    SptSetInstallCoboundary(ss, 4, 1, 3,
+    function(n1, dn1)
+      return ZeroCocycle@;
+    end);
+
     SptSetInstallCoboundary(ss, 2, 2, 2,
     function(n2, dn2)
       return
@@ -277,8 +288,8 @@ InstallMethod(FermionEZSPTSpecSeq,
     function(l1, l2)
       local coeff, n31, n32;
 
-      Assert(0, l1[2+1] = ZeroCocycle@ or l2[2+1] = ZeroCocycle@);
-      Assert(0, l1[1+1] = ZeroCocycle@ or l2[1+1] = ZeroCocycle@);
+      # Assert(0, l1[2+1] = ZeroCocycle@ or l2[2+1] = ZeroCocycle@);
+      # Assert(0, l1[1+1] = ZeroCocycle@ or l2[1+1] = ZeroCocycle@);
 
       coeff := spectrum[1+1];
       n31 := l1[3+1];
@@ -286,6 +297,25 @@ InstallMethod(FermionEZSPTSpecSeq,
 
       return ScaleInhomoCochain@(1/2, Cup2@(3, 3, coeff, n31, n32));
       # return ZeroCocycle@;
+    end);
+
+    # place holders for twisters in (4+1)D
+    SptSetInstallAddTwister(ss, 1, 4, {l1, l2} -> ZeroCocycle@);
+    SptSetInstallAddTwister(ss, 2, 3, {l1, l2} -> ZeroCocycle@);
+    SptSetInstallAddTwister(ss, 3, 2, {l1, l2} -> ZeroCocycle@);
+    SptSetInstallAddTwister(ss, 4, 1, {l1, l2} -> ZeroCocycle@);
+    SptSetInstallAddTwister(ss, 5, 0,
+    function(l1, l2)
+      local coeff, n41, n42;
+
+      # Assert(0, l1[3+1] = ZeroCocycle@ or l2[3+1] = ZeroCocycle@);
+      # Assert(0, l1[2+1] = ZeroCocycle@ or l2[2+1] = ZeroCocycle@);
+
+      coeff := spectrum[1+1];
+      n41 := l1[4+1];
+      n42 := l2[4+1];
+
+      return ScaleInhomoCochain@(1/2, Cup3@(4, 4, coeff, n41, n42));
     end);
 
     return ss;
