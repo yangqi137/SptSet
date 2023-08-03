@@ -78,6 +78,7 @@ function(R, auMap, w)
   SptSetInstallCoboundary(ss, 4, 0, 3,
   function(n0, dn0)
     return {g1, g2, g3, g4} -> 0;
+    # TODO: fill in the formula: w u w + Dw u1 w?
   end);
 
   SptSetInstallCoboundary(ss, 2, 1, 3,
