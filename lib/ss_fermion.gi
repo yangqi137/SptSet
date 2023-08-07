@@ -158,6 +158,12 @@ function(R, auMap, w)
         n2(g1, g2), n2(g1, g2*g3), n2(g1, g2*g3*g4), n2(g1, g2*g3*g4*g5),
         n2(g1*g2, g3), n2(g1*g2, g3*g4), n2(g1*g2, g3*g4*g5),
         n2(g1*g2*g3, g4), n2(g1*g2*g3, g4*g5), n2(g1*g2*g3*g4, g5));
+      # t5 := ExtData@(O5gamma@,
+      #   n2(g1*g2*g3*g4, g5), n2(g1*g2*g3, g4*g5), n2(g1*g2*g3, g4),
+      #   n2(g1*g2, g3*g4*g5), n2(g1*g2, g3*g4), n2(g1*g2, g3), 
+      #   n2(g1, g2*g3*g4*g5), n2(g1, g2*g3*g4), n2(g1, g2*g3), n2(g1, g2), 
+      #   w(g1, g2), w(g1, g2*g3), w(g1*g2, g3), s(g1), s(g1*g2)
+      #   );
 
       return o5sym + t5;
     end;
