@@ -65,6 +65,34 @@ function(c1, c2)
   c1!.layers := layers;
 end);
 
+InstallMethod
+    (SptSetInverse,
+     "Compute the inverse of cochains",
+     [IsSptSetSpecSeqCochainRep],
+     function(c)
+         local F, SS, deg;
+         F := FamilyObj(c);
+         SS := F!.specSeq;
+         deg := F!.degree;
+         layers := [];
+
+         for p in [0..deg] do
+             if c!.layers[p+1] = ZeroCocycle@ then
+                 layers[p+1] := ZeroCocycle@ ;
+             else
+                 break;
+             fi;
+         od;
+
+         for p1 in [p..deg] do
+             layers[p1+1] := NegativeInhomoCochain@(c!.layers[p1+1]);
+             dcp1 := SS!.addTwister[p1 +1][(deg - p1) +1](c!.layers, layers);
+             layers[p1+1] := AddInhomoCochain@(layers[p1+1], NegativeInhomoCochain@(dcp1));
+         od;
+         return SptSetSpecSeqCochain(SS, deg, layers);
+     end);
+              
+
 InstallGlobalFunction(SptSetSpecSeqCoboundarySL,
 function(SS, deg, p, a)
   local gid, q, dalayers, da, rmax, r, pp;

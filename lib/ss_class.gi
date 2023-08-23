@@ -27,6 +27,16 @@ function(cl1, cl2)
   return SptSetSpecSeqClassFromCochainNC(c3);
 end);
 
+InstallMethod
+    (AdditiveInverseMutable,
+     "Inverse of a SpecSeq class",
+     [IsSptSetSpecSeqClassRep],
+     function(cl)
+         local cochain;
+         cochain := SptSetInverse(cl!.cochain);
+         return SptSetSpecSeqClassFromCochainNC(cochain);
+     end);
+
 InstallGlobalFunction(SptSetPurifySpecSeqClass,
 function(cl) # recursive version
   local F, SS, deg, coc, brMap, bdry, bdry2, p, q, cp, cp_, Epqinf, r, Erpq;
