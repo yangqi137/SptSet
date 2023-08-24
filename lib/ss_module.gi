@@ -20,6 +20,7 @@ InstallGlobalFunction
         local Epq, compEx, n, np, clnp;
         Epq := SptSetSpecSeqComponentInf(ss, p, q);
         SptSetFpZModuleCanonicalForm(Epq);
+        compEx := rec();
         compEx.specSeq := ss;
         compEx.deg := p + q;
         compEx.pRange := [p];
@@ -41,7 +42,7 @@ InstallGlobalFunction
 InstallGlobalFunction
     (SptSetSpecSeqModuleVectorToClass,
     function(M, a)
-        local n, ss, deg, i, j, cl;
+        local n, ss, deg, i, j, cl, nci;
         n := SptSetNumberOfGenerators(M);
         ss := M!.specSeq;
         deg := M!.deg;
@@ -54,7 +55,7 @@ InstallGlobalFunction
                     cl := cl + M!.basis_classes[i];
                 od;
             else;
-                nci := -M!.gen_classes[i];
+                nci := -M!.basis_classes[i];
                 for j in [1..(a[i])] do
                     cl := cl + nci;
                 od;
@@ -72,13 +73,13 @@ InstallGlobalFunction
             Error("Not implemented");
         fi;
         pf := Last(pRange);
-        ss := m!.specSeq;
-        deg := m!.deg;
+        ss := M!.specSeq;
+        deg := M!.deg;
            
         SptSetPurifySpecSeqClass(cl);
         p := LeadingLayer(cl);
         if p >= pf then
-            v := SptSetMapFromBarCocycle(ss!.brMap, ss!.spectrum[deg - pf +1], cl!.cochain!.layers[pf + 1]);
+            v := SptSetMapFromBarCocycle(ss!.brMap, pf, ss!.spectrum[deg - pf +1], cl!.cochain!.layers[pf + 1]);
             return v * M!.res_projections[pf];
         else
             return fail;
@@ -87,14 +88,14 @@ InstallGlobalFunction
 
 InstallGlobalFunction(SptSetSpecSeqModuleExtension,
 function(M1, M2)
-    local n1, n2, n, Emat, Pmat, Rmat, i, j, tj, vjn, cjn, vjnf;
+    local deg, pf, n1, n2, n, Emat, Pmat, Rmat, i, j, tj, vjn, cjn, vjnf, Mext;
 
     Assert(0, M1!.deg = M2!.deg);
-    Assert(0, Length(M2!.ps) = 1);
-    Assert(0, Last(M1!.ps) + 1 = M2!.ps[1]);
+    Assert(0, Length(M2!.pRange) = 1);
+    Assert(0, Last(M1!.pRange) + 1 = M2!.pRange[1]);
 
     deg := M1!.deg;
-    pf := M2!.ps[1];
+    pf := M2!.pRange[1];
 
     SptSetFpZModuleCanonicalForm(M1);
 
@@ -117,7 +118,7 @@ function(M1, M2)
         vjn := tj * M1!.generators[j];
         Rmat[j, j] := tj;
         if tj <> 0 then # torsion-free generators have no extension.
-            cjn := SptSetSpecSeqModuleVectorToClass(M1, vj);
+            cjn := SptSetSpecSeqModuleVectorToClass(M1, vjn);
             vjnf := SptSetSpecSeqModuleClassToLeadingVector(M2, cjn);
             Rmat[j]{[(n1+1)..n]} := vjnf;
         fi;
@@ -131,6 +132,7 @@ function(M1, M2)
         od;
     od;    
 
+    Mext := rec();
     Mext.specSeq := M1!.specSeq;
     Mext.deg := M1!.deg;
     Mext.pRange := Concatenation(M1!.pRange, M2!.pRange);

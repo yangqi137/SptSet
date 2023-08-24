@@ -70,7 +70,7 @@ InstallMethod
      "Compute the inverse of cochains",
      [IsSptSetSpecSeqCochainRep],
      function(c)
-         local F, SS, deg;
+         local F, SS, deg, layers, p, p1, dcp1;
          F := FamilyObj(c);
          SS := F!.specSeq;
          deg := F!.degree;
