@@ -43,7 +43,7 @@ InstallGlobalFunction
     (SptSetSpecSeqModuleVectorToClass,
     function(M, a)
         local n, ss, deg, i, j, cl, nci;
-        n := SptSetNumberOfGenerators(M);
+        n := SptSetEmbedDimension(M);
         ss := M!.specSeq;
         deg := M!.deg;
         Assert(0, n = Length(a));
@@ -56,7 +56,7 @@ InstallGlobalFunction
                 od;
             else;
                 nci := -M!.basis_classes[i];
-                for j in [1..(a[i])] do
+                for j in [1..(-a[i])] do
                     cl := cl + nci;
                 od;
             fi;
@@ -79,7 +79,9 @@ InstallGlobalFunction
         SptSetPurifySpecSeqClass(cl);
         p := LeadingLayer(cl);
         if p >= pf then
+            # Display(p);
             v := SptSetMapFromBarCocycle(ss!.brMap, pf, ss!.spectrum[deg - pf +1], cl!.cochain!.layers[pf + 1]);
+            # Display(v);
             return v * M!.res_projections[pf];
         else
             return fail;
@@ -88,7 +90,7 @@ InstallGlobalFunction
 
 InstallGlobalFunction(SptSetSpecSeqModuleExtension,
 function(M1, M2)
-    local deg, pf, n1, n2, n, Emat, Pmat, Rmat, i, j, tj, vjn, cjn, vjnf, Mext;
+    local deg, pf, n1, n2, n, r1, r2, r, Emat, Pmat, Rmat, i, j, tj, vjn, cjn, vjnf, Mext;
 
     Assert(0, M1!.deg = M2!.deg);
     Assert(0, Length(M2!.pRange) = 1);
@@ -97,40 +99,56 @@ function(M1, M2)
     deg := M1!.deg;
     pf := M2!.pRange[1];
 
-    SptSetFpZModuleCanonicalForm(M1);
+    if SptSetFpZModuleIsZero(M2) then
+        Emat := M1!.generators;
+        Pmat := M1!.projection;
+        Rmat := M1!.relations;
+    elif SptSetFpZModuleIsZero(M1) then
+        Emat := M2!.generators;
+        Pmat := M2!.projection;
+        Rmat := M2!.relations;
+    else
 
-    n1 := SptSetNumberOfGenerators(M1);
-    n2 := SptSetNumberOfGenerators(M2);
-    n := n1 + n2;
-    Emat := IdentityMat(n);
-    Pmat := IdentityMat(n);
-    Rmat := IdentityMat(n);
+        SptSetFpZModuleCanonicalForm(M1);
 
-    for j in [1..n1] do
-        for i in [1..n1] do
-            Emat[j, i] := M1!.generators[j, i];
-            Pmat[j, i] := M1!.projection[j, i];
+        n1 := SptSetEmbedDimension(M1);
+        n2 := SptSetEmbedDimension(M2);
+        n := n1 + n2;
+        r1 := SptSetNumberOfGenerators(M1);
+        r2 := SptSetNumberOfGenerators(M2);
+        r := r1 + r2;
+        Emat := NullMat(r, n);
+        Pmat := NullMat(n, r);
+        Rmat := NullMat(r, r);
+
+        for j in [1..r1] do
+            for i in [1..n1] do
+                Emat[j, i] := M1!.generators[j, i];
+                Pmat[i, j] := M1!.projection[i, j];
+            od;
         od;
-    od;
 
-    for j in [1..n1] do
-        tj := M1!.relations[j, j];
-        vjn := tj * M1!.generators[j];
-        Rmat[j, j] := tj;
-        if tj <> 0 then # torsion-free generators have no extension.
-            cjn := SptSetSpecSeqModuleVectorToClass(M1, vjn);
-            vjnf := SptSetSpecSeqModuleClassToLeadingVector(M2, cjn);
-            Rmat[j]{[(n1+1)..n]} := vjnf;
-        fi;
-    od;
-
-    for j in [(n1+1)..n] do
-        for i in [(n1+1)..n] do
-            Emat[j, i] := M2!.generators[j-n1, i-n1];
-            Pmat[j, i] := M2!.projection[j-n1, i-n1];
-            Rmat[j, i] := M2!.relations[j-n1, i-n1];
+        for j in [1..r1] do
+            tj := M1!.relations[j, j];
+            vjn := tj * M1!.generators[j];
+            Rmat[j, j] := tj;
+            if tj <> 0 then # torsion-free generators have no extension.
+                cjn := SptSetSpecSeqModuleVectorToClass(M1, vjn);
+                vjnf := SptSetSpecSeqModuleClassToLeadingVector(M2, cjn);
+                Rmat[j]{[(r1+1)..r]} := vjnf;
+            fi;
         od;
-    od;    
+
+        for j in [(r1+1)..r] do
+            for i in [(n1+1)..n] do
+                Emat[j, i] := M2!.generators[j-r1, i-n1];
+                Pmat[i, j] := M2!.projection[i-n1, j-r1];
+            od;
+            for i in [(r1+1)..r] do
+                Rmat[j, i] := M2!.relations[j-r1, i-r1];
+            od;
+        od;
+    fi;    
 
     Mext := rec();
     Mext.specSeq := M1!.specSeq;
@@ -145,4 +163,19 @@ function(M1, M2)
 
     return Objectify(TheTypeSptSetSpecSeqModule, Mext);
 
+end);
+
+InstallGlobalFunction(SptSetSpecSeqResult,
+function(ss, deg, pRange)
+    local p, Epq, M;
+    for p in pRange do
+        Epq := SptSetSpecSeqComponentEx(ss, p, deg - p);
+        if p = pRange[1] then
+            M := Epq;
+        else
+            M := SptSetSpecSeqModuleExtension(M, Epq);
+        fi;
+    od;
+
+    return M;
 end);
