@@ -37,6 +37,17 @@ InstallMethod
          return SptSetSpecSeqClassFromCochainNC(cochain);
      end);
 
+InstallMethod(ZeroMutable,
+"Zero SpecSeq class",
+[IsSptSetSpecSeqClassRep],
+function(cl)
+  local F, SS, deg;
+  F := FamilyObj(cl);
+  SS := F!.specSeq;
+  deg := F!.degree;
+  return SptSetSpecSeqClassFromCochainNC(SptSetSpecSeqCochainZero(SS, deg));
+end);
+
 InstallGlobalFunction(SptSetPurifySpecSeqClass,
 function(cl) # recursive version
   local F, SS, deg, coc, brMap, bdry, bdry2, p, q, cp, cp_, Epqinf, r, Erpq;
