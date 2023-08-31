@@ -24,16 +24,30 @@ InstallMethod(SptSetCochainModule,
   end);
 
 InstallMethod(SptSetCochainModule,
-  "Constructs a list of cochain modules with Zn coefficientsat all levels from a resolution",
+  "Constructs a list of cochain modules with Zn coefficients at all levels from a resolution",
   [IsHapResolution, IsInt, IsSptSetCoeffZnRep],
   function(resolution, deg, coeff)
       return SptSetCochainModule(resolution, deg, coeff!.torsion);
   end);
 InstallMethod(SptSetCochainModule,
-  "Constructs a list of cochain modules with Zn coefficientsat all levels from a resolution",
+  "Constructs a list of cochain modules with U(1) coefficients at all levels from a resolution",
   [IsHapResolution, IsInt, IsSptSetCoeffU1Rep],
   function(resolution, deg, coeff)
       return SptSetCochainModule(resolution, deg + 1, 0);
+  end);
+
+InstallMethod(SptSetCochainModule,
+  "Construct a cochain module with coefficients in another cohomology group",
+  [IsHapResolution, IsInt, IsSptSetCoeffCM],
+  function(resolution, deg, coeff)
+    local torsions, n, i, torCoeff;
+    torsions := [];
+    n := Dimension(resolution)(deg);
+    torCoeff := DiagonalOfMatrix(coeff!.module!.relations)
+    for i in [1..n] do
+      torsions[i] := torCoeff;
+    od;
+    return SptSetFpZModuleFromTorsions(Flat(torsions));
   end);
 
 InstallMethod(SptSetCoboundaryMap,

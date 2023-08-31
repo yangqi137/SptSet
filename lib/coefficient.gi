@@ -51,6 +51,7 @@ InstallGlobalFunction
     function(cplx, deg, G, gActionRaw)
         local rCoeff, module, N, gens, coeff, brMap, fgens, g, n, i, a, a_, ga_, ga, fg, gAction;
         module := SptSetCohomology(cplx, deg);
+        SptSetFpZModuleCanonicalForm(module);
         N := GroupOfResolution(cplx!.hapResolution);
         coeff := cplx!.coeff;
         # brMap := cplx!.barResMap;
