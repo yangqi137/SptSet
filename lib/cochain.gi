@@ -43,7 +43,7 @@ InstallMethod(SptSetCochainModule,
     local torsions, n, i, torCoeff;
     torsions := [];
     n := Dimension(resolution)(deg);
-    torCoeff := DiagonalOfMatrix(coeff!.module!.relations)
+    torCoeff := DiagonalOfMatrix(coeff!.module!.relations);
     for i in [1..n] do
       torsions[i] := torCoeff;
     od;
@@ -94,6 +94,45 @@ InstallMethod(SptSetCoboundaryMap,
   function(M, N, Res, deg, coeff)
     return SptSetCoboundaryMap(M, N, Res, deg+1, coeff!.gAction);
   end);
+
+InstallMethod(SptSetCoboundaryMap,
+  "Construct the coboundary map between two cochain modules",
+  [IsSptSetFpZModuleRep, IsSptSetFpZModuleRep,
+   IsHapResolution, IsInt, IsSptSetCoeffCM],
+  function(M, N, Res, deg, coeff)
+    local bdry, G, elts, f,
+          cobdryMat, A, nM, nN, nk, nkp1, ncoeff,
+          i, x, wx, gwx, gwxf, swx, j, gfMat, ii, jj;
+    bdry := BoundaryMap(Res);
+    G := GroupOfResolution(Res);
+    elts := Res!.elts;
+    f := coeff!.gAction;
+    nM := SptSetEmbedDimension(M);
+    nN := SptSetEmbedDimension(N);
+    nk := Dimension(Res)(deg);
+    nkp1 := Dimension(Res)(deg + 1);
+    nCoeff := SptSetNumberOfGenerators(coeff!.module);
+    cobdryMat := NullMat(nM, nN);
+    for j in [1..nkp1] do
+      x := bdry(deg + 1, j);
+      for wx in x do
+        swx := SignInt(wx[1]);
+        i := AbsInt(wx[1]);
+        gwx := elts[wx[2]];
+        gwxf := gwx ^ f;
+        for ii in [1..nCoeff] do
+            for jj in [1..nCoeff] do
+                cobdryMat[(i-1)*nCoeff + ii][(j-1)*nCoeff+jj] := cobdryMat[(i-1)*nCoeff + ii][(j-1)*nCoeff+jj] + swx * gwxf[ii][jj];
+            od;
+        od;
+      od;
+    od;
+
+    A := M!.generators * cobdryMat * N!.projection;
+    Display(["A: ", A]);
+    return SptSetZLMapByImages(M, N, A);
+  end);
+
 
 InstallMethod(SptSetTrivialGroupAction,
   "helper function constructing a trivial action",

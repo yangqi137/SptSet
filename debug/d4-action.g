@@ -17,4 +17,16 @@ Display(SptSetCohomology(cplx, 3));
 coeff := SptSetCoefficientCohomologyModule(cplx, 1, Z2, SptSetTrivialGroupAction(Z2));
 Display(coeff!.gAction);
 
+RQ := ResolutionFiniteGroup(Z2, 6);
+cplxQ := SptSetCochainComplex(RQ, coeff);
+C2 := SptSetCochainComplexModule(cplxQ, 2);
+Display(C2);
+C3 := SptSetCochainComplexModule(cplxQ, 3);
+Display(C3);
+
+d2 := SptSetCochainComplexDerivative(cplxQ, 2);
+Display(d2);
+
+
+
 
