@@ -48,7 +48,7 @@ InstallGlobalFunction(SptSetCoefficientU1,
 
 InstallGlobalFunction
     (SptSetCoefficientCohomologyModule,
-    function(cplx, deg, G)
+    function(cplx, deg, G, gActionRaw)
         local rCoeff, module, N, gens, coeff, brMap, fgens, g, n, i, a, a_, ga_, ga, fg, gAction;
         module := SptSetCohomology(cplx, deg);
         N := GroupOfResolution(cplx!.hapResolution);
@@ -68,7 +68,7 @@ InstallGlobalFunction
                 # a_ := SptSetMapToBarCocycle(brMap, deg+1, coeff!.gAction, a);
                 a_ := SptSetMapToBarCocycle(brMap, deg, coeff, a);
                 ga_ := function(hlist...)
-                    return CallFuncList(a_, List(hlist, {x}->x^g));
+                    return (g^gActionRaw)[1, 1]*CallFuncList(a_, List(hlist, {x}->x^g));
                 end;
                 # ga := SptSetMapFromBarCocycle(brMap, deg+1, coeff!.gAction, ga_);
                 ga := SptSetMapFromBarCocycle(brMap, deg, coeff, ga_);

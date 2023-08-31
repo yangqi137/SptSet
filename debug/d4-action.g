@@ -14,7 +14,7 @@ Display(SptSetCohomology(cplx, 1));
 Display(SptSetCohomology(cplx, 2));
 Display(SptSetCohomology(cplx, 3));
 
-coeff := SptSetCoefficientCohomologyModule(cplx, 1, Z2);
+coeff := SptSetCoefficientCohomologyModule(cplx, 1, Z2, SptSetTrivialGroupAction(Z2));
 Display(coeff!.gAction);
 
 
