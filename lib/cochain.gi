@@ -101,7 +101,7 @@ InstallMethod(SptSetCoboundaryMap,
    IsHapResolution, IsInt, IsSptSetCoeffCM],
   function(M, N, Res, deg, coeff)
     local bdry, G, elts, f,
-          cobdryMat, A, nM, nN, nk, nkp1, ncoeff,
+          cobdryMat, A, nM, nN, nk, nkp1, nCoeff,
           i, x, wx, gwx, gwxf, swx, j, gfMat, ii, jj;
     bdry := BoundaryMap(Res);
     G := GroupOfResolution(Res);

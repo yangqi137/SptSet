@@ -44,6 +44,32 @@ InstallMethod(SptSetMapToBarCocycle,
                   return SptSetMapToBarCocycle(brmap, deg, coeff!.gAction, beta);
               end);
 
+InstallMethod
+    (SptSetMapToBarCocycle,
+     "map to an inhomogeneous cocycle with coefficients in another cohomology module",
+     [IsCategoryOfSptSetBarResMap, IsInt, IsSptSetCoeffCM, IsRowVector],
+     function(brmap, deg, coeff, alpha)
+         return function(glist...)
+             local elts, w, nCoeff, gAction, x, val, xs, xg, xb;
+             if Length(glist) <> deg then
+                 return fail;
+             fi;
+             elts := brMap!.hapResolution!.elts;
+             nCoeff := SptSetNumberOfGenerators(coeff!.module);
+             gAction := coeff!.gAction;
+             w := SptSetMapFromBarWord(brMap, deg, glist);
+             val := List([1..nCoeff], x->0);
+             for x in w do
+                 xs := x[1];
+                 xb := x[2];
+                 xg := elts[x[3]];
+                 val := val + xs * alpha{[((xb-1)*nCoeff+1):xb*nCoeff]} * (xg ^ gAction);
+             od;
+
+             return val;
+         end;
+     end);
+
 InstallMethod(SptSetMapFromBarCocycle,
 "map from an inhomogeneous cocycle",
 [IsCategoryOfSptSetBarResMap, IsInt, IsGeneralMapping, IsFunction],
@@ -76,6 +102,26 @@ function(brMap, deg, coeff, alpha_)
   return SptSetBockstein(brMap!.hapResolution,
     deg, coeff!.gAction, alpha);
 end);
+
+InstallMethod
+    (SptSetMapFromBarCocycle,
+     "map from an inhomogeneous cocycle with coefficients in a cohomology module",
+     [IsCategoryOfSptSetBarResMap, IsInt, IsSptSetCoeffCM, IsFunction],
+     function(brMap, deg, coeff, alpha_)
+         local n, nCoeff, gAction, val, i, fei, feiw;
+         n := Dimension(brMap!.hapResolution)(deg);
+         nCoeff := SptSetNumberOfGenerators(coeff!.module);
+         gAction := coeff!.gAction;
+         val := NullMat(n, nCoeff);
+         for i in [1..n] do
+             # val[i] := 0;
+             fei := SptSetMapToBarWord(brMap, deg, i);
+             for feiw in fei do
+                 val[i] := val[i] + feiw[1] * CallFuncList(alpha_, feiw{[3..(deg+2)]}) * (feiw[2]^gAction);
+             od;
+         od;
+         return Flat(val);
+     end);
 
 InstallMethod(SptSetSolveCocycleEq,
 "solve an inhomogeneous cocycle equation using maps to/from the bar resolution",
