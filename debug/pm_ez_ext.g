@@ -1,7 +1,7 @@
 LoadPackage("SptSet");
 
-#for it in [2..17] do
-it := 12;
+for it in [3,7] do
+# it := 3;
   Display(it);
   SG := SpaceGroupBBNWZ(2, it);
   fSG := IsomorphismPcpGroup(SG);
@@ -18,7 +18,7 @@ it := 12;
   SS := FermionEZSPTSpecSeq(R, f);
   # ProfileGlobalFunctions( true );
   # ProfileOperationsAndMethods( true );
-  FermionSPTLayersVerbose(SS, 2);
+  # FermionSPTLayersVerbose(SS, 2);
   layers := FermionSPTLayers(SS, 2);
   # ProfileGlobalFunctions( false );
   # ProfileOperationsAndMethods( false );
@@ -36,8 +36,8 @@ it := 12;
     Display(["Majorana generator #", i]);
     v1 := layers[1]!.generators[i];
     Display(v1);
-    Display(SptSetSpecSeqDerivative2(SS, 2, 1, 2)!.B);
-    Display(SptSetSpecSeqDerivative2(SS, 3, 1, 2)!.B);
+    # Display(SptSetSpecSeqDerivative2(SS, 2, 1, 2)!.B);
+    # Display(SptSetSpecSeqDerivative2(SS, 3, 1, 2)!.B);
     cl1 := SptSetSpecSeqClassFromLevelCocycle(SS, 3, 1, v1);
     # SptSetPurifySpecSeqClass(cl1);
     cl2 := cl1 + cl1;
@@ -67,6 +67,7 @@ it := 12;
   for i in [1..n] do
     Display(["Complex generator #", i]);
     v1 := layers[2]!.generators[i];
+    Display(v1);
     cl1 := SptSetSpecSeqClassFromLevelCocycle(SS, 3, 2, v1);
     #SptSetPurifySpecSeqClass(cl1);
     cl2 := cl1 + cl1;
@@ -78,4 +79,4 @@ it := 12;
   od;
 
   
-# od;
+od;

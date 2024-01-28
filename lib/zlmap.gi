@@ -195,7 +195,11 @@ InstallMethod(SptSetCokernelModule,
     local N, A;
     N := SptSetCopyFpZModule(phi!.codomain);
     A := phi!.domain!.generators * phi!.B * N!.projection;
-    Append(N!.relations, A);
+    if IsEmptyMatrix(N!.relations) then
+      N!.relations := A;
+    else
+      Append(N!.relations, A);
+    fi;
     return N;
   end);
 
