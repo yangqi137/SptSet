@@ -308,19 +308,19 @@ InstallMethod(FermionEZSPTSpecSeq,
       n31 := l1[3+1];
       n22 := l2[2+1];
       n32 := l2[3+1];
-      dn31 := AddInhomoCochain(Cup0@(2, 2, coeff, n21, n21),
-        Cup0(1, 3, coeff, s, Cup1@(2, 2, coeff, n21, n21)));
-      dn32 := AddInhomoCochain(Cup0@(2, 2, coeff, n22, n22),
-        Cup0(1, 3, coeff, s, Cup1@(2, 2, coeff, n22, n22)));
-      m3 := AddInhomoCochain(Cup1@(2, 2, coeff, n21, n22),
-        Cup0(1, 2, coeff, s, Cup2@(2, 2, coeff, n21, n22)));
+      dn31 := AddInhomoCochain@(Cup0@(2, 2, coeff, n21, n21),
+        Cup0@(1, 3, coeff, s, Cup1@(2, 2, coeff, n21, n21)));
+      dn32 := AddInhomoCochain@(Cup0@(2, 2, coeff, n22, n22),
+        Cup0@(1, 3, coeff, s, Cup1@(2, 2, coeff, n22, n22)));
+      m3 := AddInhomoCochain@(Cup1@(2, 2, coeff, n21, n22),
+        Cup0@(1, 2, coeff, s, Cup2@(2, 2, coeff, n21, n22)));
       dm3 := InhomoCoboundary@(coeff, m3);
       N3 := {g1, g2, g3} -> (n31(g1, g2, g3) + n32(g1, g2, g3) + m3(g1, g2, g3));
       dN3 := {g1, g2, g3, g4} -> (dn31(g1, g2, g3, g4) + dn32(g1, g2, g3, g4)
         + dm3(g1, g2, g3, g4));
       e4c := Cup2@(3, 3, coeff, m3, N3);
-      e4c := AddInhomoCochain@(e4c, Cup2(3, 3, coeff, n31, n32));
-      e4c := AddInhomoCochain@(e4c, Cup3(3, 4, coeff, n31, dn32));
+      e4c := AddInhomoCochain@(e4c, Cup2@(3, 3, coeff, n31, n32));
+      e4c := AddInhomoCochain@(e4c, Cup3@(3, 4, coeff, n31, dn32));
 
       e4cg := Cup3@(3, 4, coeff, m3, AddInhomoCochain@(dn31, dn32));
       # e4cg := AddInhomoCochain@(e4cg, Cup4@(3, 3, coeff, dn31, dn32));
@@ -332,7 +332,7 @@ InstallMethod(FermionEZSPTSpecSeq,
 
       t4 := {g1, g2, g3, g4} -> ExtData@(AddTwister3DTable@,
         s(g1*g2), s(g1), 0, n22(g1*g2*g3, g4), n22(g1*g2, g3*g4), n22(g1*g2, g3),
-        n22(g1, g2*g3*g4), n22(g1, g2*g3), n22(g1, g2)
+        n22(g1, g2*g3*g4), n22(g1, g2*g3), n22(g1, g2),
         n21(g1*g2*g3, g4), n21(g1*g2, g3*g4), n21(g1*g2, g3),
         n21(g1, g2*g3*g4), n21(g1, g2*g3), n21(g1, g2));
 
