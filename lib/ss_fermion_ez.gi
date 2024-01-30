@@ -283,19 +283,63 @@ InstallMethod(FermionEZSPTSpecSeq,
     # place holders for twisters in (3+1)D
     SptSetInstallAddTwister(ss, 1, 3, {l1, l2} -> ZeroCocycle@);
     SptSetInstallAddTwister(ss, 2, 2, {l1, l2} -> ZeroCocycle@);
-    SptSetInstallAddTwister(ss, 3, 1, {l1, l2} -> ZeroCocycle@);
+    SptSetInstallAddTwister(ss, 3, 1, function(l1, l2)
+      local coeff, n21, n22, m3a, m3b;
+
+      coeff := spectrum[1+1];
+      n21 := l1[2+1];
+      n22 := l2[2+1];
+
+      m3a := Cup1@(2, 2, coeff, n21, n22);
+      m3b := Cup0@(1, 2, coeff, s, Cup2@(2, 2, coeff, n21, n22));
+
+      return AddInhomoCochain@(m3a, m3b);
+    end);
+
     SptSetInstallAddTwister(ss, 4, 0,
     function(l1, l2)
-      local coeff, n31, n32;
+      local coeff, n21, n31, n22, n32, dn31, dn32, m3, N3, dm3, dN3, e4c, e4cg, t4;
 
       # Assert(0, l1[2+1] = ZeroCocycle@ or l2[2+1] = ZeroCocycle@);
       # Assert(0, l1[1+1] = ZeroCocycle@ or l2[1+1] = ZeroCocycle@);
 
       coeff := spectrum[1+1];
+      n21 := l1[2+1];
       n31 := l1[3+1];
+      n22 := l2[2+1];
       n32 := l2[3+1];
+      dn31 := AddInhomoCochain(Cup0@(2, 2, coeff, n21, n21),
+        Cup0(1, 3, coeff, s, Cup1@(2, 2, coeff, n21, n21)));
+      dn32 := AddInhomoCochain(Cup0@(2, 2, coeff, n22, n22),
+        Cup0(1, 3, coeff, s, Cup1@(2, 2, coeff, n22, n22)));
+      m3 := AddInhomoCochain(Cup1@(2, 2, coeff, n21, n22),
+        Cup0(1, 2, coeff, s, Cup2@(2, 2, coeff, n21, n22)));
+      dm3 := InhomoCoboundary@(coeff, m3);
+      N3 := {g1, g2, g3} -> (n31(g1, g2, g3) + n32(g1, g2, g3) + m3(g1, g2, g3));
+      dN3 := {g1, g2, g3, g4} -> (dn31(g1, g2, g3, g4) + dn32(g1, g2, g3, g4)
+        + dm3(g1, g2, g3, g4));
+      e4c := Cup2@(3, 3, coeff, m3, N3);
+      e4c := AddInhomoCochain@(e4c, Cup2(3, 3, coeff, n31, n32));
+      e4c := AddInhomoCochain@(e4c, Cup3(3, 4, coeff, n31, dn32));
 
-      return ScaleInhomoCochain@(1/2, Cup2@(3, 3, coeff, n31, n32));
+      e4cg := Cup3@(3, 4, coeff, m3, AddInhomoCochain@(dn31, dn32));
+      # e4cg := AddInhomoCochain@(e4cg, Cup4@(3, 3, coeff, dn31, dn32));
+      e4cg := AddInhomoCochain@(e4cg, {g1, g2, g3, g4} ->
+        (dn31(g1, g2, g3, g4) * dn32(g1, g2, g3, g4)));
+      e4cg := AddInhomoCochain@(e4cg, Cup3@(4, 3, coeff, dN3, m3));
+      e4cg := AddInhomoCochain@(e4cg, Cup2@(3, 3, coeff, m3, m3));
+      e4cg := AddInhomoCochain@(e4cg, dm3);
+
+      t4 := {g1, g2, g3, g4} -> ExtData@(AddTwister3DTable@,
+        s(g1*g2), s(g1), 0, n22(g1*g2*g3, g4), n22(g1*g2, g3*g4), n22(g1*g2, g3),
+        n22(g1, g2*g3*g4), n22(g1, g2*g3), n22(g1, g2)
+        n21(g1*g2*g3, g4), n21(g1*g2, g3*g4), n21(g1*g2, g3),
+        n21(g1, g2*g3*g4), n21(g1, g2*g3), n21(g1, g2));
+
+      return {g1, g2, g3, g4} -> (1/2 * e4c(g1, g2, g3, g4) + 1/2 * e4cg(g1, g2, g3, g4)
+        +t4(g1, g2, g3, g4));
+
+      # return ScaleInhomoCochain@(1/2, Cup2@(3, 3, coeff, n31, n32));
       # return ZeroCocycle@;
     end);
 
