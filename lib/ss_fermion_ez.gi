@@ -390,7 +390,7 @@ function(ss, dim)
   layers := [];
   for p in [1..(dim+1)] do
     q := dim + 1 - p;
-    if q >= 0 and q <= 3 then
+    if q >= 0 and q <= 2 then
       rmax := Maximum(q+2, p+1);
       E := SptSetSpecSeqComponent(ss, rmax, p, q);
       SptSetFpZModuleCanonicalForm(E);
