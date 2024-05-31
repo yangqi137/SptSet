@@ -1,0 +1,64 @@
+2
+Layers:
+[ <ZL-Module with torsions [ 2, 2, 2 ]>, <ZL-Module with torsions [ 2, 2, 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 4, 4, 4 ]>
+3
+Layers:
+[ <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2, 2, 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 2, 2, 4 ]>
+4
+Layers:
+[ <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 2, 2 ]>
+5
+Layers:
+[ <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 2, 2 ]>
+6
+Layers:
+[ <ZL-Module []>, <ZL-Module with torsions [ 2, 2, 2, 2, 2, 2, 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 2, 2, 2, 2, 2, 2, 2 ]>
+7
+Layers:
+[ <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2, 2, 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 2, 4, 4 ]>
+8
+Layers:
+[ <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 2, 4 ]>
+9
+Layers:
+[ <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2, 2, 2, 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 2, 2, 2, 4 ]>
+10
+Layers:
+[ <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module with torsions [ 2, 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 2, 2, 4 ]>
+11
+Layers:
+[ <ZL-Module []>, <ZL-Module with torsions [ 2, 2, 2, 2, 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 2, 2, 2, 2, 2 ]>
+12
+Layers:
+[ <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2, 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 2, 2, 2 ]>
+13
+Layers:
+[ <ZL-Module []>, <ZL-Module with torsions [ 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2 ]>
+14
+Layers:
+[ <ZL-Module []>, <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 2 ]>
+15
+Layers:
+[ <ZL-Module []>, <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 2 ]>
+16
+Layers:
+[ <ZL-Module with torsions [ 2 ]>, <ZL-Module with torsions [ 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 4 ]>
+17
+Layers:
+[ <ZL-Module []>, <ZL-Module with torsions [ 2, 2, 2, 2 ]>, <ZL-Module []> ]
+<ZL-Module with torsions [ 2, 2, 2, 2 ]>

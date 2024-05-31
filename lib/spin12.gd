@@ -7,4 +7,6 @@ DeclareGlobalFunction("FindOrthogonalMatrix@");
 DeclareGlobalFunction("Spin12FactorForPointGroup");
 DeclareGlobalFunction("Spin12FactorForSpaceGroup");
 DeclareGlobalFunction("Spin@");
+DeclareGlobalFunction("Spin2D@");
+DeclareGlobalFunction("Spin3D@");
 DeclareGlobalFunction("Spin12Factor");

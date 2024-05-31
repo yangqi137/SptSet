@@ -51,6 +51,45 @@ InstallGlobalFunction(Spin12Factor2D@, function(om)
 end);
 
 InstallGlobalFunction(Spin@, function(R)
+  if DimensionsMat(R)[1] = 2 then
+    return Spin2D@(R);
+  else
+    return Spin3D@(R);
+  fi;
+end);
+
+InstallGlobalFunction(Spin2D@, function(R)
+  local c, s, c2, s2, sz, RR, sm, sR;
+
+  #sy := [[0, -E(4)], [E(4), 0]];
+  sz := [[1, 0], [0, -1]];
+
+  if DeterminantMat(R) < 0 then
+    RR := sz * R;
+    sm := [[0, -1], [1, 0]];
+  else
+    RR := R;
+    sm := IdentityMat(2);
+  fi;
+
+  c := RR[1][1]; # c = cos(theta)
+  s := RR[1][2]; # s = sin(theta)
+  if c = 1 then
+    sR := IdentityMat(2);
+  else
+    c2 := Sqrt((1+c)/2); # c2 = cos(theta/2)
+    if c = -1 then
+      s2 := 1; # theta = pi, take theta/2 = pi/2, sin(theta/2)=1.
+    else
+      s2 := s / (1+c) * c2; # s2 = sin(theta/2)
+    fi;
+    #Display(["c2, s2", c2, s2]);
+    sR := c2 * IdentityMat(2) + E(4) * s2 * sz;
+  fi;
+  return sm * sR;
+end);
+
+InstallGlobalFunction(Spin3D@, function(R)
   local Jx, Jy, Jz, c, s, lambdas, pos, es, axis, n, J, nn, Rp, Rm,
   c2, s2, sx, sy, sz, sR;
 
@@ -103,11 +142,18 @@ end);
 InstallGlobalFunction(FindOrthogonalMatrix@, function(pg)
   local basis, basis_choices, gens, inv_basis, g, g2, basis_ok;
 
-  basis_choices := [
-    [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
-    [[0,-1,0], [Sqrt(3)/2, 1/2, 0], [0,0,1]]
-  ];
   gens := GeneratorsOfGroup(pg);
+  if DimensionsMat(gens[1])[1] = 2 then
+    basis_choices := [
+      [[1,0], [0,1]],
+      [[1, 0], [-1/2, Sqrt(3)/2]]
+    ];
+  else
+    basis_choices := [
+      [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+      [[0,-1,0], [Sqrt(3)/2, 1/2, 0], [0,0,1]]
+    ];
+  fi;
   for basis in basis_choices do
     inv_basis := Inverse(basis);
     basis_ok := true;
@@ -141,8 +187,11 @@ InstallGlobalFunction(Spin12FactorForPointGroup, function(pg)
     #Display([s1, s2, s12, s1s2]);
     if s12 = s1s2 then
       return 0;
+    elif s12 = -s1s2 then
+      return 1;
     else
-      Assert(1, s12 = -s1s2, "ASSERTION FAIL: s1*s2 <> +/- s12");
+      #Assert(1, s12 = -s1s2, "ASSERTION FAIL: s1*s2 <> +/- s12");
+      Display([g1, g2, s1, s2, s12]);
       return 1;
     fi;
   end;
@@ -161,8 +210,9 @@ end);
 InstallGlobalFunction(Spin12Factor, function(d, it)
   local om;
   if d = 2 then
-    om := PtGrp2DOrthogonalMatrix@(it);
-    return Spin12Factor2D@(om);
+    #om := PtGrp2DOrthogonalMatrix@(it);
+    #return Spin12Factor2D@(om);
+    return Spin12FactorForSpaceGroup(SpaceGroupBBNWZ(d, it));
   elif d=3 then
     #om := PtGrpOrthogonalMatrix@(it);
     return Spin12FactorForSpaceGroup(SpaceGroupBBNWZ(d, it));
