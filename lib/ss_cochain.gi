@@ -233,5 +233,14 @@ InstallGlobalFunction(PartialConstructSSCochain@,
     return coc;
 end);
 
-            
+InstallGlobalFunction(SptSetMapSpecSeqCochainByGroupHomomorphism,
+function(c, ss2, f)
+  local F, deg, layers;
+  F := FamilyObj(c);
+  deg := F!.deg;
+  layers := c!.layers;
+
+  return SptSetSpecSeqCochain(ss2, deg, Apply(layers,
+    a -> MapInhomoCochainByGroupHomomorphism(a, f)));
+end);
         

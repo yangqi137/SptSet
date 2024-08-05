@@ -13,3 +13,5 @@ DeclareGlobalFunction("SptSetSpecSeqCoboundary");
 DeclareGlobalFunction("SptSetSpecSeqCoboundarySL");
 DeclareGlobalFunction("PartialPurifySSClass@");
 DeclareGlobalFunction("PartialConstructSSCochain@");
+
+DeclareGlobalFunction("SptSetMapSpecSeqCochainByGroupHomomorphism");

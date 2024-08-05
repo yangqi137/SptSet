@@ -12,3 +12,6 @@ DeclareGlobalFunction("Cup3@");
 DeclareGlobalFunction("ShortBasisListFromResolution@");
 DeclareGlobalFunction("CheckCochainEqOverBasisListZ2@");
 DeclareGlobalFunction("CheckCochainEqOverBasisListU1@");
+
+DeclareGlobalFunction("MapInhomoCochainByGroupHomomorphism@");
+DeclareGlobalFunction("InhomoCochainGroupAction@");

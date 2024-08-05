@@ -232,3 +232,21 @@ function(brMap, deg)
   od;
   return bl;
 end);
+
+InstallGlobalFunction(MapInhomoCochainByGroupHomomorphism@,
+function(a, f)
+  # a: a cochain in C^n(G); f: H -> G is a group homomorphism.
+  return function(glist...)
+    return CallFuncList(a, Apply(glist, h -> h^f));
+  end;
+end);
+
+InstallGlobalFunction(InhomoCochainGroupAction@,
+function(a, coeff, g)
+  # a: a cochain in C^n(G, coeff); g: a group element
+  local gAction;
+  gAction := coeff!.gAction;
+  return function(glist...)
+    return (g^gAction)[1][1] * CallFuncList(a, Apply(glist, h -> h^g));
+  end;
+end);
