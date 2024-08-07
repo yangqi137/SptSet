@@ -59,12 +59,20 @@ end);
 
 InstallGlobalFunction(NegativeInhomoCochain@,
 function(a)
-  return {glist...} -> (-CallFuncList(a, glist));
+  if a = ZeroCocycle@ then
+    return ZeroCocycle@;
+  else
+    return {glist...} -> (-CallFuncList(a, glist));
+  fi;
 end);
 
 InstallGlobalFunction(ScaleInhomoCochain@,
 function(k, a)
-  return {glist...} -> (k * CallFuncList(a, glist));
+  if a = ZeroCocycle@ then
+    return ZeroCocycle@;
+  else
+    return {glist...} -> (k * CallFuncList(a, glist));
+  fi;
 end);
 
 InstallGlobalFunction(AddInhomoCochain@,
@@ -236,9 +244,13 @@ end);
 InstallGlobalFunction(MapInhomoCochainByGroupHomomorphism@,
 function(a, f)
   # a: a cochain in C^n(G); f: H -> G is a group homomorphism.
-  return function(glist...)
-    return CallFuncList(a, Apply(glist, h -> h^f));
-  end;
+  if a = ZeroCocycle@ then
+    return ZeroCocycle@;
+  else
+    return function(glist...)
+      return CallFuncList(a, Apply(glist, h -> h^f));
+    end;
+  fi;
 end);
 
 InstallGlobalFunction(InhomoCochainGroupAction@,
@@ -246,7 +258,12 @@ function(a, coeff, g)
   # a: a cochain in C^n(G, coeff); g: a group element
   local gAction;
   gAction := coeff!.gAction;
-  return function(glist...)
-    return (g^gAction)[1][1] * CallFuncList(a, Apply(glist, h -> h^g));
-  end;
+
+  if a = ZeroCocycle@ then
+    return ZeroCocycle@;
+  else
+    return function(glist...)
+      return (g^gAction)[1][1] * CallFuncList(a, List(glist, h -> h^g));
+    end;
+  fi;
 end);
