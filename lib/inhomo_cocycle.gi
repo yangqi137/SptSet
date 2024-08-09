@@ -248,7 +248,7 @@ function(a, f)
     return ZeroCocycle@;
   else
     return function(glist...)
-      return CallFuncList(a, Apply(glist, h -> h^f));
+      return CallFuncList(a, List(glist, h -> h^f));
     end;
   fi;
 end);

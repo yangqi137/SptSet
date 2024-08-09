@@ -30,7 +30,13 @@ fH := GroupHomomorphismByImagesNC(H, GL(1, Integers), [(5, 6)], [ [[-1]] ]);
 RH := ResolutionFiniteGroup(H, 7);
 SSH := FermionSPTSpecSeq(RH, fH, w);
 FermionSPTLayersVerbose(SSH, 3);
+MH := SptSetSpecSeqResult(SSH, 4, [2,3,4]);
+SptSetFpZModuleCanonicalForm(MH);
+Display(MH);
 
 cl := SptSetSpecSeqModuleVectorToClass(M, M!.generators[1]);
 cch := SptSetMapSpecSeqCochainByGroupHomomorphism(cl!.cochain, SSH, fHG);
 clh := SptSetSpecSeqClassFromCochainNC(cch);
+
+SptSetPurifySpecSeqClass(clh);
+Display(LeadingLayer(clh));
