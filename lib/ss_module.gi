@@ -118,7 +118,7 @@ InstallGlobalFunction
             vnext := vp * M!.res_projections[p];
             v := v + vnext;
             cl := cl - SptSetSpecSeqModuleVectorToClass(M, vnext);
-            Display([p, v]);
+            # Display([p, v]);
         until p = Last(pRange);
 
         return v;
