@@ -67,25 +67,27 @@ InstallGlobalFunction
 InstallGlobalFunction
     (SptSetSpecSeqModuleClassToLeadingVector,
     function(M, cl)
-        local pRange, pf, p, ss, deg, v;
+        local pRange, p, ss, deg, v;
         pRange := M!.pRange;
         if Length(pRange) > 1 then
             Error("Not implemented");
         fi;
-        pf := Last(pRange);
         ss := M!.specSeq;
         deg := M!.deg;
            
         SptSetPurifySpecSeqClass(cl);
         p := LeadingLayer(cl);
-        if p >= pf then
-            # Display(p);
-            v := SptSetMapFromBarCocycle(ss!.brMap, pf, ss!.spectrum[deg - pf +1], cl!.cochain!.layers[pf + 1]);
-            # Display(v);
-            return v * M!.res_projections[pf];
-        else
+        if p < First(pRange) then
             return fail;
         fi;
+
+        if p > Last(pRange) then
+            p := Last(pRange);
+        fi;
+
+        v := SptSetMapFromBarCocycle(ss!.brMap, p, ss!.spectrum[deg - p +1], cl!.cochain!.layers[p + 1]);
+        # Display(v);
+        return v * M!.res_projections[p];
     end);
 
 InstallGlobalFunction(SptSetSpecSeqModuleExtension,
