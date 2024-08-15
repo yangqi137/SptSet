@@ -101,6 +101,20 @@ function(M1, M2)
     deg := M1!.deg;
     pf := M2!.pRange[1];
 
+    SptSetFpZModuleCanonicalForm(M1);
+    if SptSetFpZModuleIsZero(M1) then
+        n1 := 0;
+    else
+        n1 := SptSetEmbedDimension(M1);
+    fi;
+    if SptSetFpZModuleIsZero(M2) then
+        n2 := 0;
+    else
+        n2 := SptSetEmbedDimension(M2);
+    fi;
+    n := n1 + n2;
+
+
     if SptSetFpZModuleIsZero(M2) then
         Emat := M1!.generators;
         Pmat := M1!.projection;
@@ -111,11 +125,7 @@ function(M1, M2)
         Rmat := M2!.relations;
     else
 
-        SptSetFpZModuleCanonicalForm(M1);
 
-        n1 := SptSetEmbedDimension(M1);
-        n2 := SptSetEmbedDimension(M2);
-        n := n1 + n2;
         r1 := SptSetNumberOfGenerators(M1);
         r2 := SptSetNumberOfGenerators(M2);
         r := r1 + r2;
@@ -150,7 +160,7 @@ function(M1, M2)
                 Rmat[j, i] := M2!.relations[j-r1, i-r1];
             od;
         od;
-    fi;    
+    fi;
 
     Mext := rec();
     Mext.specSeq := M1!.specSeq;
@@ -162,9 +172,9 @@ function(M1, M2)
         Mext.res_projections[p] := List(M1!.res_projections[p], x -> Concatenation(x, Zero([1..n2])));
     od;
     #Display(["r1", r1]);
-    Display(["M2!.res_p", M2!.res_projections]);
+    #Display(["M2!.res_p", M2!.res_projections]);
     Mext.res_projections[pf] := List(M2!.res_projections[pf], x -> Concatenation(Zero([1..n1]), x));
-    Display(["Mext!.res_p", Mext!.res_projections]);
+    #Display(["Mext!.res_p", Mext!.res_projections]);
     Mext.generators := Emat;
     Mext.projection := Pmat;
     Mext.relations := Rmat;
