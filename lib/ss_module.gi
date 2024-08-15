@@ -90,6 +90,40 @@ InstallGlobalFunction
         return v * M!.res_projections[p];
     end);
 
+InstallGlobalFunction
+    (SptSetSpecSeqModuleClassToVector,
+    function(M, cl)
+        local pRange, p, ss, deg, v, vp, vnext, clnext;
+        
+        if SptSetFpZModuleIsZero(M) then
+            return [];
+        fi;
+
+        pRange := M!.pRange;
+        ss := M!.specSeq;
+        deg := M!.deg;
+
+        v := Zero([1..(SptSetEmbedDimension(M))]);
+        repeat
+            SptSetPurifySpecSeqClass(cl);
+            p := LeadingLayer(cl);
+            if p < First(pRange) then
+                Error("Class beyond the p range");
+            fi;
+            if p > Last(pRange) then
+                break;
+            fi;
+
+            vp := SptSetMapFromBarCocycle(ss!.brMap, p, ss!.spectrum[deg - p +1], cl!.cochain!.layers[p + 1]);
+            vnext := vp * M!.res_projections[p];
+            v := v + vnext;
+            cl := cl - SptSetSpecSeqModuleVectorToClass(M, vnext);
+            Display([p, v]);
+        until p = Last(pRange);
+
+        return v;
+    end);
+
 InstallGlobalFunction(SptSetSpecSeqModuleExtension,
 function(M1, M2)
     local deg, pf, n1, n2, n, r1, r2, r, Emat, Pmat, Rmat, i, j, tj, vjn, cjn, vjnf, Mext, p;
