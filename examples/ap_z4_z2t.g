@@ -40,3 +40,5 @@ clh := SptSetSpecSeqClassFromCochainNC(cch);
 
 SptSetPurifySpecSeqClass(clh);
 Display(LeadingLayer(clh));
+
+SptSetSpecSeqModuleClassToLeadingVector(M, SptSetSpecSeqModuleVectorToClass(M, [0, 0, 0, 0, 1, 1]));

@@ -69,9 +69,9 @@ InstallGlobalFunction
     function(M, cl)
         local pRange, p, ss, deg, v;
         pRange := M!.pRange;
-        if Length(pRange) > 1 then
-            Error("Not implemented");
-        fi;
+        # if Length(pRange) > 1 then
+        #     Error("Not implemented");
+        # fi;
         ss := M!.specSeq;
         deg := M!.deg;
            
@@ -92,7 +92,7 @@ InstallGlobalFunction
 
 InstallGlobalFunction(SptSetSpecSeqModuleExtension,
 function(M1, M2)
-    local deg, pf, n1, n2, n, r1, r2, r, Emat, Pmat, Rmat, i, j, tj, vjn, cjn, vjnf, Mext;
+    local deg, pf, n1, n2, n, r1, r2, r, Emat, Pmat, Rmat, i, j, tj, vjn, cjn, vjnf, Mext, p;
 
     Assert(0, M1!.deg = M2!.deg);
     Assert(0, Length(M2!.pRange) = 1);
@@ -157,8 +157,14 @@ function(M1, M2)
     Mext.deg := M1!.deg;
     Mext.pRange := Concatenation(M1!.pRange, M2!.pRange);
     Mext.basis_classes := Concatenation(M1!.basis_classes, M2!.basis_classes);
-    Mext.res_projections := M1!.res_projections;
-    Mext.res_projections[pf] := M2!.res_projections[pf];
+    Mext.res_projections := [];
+    for p in M1!.pRange do
+        Mext.res_projections[p] := List(M1!.res_projections[p], x -> Concatenation(x, Zero([1..n2])));
+    od;
+    #Display(["r1", r1]);
+    Display(["M2!.res_p", M2!.res_projections]);
+    Mext.res_projections[pf] := List(M2!.res_projections[pf], x -> Concatenation(Zero([1..n1]), x));
+    Display(["Mext!.res_p", Mext!.res_projections]);
     Mext.generators := Emat;
     Mext.projection := Pmat;
     Mext.relations := Rmat;
