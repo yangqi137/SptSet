@@ -117,9 +117,10 @@ InstallGlobalFunction
             vp := SptSetMapFromBarCocycle(ss!.brMap, p, ss!.spectrum[deg - p +1], cl!.cochain!.layers[p + 1]);
             vnext := vp * M!.res_projections[p];
             v := v + vnext;
+            if p = Last(pRange) then break; fi;
             cl := cl - SptSetSpecSeqModuleVectorToClass(M, vnext);
             # Display([p, v]);
-        until p = Last(pRange);
+        until false;
 
         return v;
     end);
@@ -231,3 +232,31 @@ function(ss, deg, pRange)
 
     return M;
 end);
+
+InstallMethod(SptSetMapInducedByGroupHomomorphism,
+    "Map between SpecSeq modules induced by a group homomorphism",
+    [IsSptSetSpecSeqModuleRep, IsSptSetSpecSeqModuleRep, IsGroupHomomorphism],
+    function(M, N, fHG)
+        local ssM, ssN, m, n, fA, i, clM, ccN, clN, vecN;
+
+        if SptSetFpZModuleIsZero(M) or SptSetFpZModuleIsZero(N) then
+            return SptSetZeroMap(M, N);
+        fi;
+
+        ssM := M!.specSeq;
+        ssN := N!.specSeq;
+        m := Length(M!.generators);
+        n := Length(N!.generators);
+
+        fA := [];
+
+        for i in [1..m] do
+            clM := SptSetSpecSeqModuleVectorToClass(M, M!.generators[i]);
+            ccN := SptSetMapSpecSeqCochainByGroupHomomorphism(clM!.cochain, ssN, fHG);
+            clN := SptSetSpecSeqClassFromCochainNC(ccN);
+            vecN := SptSetSpecSeqModuleClassToVector(N, clN);
+            fA[i] := vecN * N!.projection;
+        od;
+        
+        return SptSetZLMapByImages(M, N, fA);
+    end);
