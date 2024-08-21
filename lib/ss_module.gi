@@ -1,7 +1,7 @@
 DeclareRepresentation(
   "IsSptSetSpecSeqModuleRep",
   IsSptSetFpZModuleRep,
-  ["specSeq", "pRange", "deg", "basis_classes", "res_projections"]
+  ["specSeq", "pRange", "deg", "basis_classes", "components", "vector_embedings"]
 );
 
 BindGlobal(
@@ -25,9 +25,11 @@ InstallGlobalFunction
         compEx.deg := p + q;
         compEx.pRange := [p];
         compEx.basis_classes := [];
-        compEx.res_projections := [];
-        compEx.res_projections[p] := Epq!.projection;
+        compEx.components := [];
+        compEx.components[p] := Epq;
         n := SptSetNumberOfGenerators(Epq);
+        compEx.vector_embedings := [];
+        compEx.vector_embedings[p] := IdentityMat(n);
         for np in Epq!.generators do
             clnp := SptSetSpecSeqClassFromLevelCocycle(ss, compEx.deg, p, np);
             Add(compEx.basis_classes, clnp);
@@ -87,7 +89,8 @@ InstallGlobalFunction
 
         v := SptSetMapFromBarCocycle(ss!.brMap, p, ss!.spectrum[deg - p +1], cl!.cochain!.layers[p + 1]);
         # Display(v);
-        return v * M!.res_projections[p];
+        # return v * M!.res_projections[p];
+        return SptSetFpZModuleCanonicalElm(M!.components[p], v) * M!.vector_embedings[p];
     end);
 
 InstallGlobalFunction
@@ -115,7 +118,8 @@ InstallGlobalFunction
             fi;
 
             vp := SptSetMapFromBarCocycle(ss!.brMap, p, ss!.spectrum[deg - p +1], cl!.cochain!.layers[p + 1]);
-            vnext := vp * M!.res_projections[p];
+            #vnext := vp * M!.res_projections[p];
+            vnext := SptSetFpZModuleCanonicalElm(M!.components[p], vp) * M!.vector_embedings[p];
             v := v + vnext;
             if p = Last(pRange) then break; fi;
             cl := cl - SptSetSpecSeqModuleVectorToClass(M, vnext);
@@ -182,6 +186,7 @@ function(M1, M2)
             if tj <> 0 then # torsion-free generators have no extension.
                 cjn := SptSetSpecSeqModuleVectorToClass(M1, vjn);
                 vjnf := SptSetSpecSeqModuleClassToLeadingVector(M2, cjn);
+                Display(["vjnf", vjnf]);
                 Rmat[j]{[(r1+1)..r]} := vjnf;
             fi;
         od;
@@ -202,14 +207,16 @@ function(M1, M2)
     Mext.deg := M1!.deg;
     Mext.pRange := Concatenation(M1!.pRange, M2!.pRange);
     Mext.basis_classes := Concatenation(M1!.basis_classes, M2!.basis_classes);
-    Mext.res_projections := [];
+    Mext.components := M1!.components;
+    Mext.vector_embedings := [];
     for p in M1!.pRange do
-        Mext.res_projections[p] := List(M1!.res_projections[p], x -> Concatenation(x, Zero([1..n2])));
+        Mext.vector_embedings[p] := List(M1!.vector_embedings[p], x -> Concatenation(x, Zero([1..n2])));
     od;
     #Display(["r1", r1]);
-    #Display(["M2!.res_p", M2!.res_projections]);
-    Mext.res_projections[pf] := List(M2!.res_projections[pf], x -> Concatenation(Zero([1..n1]), x));
-    #Display(["Mext!.res_p", Mext!.res_projections]);
+    Display(["M2!.vec_emb", M2!.vector_embedings]);
+    Mext.components[pf] := M2!.components[pf];
+    Mext.vector_embedings[pf] := List(M2!.vector_embedings[pf], x -> Concatenation(Zero([1..n1]), x));
+    Display(["Mext!.vec_emb", Mext!.vector_embedings]);
     Mext.generators := Emat;
     Mext.projection := Pmat;
     Mext.relations := Rmat;
