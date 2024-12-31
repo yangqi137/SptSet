@@ -186,7 +186,7 @@ function(M1, M2)
             if tj <> 0 then # torsion-free generators have no extension.
                 cjn := SptSetSpecSeqModuleVectorToClass(M1, vjn);
                 vjnf := SptSetSpecSeqModuleClassToLeadingVector(M2, cjn);
-                Display(["vjnf", vjnf]);
+                # Display(["vjnf", vjnf]);
                 Rmat[j]{[(r1+1)..r]} := vjnf;
             fi;
         od;
@@ -213,10 +213,10 @@ function(M1, M2)
         Mext.vector_embedings[p] := List(M1!.vector_embedings[p], x -> Concatenation(x, Zero([1..n2])));
     od;
     #Display(["r1", r1]);
-    Display(["M2!.vec_emb", M2!.vector_embedings]);
+    # Display(["M2!.vec_emb", M2!.vector_embedings]);
     Mext.components[pf] := M2!.components[pf];
     Mext.vector_embedings[pf] := List(M2!.vector_embedings[pf], x -> Concatenation(Zero([1..n1]), x));
-    Display(["Mext!.vec_emb", Mext!.vector_embedings]);
+    # Display(["Mext!.vec_emb", Mext!.vector_embedings]);
     Mext.generators := Emat;
     Mext.projection := Pmat;
     Mext.relations := Rmat;
