@@ -16,6 +16,8 @@ ReadPackage("SptSet", "lib/ss_fermion.gd");
 ReadPackage("SptSet", "lib/ss_u1sl.gd");
 ReadPackage("SptSet", "lib/ss_ti.gd");
 ReadPackage("SptSet", "lib/ss_afermion.gd");
+ReadPackage("SptSet", "lib/ss_disorder_fermion.gd");
+ReadPackage("SptSet", "lib/ss_disorder_ti.gd");
 ReadPackage("SptSet", "lib/spin12.gd");
 ReadPackage("SptSet", "lib/ext_data.gd");
 # ReadPackage("SptSet", "lib/module_ext.gd");

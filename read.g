@@ -24,5 +24,6 @@ ReadPackage("SptSet", "lib/spin12.gi");
 ReadPackage("SptSet", "lib/ext_data.gi");
 # ReadPackage("SptSet", "lib/module_ext.gi");
 ReadPackage("SptSet", "lib/ss_module.gi");
-
+ReadPackage("SptSet", "lib/ss_disorder_fermion.gi");
+ReadPackage("SptSet", "lib/ss_disorder_ti.gi");
 #DeclareAutoreadableVariables("SptSet", "lib/ext_data.gi", ["AddTwister2DTable@"]);
