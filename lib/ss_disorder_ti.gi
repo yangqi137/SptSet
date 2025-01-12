@@ -15,6 +15,16 @@ function(R, auMap, u1cMap, omega_)
 
   s := g -> (1-(g^auMap)[1][1])/2;
 
+  SptSetInstallCoboundary(ss, 2, 0, 2,
+  function(n0, dn0)
+    return ZeroCocycle@;
+  end);
+
+  SptSetInstallCoboundary(ss, 3, 0, 2,
+  function(n0, dn0)
+    return ZeroCocycle@;
+  end);
+
   SptSetInstallCoboundary(ss, 2, 1, 1,
   function(n1, dn1)
     return ZeroCocycle@;
